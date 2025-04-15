@@ -1,13 +1,42 @@
 ---
 virtualmachines:
-  - name: "host1"
-    image: "rhel-9.5"
-    memory: "2G"
-    cores: 1
-    image_size: "40G"
-    tags:
-      - key: "AnsibleGroup"
-        value: "bastions"
-    networks:
-      - default
-      - secondary
+- name: "control"
+  image: "automation-controller-aap-25-c-20241031"
+  memory: "16G"
+  cores: 4
+  image_size: "100G"
+  tags:
+  - key: "AnsibleGroup"
+    value: "bastions"
+  networks:
+  - default
+- name: "node1"
+  image: "rhel-9.5"
+  memory: "2G"
+  cores: 1
+  image_size: "20G"
+  tags:
+  - key: "AnsibleGroup"
+    value: "nodes"
+  networks:
+  - default
+- name: "node2"
+  image: "rhel-9.5"
+  memory: "2G"
+  cores: 1
+  image_size: "20G"
+  tags:
+  - key: "AnsibleGroup"
+    value: "nodes"
+  networks:
+  - default
+- name: "node3"
+  image: "rhel-9.5"
+  memory: "2G"
+  cores: 1
+  image_size: "20G"
+  tags:
+  - key: "AnsibleGroup"
+    value: "nodes"
+  networks:
+  - default

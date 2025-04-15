@@ -2,7 +2,7 @@
 site:
   title: "Change me, your title lives as site.title in site.yml"
   url: https://github.com/rhpds/showroom_template_zero
-  start_page: modules::module-01.adoc
+  start_page: modules::01-dashboard.adoc
 
 asciidoc:
   attributes:
@@ -13,8 +13,8 @@ asciidoc:
 
 content:
   sources:
-    - url: ./
-      start_path: content
+  - url: ./
+    start_path: content
 ui:
   bundle:
     url: https://github.com/rhpds/nookbag-bundle/releases/download/v0.0.2/bundle.zip

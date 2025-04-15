@@ -1,0 +1,70 @@
+:sectnums:
+:experimental:
+:imagesdir: ../assets/images
+= 1.2 - Creating your first Project
+
+
+A *https://docs.ansible.com/automation-controller/latest/html/userguide/projects.html[Project, window=_blank]* in automation controller is one or more Ansible playbooks inside a directory or Source Control Management system.
+
+We use *Projects* to "*import*" our playbooks into automation controller. These playbooks might be in a source control management (SCM) like Git (in Github or Gitlab for ex.) or locally. Automation controller doesn't allow us to create or edit playbooks through the web-UI, we can only "*import*" them into *Projects* which we later run through the Job Templates feature, which we will review further ahead.
+
+In this challenge, you will create your first *Project* which will import a Github repository with a few Apache playbooks developed in the "Writing your first playbook" laboratory. This playbook installs apache, starts the service and copies an index.html file.
+
+== Hands-On Experience
+
+======
+.☑️ Task 1 - Creation of the Project
+[%collapsible]
+=====
+NOTE: In the Automation Controller browser tab.
+
+. Click the *Projects* link in the *Resources* section of the sidebar
+. Click the *Add* button
+. *Name* the Project as *Apache playbooks*
+. For the *Source Control Type* dropdown, select *Git*, this will enable new fields below.
+. For the *Source Control URL* field copy & paste the following URL:
++
+[source,textinfo]
+----
+https://github.com/leogallego/instruqt-wyfp.git
+----
+
+. Leave all the other fields the same and click *Save*
+=====
+======
+
+======
+.☑️ Task 2 - Verify the new Project synced successfully
+[%collapsible]
+=====
+NOTE: In the Automation Controller browser tab.
+
+. Click the *Projects* link in the *Resources* section of the sidebar
+. Verify that the *Status* for our *Apache playbooks* project is green and reads *Successful*
+. Click the *Successful* and review the output of the sync
+=====
+======
+
+
+== Embracing the Next Challenge
+
+======
+.✅ Next Challenge
+[%collapsible]
+=====
+Once you've completed the task, press the image:next.png[Next, 50] button at the bottom to proceed to the next challenge. 
+
+* The image:next.png[Next, 50] button will validate your steps and move you to the next challenge or chapter. If any steps are missing, an error will be produced, allowing you to recheck your steps before clicking the Next button again to continue.
+
+* You also have the option to automatically solve a challenge or chapter by clicking the image:solve.png[Solve, 55] button, which will complete the exercises for you.
+=====
+======
+
+
+======
+.🐛 Encountered an issue?
+[%collapsible]
+=====
+If you have encountered an issue or have noticed something not quite right, Please open an issue on the https://github.com/redhat-gpte-devopsautomation/zt-get-started-with-automation-controller/issues/new?labels=content+error&title=Issue+with+:+04-project&assignees=miteshget[Get started with Automation Controller, window=_blank]
+=====
+======

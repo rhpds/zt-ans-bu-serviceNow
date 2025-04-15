@@ -1,0 +1,100 @@
+:sectnums:
+:experimental:
+:imagesdir: ../assets/images
+
+
+= 1.0 - Introduction to Automation Controller
+
+
+Welcome to the *Introduction to automation controller*.
+
+Automation controller, formerly known as Ansible Tower, allows users of Red Hat Ansible Automation Platform to define, operate, scale, and delegate automation across their enterprise through a web-based UI or API.
+
+In the following challenges we will build upon the work from *Writing your first playbook* and show you how to run your Ansible playbooks through the web-UI instead of `ansible-navigator` and the command line.
+
+You can log in the Automation Controller with the following url & credentials and then continue on to the tasks:
+
+[IMPORTANT]
+====
+.Automation Controller login details:
+[%autowidth]
+|===
+| Controller Url | https://{hostname}:8443[window=_blank]
+| Username | `admin`
+| Password| `ansible123!`
+|===
+====
+
+== Hands-On Experience
+
+======
+.☑️ Task 1 - Explore the Dashboard
+[%collapsible]
+=====
+
+NOTE: In the Automation Controller browser tab.
+
+* Explore the Dashboard view.  Currently the Dashboard wont show much information due to the lack of playbooks and hosts, but you will be able to visit again once you finished the lab and notice the difference.
+
++
+*You will find the following buttons:*
+
+** Hosts
+** Failed hosts
+** Inventories
+** Inventory sync fail
+** Projects
+** Projects sync fail.
++
+NOTE: If you click any of them it will take you to the corresponding section. We recommend you take a peek at the following sections:
+=====
+======
+
+======
+.☑️ Task 2 - Explore the inventories section
+[%collapsible]
+=====
+NOTE: In the Automation Controller browser tab.
+
+* An *Inventory* is a collection of hosts against which playbooks may be launched, the same as an Ansible inventory file you might know from working with Ansible on the command line.
++
+*Inventories* in automation controller have several advantages over file based ones, you get all the functionality from the latter ones, with added features and better reusability.
+
+. Click on the btn:[Inventories] button in the Dashboard or the link in the sidebar menu and explore the *Demo inventory* that comes pre-loaded. You will see all the fields available to use when creating one.  Don't forget to look at the tabs!
+=====
+======
+
+======
+.☑️ Task 3 - Explore the projects section
+[%collapsible]
+=====
+NOTE: In the Automation Controller browser tab.
+
+* *Projects* are logical groups of Ansible playbooks in automation controller. These playbooks usually reside in a source code version control system like Git (and platforms as Github or Gitlab). With *Projects* we can reference a repository or directory with one or several playbooks, that we will later use.
+
+. Click on the btn:[Projects] button in the Dashboard or the link in the sidebar menu and explore the *Demo project* that comes pre-loaded. You will see all the fields available to use when creating one. Don't forget to look at the tabs!
+=====
+======
+
+== Embracing the Next Challenge
+
+======
+.✅ Next Challenge
+[%collapsible]
+=====
+Once you've completed the task, press the image:next.png[Next, 50] button at the bottom to proceed to the next challenge. 
+
+* The image:next.png[Next, 50] button will validate your steps and move you to the next challenge or chapter. If any steps are missing, an error will be produced, allowing you to recheck your steps before clicking the Next button again to continue.
+
+* You also have the option to automatically solve a challenge or chapter by clicking the image:solve.png[Solve, 55] button, which will complete the exercises for you.
+=====
+======
+
+
+======
+.🐛 Encountered an issue?
+[%collapsible]
+=====
+If you have encountered an issue or have noticed something not quite right, Please open an issue on the https://github.com/redhat-gpte-devopsautomation/zt-get-started-with-automation-controller/issues/new?labels=content+error&title=Issue+with+:+02-dashboard&assignees=miteshget[Get started with Automation Controller, window=_blank]
+=====
+======
