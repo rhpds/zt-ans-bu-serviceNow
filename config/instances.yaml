@@ -5,6 +5,7 @@ virtualmachines:
   memory: "16G"
   cores: 4
   image_size: "100G"
+  disk_type: "scsi"
   tags:
   - key: "AnsibleGroup"
     value: "bastions"
