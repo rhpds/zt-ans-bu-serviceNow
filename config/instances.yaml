@@ -186,6 +186,7 @@ virtualmachines:
     tags:
       - key: "AnsibleGroup"
         value: "isolated"
+    interface_model: "e1000e"
     networks:
       - default
     services:
