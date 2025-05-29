@@ -134,7 +134,7 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
-    userData: |-
+    userdata: |-
       #cloud-config
       user: rhel
       password: ansible123!
@@ -149,7 +149,7 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
-    userData: |-
+    userdata: |-
       #cloud-config
       user: rhel
       password: ansible123!
@@ -164,7 +164,7 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
-    userData: |-
+    userdata: |-
       #cloud-config
       user: rhel
       password: ansible123!
@@ -180,9 +180,9 @@ virtualmachines:
     networks:
       - default
     services:
-      - name: windows-rdp
+      - name: windows
         ports:
           - port: 3389
             protocol: TCP
             targetPort: 3389
-            name: windows-rdp
+            name: windows
