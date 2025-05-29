@@ -139,6 +139,9 @@ virtualmachines:
       user: rhel
       password: ansible123!
       chpasswd: { expire: False }  
+      runcmd:
+        - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
+
   - name: "node02"
     image: "rhel-9.5"
     memory: "2G"
@@ -154,6 +157,8 @@ virtualmachines:
       user: rhel
       password: ansible123!
       chpasswd: { expire: False }
+      runcmd:
+        - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
   - name: "node03"
     image: "rhel-9.5"
     memory: "2G"
@@ -168,7 +173,8 @@ virtualmachines:
       #cloud-config
       user: rhel
       password: ansible123!
-
+      runcmd:
+        - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
   - name: "windows"
     image: "base-zero-windows-2025-1"
     memory: "16G"
