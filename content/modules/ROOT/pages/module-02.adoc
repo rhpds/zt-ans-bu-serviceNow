@@ -1,0 +1,195 @@
+
+
+Sometimes you just need data about your systems, and you can get this data with Ansible!
+Ansible can automate almost everything but one of the best tasks to start on is the gathering of infrastructure data.
+You know you have servers, networks etc but trying to audit or gather all the system data can be a big exercise.
+Luckly, you can use Ansible at scale for this.
+
+Below are credentials for our Ansible Automation Platform that you should use:
+
+|===
+| Username | Password
+
+| admin
+| ansible123!
+
+|
+|
+|===
+
+Your DNS domain for this lab is: *[[ Instruqt-Var key="DOMAIN" hostname="control" ]]*
+
+|===
+| Server | FQDN
+
+| Windows Server
+| windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node01
+| node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node02
+| node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node03
+| node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+|===
+
+= ☑️ Tell me about my servers
+
+Nagivate to your lab `aap` tab and login.
+Navigate to *Automation Execution* > *Infrastructure* > Inventories.
+This is where we keep track of the systems we automate, you will see a few inventories already built for you.
+Select the *Video Platform Inventory*, and then select the *Hosts* tab.
+
+image::node01-setup.png[SETUP-NODE]
+
+We are going to use the Ansible Automation Platform's ability to run adhoc commands to gather system facts or system data.
+Select the host: `node01` and then click on `Run command`.
+You have a number of prompts now on what command you want to run against this host.
+Select the *Setup*  module from the module drop down list and then click next.
+
+image::setup.png[SETUP]
+
+We need to pick an execution environment to run this module.
+In the Ansible Automation Platform, we use Execution Environments to launch templates/playbooks.
+Select the *Default execution environment* and click next.
+
+We will need to choose the credentials we should use for the host we want to interact with.
+Select the *Application Nodes* credential and click next before click on Finish.
+
+Once the command executes, we will be presented with the system facts.
+
+image::setup-output.png[SETUP-OUTPUT]
+
+This is all the infromation that Ansible can gather from the system,
+
+[#morescale]
+= ☑️ More info, more scale ?
+
+We need infrastructure awareness!
+and with Ansible its super easy.
+We can use Ansible and jinja templates to create dynamic reports based on facts and Ansible tasks.
+Lets dive in!
+
+Navigate  to *Automation Execution* > *Templates*, and execute *Application Server Report*.
+This template will prompt you with a few options, click *All*.
+
+Once completed, navigate to the `Report Server tab` and refresh it to see the report.
+
+image::srv-report.png[REPORT]
+
+Notice we also have the backups reported in this report too!
+
+image::backup-data.png[REPORT_bk]
+
+You can re-run the report template and choose other options if you want to create other reports for specific criteria.
+
+[#compliance]
+= ☑️ Is our server compliant ?
+
+We love reports!
+but do you know who else loves reports ?
+Infosec!!
+Well we can run an OpenSCAP compliance report as we that template available to us!
+Security has asked for the compliance report for `Node02` so lets have a look!
+
+Navigate  to *Automation Execution* > *Templates*, and execute *OpenSCAP Report*.
+Once this job is completed, navigate to the `Compliance Report tab` to see the report.
+
+image::compliance_report_folder.png[SCAP]
+
+You can click on the report to view the results!
+
+image::compliance_report.png[SCAP]
+
+
+[#codeSnippets]
+= ☑️ Code Snippets for Review
+
+Some key code snippets if you are interested:
+
+Automating and OpenSCAP:
+
+....
+    tasks:
+
+  - name: Check if the system is RHEL 8
+      ansible.builtin.debug:
+        msg: "This playbook is not compatible with {{ inventory_hostname }} (not RHEL 8)"
+      when: ansible_distribution != "RedHat" or ansible_distribution_major_version != "8"
+      failed_when: false
+
+    - name: Run compliance tasks on RHEL 8 systems only
+      when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "8"
+      block:
+        - name: Get our facts straight
+          ansible.builtin.set_fact:
+            _profile: '{{ compliance_profile | replace("pci_dss", "pci-dss") }}'
+            _report_dir: /tmp/oscap-reports
+
+        - name: Ensure OpenSCAP tools are installed
+          ansible.builtin.dnf:
+            name: '{{ openscap_packages }}'
+            state: present
+
+        - name: Configure httpd
+          when: use_httpd | bool
+          block:
+            - name: Install httpd
+              ansible.builtin.dnf:
+                name: httpd
+                state: present
+              notify: Restart httpd
+
+            - name: Override report directory
+              ansible.builtin.set_fact:
+                _report_dir: /var/www/html/oscap-reports
+
+            - name: Gather service facts
+              ansible.builtin.service_facts:
+
+            - name: Enable firewall http service
+              ansible.posix.firewalld:
+                service: http
+                state: enabled
+                immediate: true
+                permanent: true
+              when: "'firewalld.service' in ansible_facts.services"
+
+            - name: Disable httpd welcome page
+              ansible.builtin.file:
+                path: /etc/httpd/conf.d/welcome.conf
+                state: absent
+              notify: Restart httpd
+
+        - name: Create report on Report Server
+          block:
+            - name: Ensure report directory exists
+              ansible.builtin.file:
+                path: '{{ _report_dir }}/{{ _profile }}'
+                state: directory
+                owner: root
+                group: root
+                mode: 0755
+
+            - name: Set report name
+              ansible.builtin.set_fact:
+                _report: '{{ _report_dir }}/{{ _profile }}/report-{{ inventory_hostname }}-{{ ansible_date_time.iso8601 }}.html'
+
+            - name: Generate compliance report
+              ansible.builtin.command: >-
+                oscap xccdf eval --profile {{ _profile }} --report {{ _report }}
+                /usr/share/xml/scap/ssg/content/ssg-rhel{{ ansible_distribution_major_version }}-ds.xml
+              args:
+                creates: '{{ _report }}'
+              register: _oscap
+              failed_when: _oscap.rc not in [0, 2]
+
+            - name: Set report permissions
+              ansible.builtin.file:
+                path: '{{ _report }}'
+                owner: root
+                group: root
+                mode: 0644
+....

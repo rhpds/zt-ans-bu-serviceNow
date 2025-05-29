@@ -1,0 +1,147 @@
+
+Welcome!
+
+You have just joined the team!
+There are so many things you can automate but it can be daunting in starting with automation.
+A number of your tasks are read only, meaning you can safely automate without making any high risk changes.
+This introspection use case is great way to get comfortable automating in order to gain information as well as confidence to automate more as you go.
+
+Below are credentials for the Ansible Automation Platform instance that you should use:
+
+|===
+| Username | Password
+
+| admin
+| ansible123!
+
+|
+|
+|===
+
+Your DNS domain for this lab is: *[[ Instruqt-Var key="DOMAIN" hostname="control" ]]*
+
+|===
+| Server | FQDN
+
+| Windows Server
+| windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node01
+| node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node02
+| node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+
+| Node03
+| node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+|===
+
+[#backupLinux]
+= ☑️ Backing up Linux file systems
+
+You have a few Linux servers in your datacenter and a common task is backing up their storage.
+With Ansible you can drive multiple snapshot mechanisms, if its on the cloud, in VMs,  or baremetal you can use Ansible to drive backups.
+
+Let's first see if you have any backups.
+Nagivate to the lab `aap` tab and login using the above credential (`admin/ansible123!`).
+
+Click on the Menu drop down icon (sometimes known as a "hamberger icon.")
+
+Navigate to *Automation Execution* > *Templates* and launch the template *Check RHEL Backups*.
+You can launch templates quickly by clicking on the 🚀 icon.
+Once the job is complete you should see there are no backups available.
+
+.Backup Check
+image::/backupcheck.png[]
+
+Let's kick off a backup of the XFS file system on RHEL servers!
+Navigate back to *Automation Execution* > *Templates*, and now launch *Server Backup - XFS/RHEL.*.
+You will now backup your three rhel nodes by creating XFS dumps of the file system.
+*This will take some time (6-7 min) so feel free to come back to this in a bit.
+Jobs can run in parallel safely and easily!*
+
+.XFS Backup
+image::xfsbackup.png[XFS]
+
+Once the backup has completed you should see that you have successfully created a backup of the volume backups on each server.
+Launch the *Check RHEL Backups* template again to see if the backups are available.
+Again, you can skip this step and come back to it later to make sure the backup occured if it's taking a while.
+
+.After Backup Check
+image::afterbackupcheck.png[BackupCheck2]
+
+[#backupWindows]
+= ☑️ Snapshots for Windows
+
+So now that you have some backups of your RHEL systems, what about our Windows systems?
+Windows has a great snapshotting function built-in so lets automate it.
+Your Windows environment has a backup stratergy already with third party tools in our organization but we need to have snapshots of the systems for our databases since snapshots allow backups to be taken without locking or interrupting active files.
+
+Navigate  to *Automation Execution* > *Templates*, and launch *Server Snapshot - VSS/Windows*.
+
+image::vss-snap.png[WINDOWS_BK]
+
+Once completed, lets confirm the VSS snapshot.
+Navigate  to *Automation Execution* > *Templates*, and execute *Check Windows Backups*.
+
+image::vss-snap-check.png[WINDOWS_CK]
+
+Awesome!
+We can see that the VSS snapshot is there!
+Lastly, lets configure a schedule so we can drive these snapshots without having to trigger the templates manually.
+This means we can have a re-occuring snapshot without any hassle.
+
+Navigate  to *Automation Execution* > *Templates*, and select *Server Backup - VSS/Windows*.
+Navigate to the Schedules tab, and click *Create schedule*.
+
+image::win-shed.png[WINDOWS_SC]
+
+You can configure the schedule with the following details:
+
+ Schedule Name: 5 Min Snappy
+ Description: Automated VSS Snaps
+ Start date/time: <Leave as is>
+ Time Zone: <Leave as is>
+
+Click *Next*, you can configure the *Frequency* to Minutely, increase interval to 5, and select *save rule* and click *Next*.
+We wont need any exceptions so you can just click Next on that pane and finally select *Finish*.
+
+image::shed-details.png[WINDOWS_details]
+
+Great!
+we can check on this later!
+
+[#codeSnippets]
+= ☑️ Code Snippets for Review
+
+Some key code snippets if you are interested:
+
+Automating and XFS backup:
+
+....
+tasks:
+
+- name: Check if xfsdump is installed
+  ansible.builtin.yum:
+    name: xfsdump
+    state: present
+  when: ansible_facts.os_family == "RedHat"
+
+- name: Ensure the backup directory exists
+  ansible.builtin.file:
+    path: "{{ backup_file | dirname }}"
+    state: directory
+    mode: '0755'
+
+- name: Perform xfsdump backup
+  ansible.builtin.command:
+    cmd: >
+      xfsdump -l 0 -L {{ backup_label }}
+      -f {{ backup_file }} {{ xfs_mount_point }}
+  register: backup_result
+  ignore_errors: no
+
+- name: Verify xfsdump success
+  ansible.builtin.debug:
+    msg: "Backup completed successfully: {{ backup_result.stdout }}"
+....
