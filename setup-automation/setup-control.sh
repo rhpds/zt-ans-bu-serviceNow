@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # Install collection(s)
 ansible-galaxy collection install ansible.eda
