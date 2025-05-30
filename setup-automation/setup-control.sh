@@ -24,37 +24,6 @@
 # export DOMAIN_DNS="$(echo $_SANDBOX_ID.svc.cluster.local)"
 # agent variable set DOMAIN $DOMAIN_DNS
 
-
-# cat <<EOF | tee /root/.ssh/id_rsa
-# -----BEGIN OPENSSH PRIVATE KEY-----
-# b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-# QyNTUxOQAAACDpaoQQ8ohH8piwUjBBOQsdprVIh1aXh2aTv13u9T7r9gAAAKBpUGJJaVBi
-# SQAAAAtzc2gtZWQyNTUxOQAAACDpaoQQ8ohH8piwUjBBOQsdprVIh1aXh2aTv13u9T7r9g
-# AAAECXyW/JcGAAFzHipsweKvEIFVXAURrot9V7U2pbk9zqIOlqhBDyiEfymLBSMEE5Cx2m
-# tUiHVpeHZpO/Xe71Puv2AAAAGnNlYW4uZS5jYXZhbmF1Z2hAZ21haWwuY29tAQID
-# -----END OPENSSH PRIVATE KEY-----
-# EOF
-
-# cat <<EOF | tee /root/.ssh/id_rsa.pub
-# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOlqhBDyiEfymLBSMEE5Cx2mtUiHVpeHZpO/Xe71Puv2
-# EOF
-
-# chmod -R 400 /root/.ssh/id_rsa
-
-# cat <<EOF | tee /home/rhel/.ssh/id_rsa
-# -----BEGIN OPENSSH PRIVATE KEY-----
-# b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-# QyNTUxOQAAACDpaoQQ8ohH8piwUjBBOQsdprVIh1aXh2aTv13u9T7r9gAAAKBpUGJJaVBi
-# SQAAAAtzc2gtZWQyNTUxOQAAACDpaoQQ8ohH8piwUjBBOQsdprVIh1aXh2aTv13u9T7r9g
-# AAAECXyW/JcGAAFzHipsweKvEIFVXAURrot9V7U2pbk9zqIOlqhBDyiEfymLBSMEE5Cx2m
-# tUiHVpeHZpO/Xe71Puv2AAAAGnNlYW4uZS5jYXZhbmF1Z2hAZ21haWwuY29tAQID
-# -----END OPENSSH PRIVATE KEY-----
-# EOF
-
-# cat <<EOF | tee /home/rhel/.ssh/id_rsa.pub
-# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOlqhBDyiEfymLBSMEE5Cx2mtUiHVpeHZpO/Xe71Puv2
-# EOF
-
 # Install collection(s)
 su - rhel -c 'ansible-galaxy collection install ansible.eda'
 su - rhel -c 'ansible-galaxy collection install community.general'
