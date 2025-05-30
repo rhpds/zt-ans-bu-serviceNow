@@ -1,0 +1,33 @@
+---
+
+antora:
+  name: modules
+  dir: www
+  modules:
+    - name: module-01
+      label: "Writing your lab"
+      solveButton: true
+    - name: module-02
+      label: "Antora"
+      solveButton: true
+    - name: module-03
+      label: "Tabs"
+
+tabs:
+  - name: ">_ control"
+    url: /wetty
+  - name: control
+    url: https://control-${guid}.${domain}/
+  - name: control-ce
+    url: https://control-ce-${guid}.${domain}/
+  - name: control-ceh
+    url: https://control-ceh-${guid}.${domain}/
+  - name: control-ch
+    url: https://control-ch-${guid}.${domain}/
+#  - name: windows
+#    url: https://windows-rdp-${guid}.${domain}/
+  - name:  Cloud creds
+    url: /cloud
+  - name: gitea
+    url: https://gitea-${guid}.${domain}/
+    external: true
