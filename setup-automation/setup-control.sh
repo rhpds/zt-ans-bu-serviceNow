@@ -527,9 +527,6 @@ EOF
 # sudo chown rhel:rhel /tmp/git-setup.yml
 
 # # # execute above playbook
-# # #su - root -c 'ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-2.5-2/collections/:/home/rhel/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/git-setup.yml'
-
-# # su - rhel -c 'ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-2.5-2/collections/:/home/rhel/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml'
 
 
-
+ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml
