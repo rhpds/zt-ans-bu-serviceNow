@@ -46,7 +46,7 @@ tee /tmp/setup.yml << EOF
   collections:
     - ansible.controller
   vars:
-#    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
   tasks:
 
   - name: (EXECUTION) add App machine credential
