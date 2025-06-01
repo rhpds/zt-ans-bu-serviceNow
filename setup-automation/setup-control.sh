@@ -49,7 +49,8 @@ tee /tmp/setup.yml << EOF
   collections:
     - ansible.controller
   vars:
-    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+    GUID: "{{ lookup('env', 'GUID') | default('GUID_NOT_FOUND', true) }}"
+    DOMAIN: "{{ lookup('env', 'DOMAIN') | default('DOMAIN_NOT_FOUND', true) }}"
   tasks:
 
   - name: (EXECUTION) add App machine credential
@@ -340,7 +341,7 @@ tee /tmp/setup.yml << EOF
       name: "AAP"
       description: "To execute jobs from EDA"
       inputs:
-        host: "https://aap.{{ SANDBOX_ID }}.instruqt.io/api/controller/"
+        host: "https://control-{{ GUID }}.{{ DOMAIN }}/api/controller/"
         username: "admin"
         password: "ansible123!"
       credential_type_name: "Red Hat Ansible Automation Platform"
