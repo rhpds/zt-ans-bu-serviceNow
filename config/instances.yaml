@@ -202,10 +202,3 @@ virtualmachines:
             protocol: TCP
             targetPort: 3389
             name: windows-rdp
-    routes:
-      - name: windows-rdp
-        host: windows-rdp
-        service: windows-rdp
-        targetPort: 3389
-        tls: true
-        tls_termination: passthrough
