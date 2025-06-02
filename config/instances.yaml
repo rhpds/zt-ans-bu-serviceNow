@@ -131,7 +131,7 @@ virtualmachines:
     image_size: "30Gi"
     tags:
       - key: "AnsibleGroup"
-        value: "isolated"
+        value: "nodes"
     networks:
       - default
     userdata: |-
@@ -150,7 +150,7 @@ virtualmachines:
     image_size: "30Gi"
     tags:
       - key: "AnsibleGroup"
-        value: "isolated"
+        value: "nodes"
     networks:
       - default
     userdata: |-
@@ -168,7 +168,7 @@ virtualmachines:
     image_size: "30Gi"
     tags:
       - key: "AnsibleGroup"
-        value: "isolated"
+        value: "nodes"
     networks:
       - default
     userdata: |-
