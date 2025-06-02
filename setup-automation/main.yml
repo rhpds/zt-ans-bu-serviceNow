@@ -11,6 +11,18 @@
       ansible_ssh_user: "{{ lookup('ansible.builtin.env', 'BASTION_USER') }}"
       ansible_ssh_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
       ansible_become_password: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
+  - name: Add nodes
+    ansible.builtin.add_host:
+      name: "{{ item }}"
+      ansible_ssh_host: "{{ item }}"
+      ansible_ssh_port: "{{ lookup('ansible.builtin.env', 'BASTION_PORT') }}"
+      ansible_ssh_user: "{{ lookup('ansible.builtin.env', 'BASTION_USER') }}"
+      ansible_ssh_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
+      ansible_become_password: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
+    loop:
+      - node01
+      - node02
+      - node03
 - name: Demo Playbook for the ansible-runner API
   hosts: all:!localhost
   gather_facts: false
@@ -50,7 +62,7 @@
       dest: "/tmp/setup-scripts/setup-{{ ansible_host }}.sh"
     register: r_result
 
-  - name: Execute module_stage-host.sh if it exists
+  - name: Execute setup-node.sh if it exists
     when: r_script_test.stat.exists
     shell: "sh -x /tmp/setup-scripts/setup-{{ ansible_host }}.sh > /tmp/setup-scripts/setup-{{ ansible_host }}.log 2>&1"
     become: true
