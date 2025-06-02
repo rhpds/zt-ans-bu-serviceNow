@@ -1,6 +1,9 @@
 #!/bin/bash
 
-setenforce 0
+rpm -Uhv http://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm
+
+subscription-manager register --org=${SATELLITE_URL} --activationkey=${SATELLITE_ACTIVATIONKEY}
+
 
 dnf install httpd nano -y
 
