@@ -21,3 +21,9 @@ tabs:
   - name: gitea
     url: https://gitea-${guid}.${domain}/
     external: true
+  - name: ">_ node01"
+    url: /wetty
+  - name: ">_ node02"
+    url: /wetty
+  - name: ">_ node03"
+    url: /wetty
