@@ -2,6 +2,10 @@
 - name: Create inventory
   hosts: localhost
   gather_facts: false
+  vars:
+    satellite_url: "{{ lookup('ansible.builtin.env', 'SATELLITE_URL') }}"
+    satellite_org: "{{ lookup('ansible.builtin.env', 'SATELLITE_ORG') }}"
+    satellite_activationkey: "{{ lookup('ansible.builtin.env', 'SATELLITE_ACTIVATIONKEY') }}"
   tasks:
   - name: Add bastion host
     ansible.builtin.add_host:
@@ -66,6 +70,10 @@
     shell: "sh -x /tmp/setup-scripts/setup-{{ ansible_host }}.sh > /tmp/setup-scripts/setup-{{ ansible_host }}.log 2>&1"
     become: true
     register: r_result
+    environment:
+      SATELLITE_URL: "{{ satellite_url }}"
+      SATELLITE_ORG: "{{ satellite_org }}"
+      SATELLITE_ACTIVATIONKEY: "{{ satellite_activationkey }}"
 
   - name: Output script result
     ansible.builtin.debug:
