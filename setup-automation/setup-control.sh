@@ -1,5 +1,8 @@
 #!/bin/bash
 
+systemctl stop systemd-tmpfiles-setup.service
+systemctl disable systemd-tmpfiles-setup.service
+
 # Install collection(s)
 ansible-galaxy collection install ansible.eda
 ansible-galaxy collection install community.general
@@ -46,7 +49,8 @@ tee /tmp/setup.yml << EOF
   collections:
     - ansible.controller
   vars:
-#    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+    GUID: "{{ lookup('env', 'GUID') | default('GUID_NOT_FOUND', true) }}"
+    DOMAIN: "{{ lookup('env', 'DOMAIN') | default('DOMAIN_NOT_FOUND', true) }}"
   tasks:
 
   - name: (EXECUTION) add App machine credential
@@ -337,7 +341,7 @@ tee /tmp/setup.yml << EOF
       name: "AAP"
       description: "To execute jobs from EDA"
       inputs:
-        host: "https://aap.{{ SANDBOX_ID }}.instruqt.io/api/controller/"
+        host: "https://control-{{ GUID }}.{{ DOMAIN }}/api/controller/"
         username: "admin"
         password: "ansible123!"
       credential_type_name: "Red Hat Ansible Automation Platform"
@@ -527,9 +531,6 @@ EOF
 # sudo chown rhel:rhel /tmp/git-setup.yml
 
 # # # execute above playbook
-# # #su - root -c 'ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-2.5-2/collections/:/home/rhel/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/git-setup.yml'
-
-# # su - rhel -c 'ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-2.5-2/collections/:/home/rhel/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml'
 
 
-
+ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml

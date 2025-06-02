@@ -46,13 +46,13 @@ containers:
         - >
           curl -X POST -H "accept: application/json" -H "Content-Type: application/json"
           -u 'gitea:gitea'
-          -d '{"clone_addr": "https://github.com/nmartins0611/aap25-roadshow-content.git", "repo_name": "Roadshow", "owner": "student", "uid": 2, "private": false}'
+          -d '{"clone_addr": "https://github.com/nmartins0611/aap25-roadshow-content.git", "repo_name": "aap25-roadshow-content", "owner": "student", "uid": 2, "private": false}'
           http://localhost:3000/api/v1/repos/migrate
     memory: 2Gi
     services:
       - name: gitea
         ports:
-          - port: 80
+          - port: 3000
             protocol: TCP
             targetPort: 3000
             name: gitea
@@ -65,7 +65,7 @@ containers:
         tls_termination: Edge
 virtualmachines:
   - name: "control"
-    image: "base-zero-aap-2.5-container"
+    image: "base-zero-aap-2.5-container-ce"
     memory: "16G"
     cores: 4
     image_size: "30Gi"
@@ -196,3 +196,9 @@ virtualmachines:
             protocol: TCP
             targetPort: 5986
             name: windows
+      - name: windows-rdp
+        ports:
+          - port: 3389
+            protocol: TCP
+            targetPort: 3389
+            name: windows-rdp
