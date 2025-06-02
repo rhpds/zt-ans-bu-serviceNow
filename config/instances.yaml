@@ -142,6 +142,10 @@ virtualmachines:
       runcmd:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
+        - dnf install httpd -y
+        - mkdir /backup
+        - chmod -R 777 /backup
+        - systemctl start httpd
 
   - name: "node02"
     image: "rhel-9.5"
@@ -161,6 +165,11 @@ virtualmachines:
       runcmd:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
+        - dnf install httpd -y
+        - mkdir /backup
+        - chmod -R 777 /backup
+        - systemctl start httpd
+        
   - name: "node03"
     image: "rhel-9.5"
     memory: "2G"
@@ -178,6 +187,11 @@ virtualmachines:
       runcmd:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
+        - dnf install httpd -y
+        - mkdir /backup
+        - chmod -R 777 /backup
+        - systemctl start httpd
+
   - name: "windows"
     image: "base-zero-windows-2025-1"
     memory: "16G"
