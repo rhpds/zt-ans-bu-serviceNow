@@ -1,22 +1,9 @@
 #!/bin/bash
-while [ ! -f /opt/instruqt/bootstrap/host-bootstrap-completed ]
-do
-    echo "Waiting for Instruqt to finish booting the VM"
-    sleep 1
-done
 
-touch /etc/sudoers.d/rhel_sudoers
-echo "%rhel ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/rhel_sudoers
-cp -a /root/.ssh/* /home/rhel/.ssh/.
-chown -R rhel:rhel /home/rhel/.ssh
+rpm -Uhv http://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm
 
-## clean repo metadata and refresh
-dnf config-manager --disable google*
-dnf clean all
-dnf config-manager --enable rhui-rhel-9-for-x86_64-baseos-rhui-rpms
-dnf config-manager --enable rhui-rhel-9-for-x86_64-appstream-rhui-rpms
-dnf makecache
-setenforce 0
+subscription-manager register --org=${SATELLITE_URL} --activationkey=${SATELLITE_ACTIVATIONKEY}
+
 
 dnf install httpd nano -y
 
