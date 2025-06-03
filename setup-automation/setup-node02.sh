@@ -1,7 +1,8 @@
 #!/bin/bash
-rpm -Uhv http://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm
 
-subscription-manager register --org=${SATELLITE_URL} --activationkey=${SATELLITE_ACTIVATIONKEY}
+# rpm -Uhv http://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm
+
+# subscription-manager register --org=${SATELLITE_URL} --activationkey=${SATELLITE_ACTIVATIONKEY}
 
 # yum install nano httpd -y
 
