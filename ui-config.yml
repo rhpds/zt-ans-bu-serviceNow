@@ -22,6 +22,6 @@ tabs:
     url: https://gitea-${guid}.${domain}/
     external: true
   - name: node3
-    url: https://node03-${guid}.${domain}/
+    url: http://node03-${guid}.${domain}/
   - name: node02
-    url: https://node02-${guid}.${domain}/
+    url: http://node02-${guid}.${domain}/
