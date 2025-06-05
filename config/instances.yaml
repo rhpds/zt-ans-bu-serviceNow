@@ -165,7 +165,8 @@ virtualmachines:
         host: node02
         service: node02-http
         targetPort: 80
-        tls: false
+        tls: true
+        tls_termination: Edge
     userdata: |-
       #cloud-config
       user: rhel
@@ -198,6 +199,7 @@ virtualmachines:
         service: node03-http
         targetPort: 80
         tls: false
+        tls_termination: Edge
     userdata: |-
       #cloud-config
       user: rhel
