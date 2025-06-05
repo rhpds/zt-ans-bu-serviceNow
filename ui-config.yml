@@ -24,4 +24,4 @@ tabs:
   - name: node3
     url: http://node03-${guid}.${domain}/
   - name: node02
-    url: http://node02-${guid}.${domain}/
+    url: http://node02-${guid}.${domain}/oscap-reports/ospp/
