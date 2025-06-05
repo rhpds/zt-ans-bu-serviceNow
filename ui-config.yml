@@ -19,7 +19,7 @@ tabs:
     url: https://control-${guid}.${domain}/
   # - name: gitea
   #   url: https://gitea-${guid}.${domain}/
-    external: true
+    external: false
   - name: Report Server
     url: http://node03-${guid}.${domain}/
     external: false
