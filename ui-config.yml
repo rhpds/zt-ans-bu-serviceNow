@@ -23,14 +23,8 @@ tabs:
   - name: Report Server
     url: https://node03-${guid}.${domain}/index.html
     external: false
-  - name: OScap
+  - name: OpenScap Report
     url: https://node02-${guid}.${domain}/oscap-reports/ospp/
     external: false
-  - name: Report Server EXT
-    url: https://node03-${guid}.${domain}/index.html
-    external: true
-  - name: OScap EXT
-    url: https://node02-${guid}.${domain}/oscap-reports/ospp/
-    external: true
   - name: ">_ control"
     url: /wetty
