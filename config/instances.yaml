@@ -165,8 +165,8 @@ virtualmachines:
         host: node02
         service: node02-http
         targetPort: 80
-        tls: true
-        tls_termination: Edge
+        tls: true  ## To resolve https/http Framing
+        tls_termination: Edge ## To resolve https/http Framing
     userdata: |-
       #cloud-config
       user: rhel
