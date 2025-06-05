@@ -21,7 +21,7 @@ tabs:
   #   url: https://gitea-${guid}.${domain}/
     external: false
   - name: Report Server
-    url: http://node03-${guid}.${domain}/
+    url: http://node03-${guid}.${domain}/index.html
     external: false
   - name: Windows Reports
     url: http://node02-${guid}.${domain}/oscap-reports/ospp/
