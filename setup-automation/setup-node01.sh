@@ -4,7 +4,7 @@ update-ca-trust
 rpm -Uhv https://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm
 
 
-subscription-manager register --org=${SATELLITE_URL} --activationkey=${SATELLITE_ACTIVATIONKEY}
+subscription-manager register --org=${SATELLITE_ORG} --activationkey=${SATELLITE_ACTIVATIONKEY}
 
 dnf install httpd nano -y
 
