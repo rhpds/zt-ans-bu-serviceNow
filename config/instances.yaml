@@ -153,6 +153,19 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
+    services:
+      - name: node02
+        ports:
+          - port: 80
+            protocol: TCP
+            targetPort: 80
+            name: node02
+    routes:
+      - name: node02-web
+        host: node02
+        service: node02-http
+        targetPort: 80
+        tls: false
     userdata: |-
       #cloud-config
       user: rhel
@@ -172,6 +185,19 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
+    services:
+      - name: node03-http
+        ports:
+          - port: 80
+            protocol: TCP
+            targetPort: 80
+            name: node03
+    routes:
+      - name: node03-web
+        host: node03
+        service: node03-http
+        targetPort: 80
+        tls: false
     userdata: |-
       #cloud-config
       user: rhel
@@ -180,7 +206,6 @@ virtualmachines:
       runcmd:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
-
 
   - name: "windows"
     image: "base-zero-windows-2025-1"
