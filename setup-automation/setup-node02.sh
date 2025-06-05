@@ -47,8 +47,6 @@ mkdir /backup
 chmod -R 777 /backup
 
 
-
-
 ## ^ from getting started controller
 
 ## COMMENT CENTOS 
