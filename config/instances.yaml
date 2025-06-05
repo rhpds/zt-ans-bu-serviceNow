@@ -198,7 +198,7 @@ virtualmachines:
         host: node03
         service: node03-http
         targetPort: 80
-        tls: false
+        tls: true
         tls_termination: Edge
     userdata: |-
       #cloud-config
