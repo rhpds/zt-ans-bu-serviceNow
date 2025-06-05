@@ -22,6 +22,6 @@ tabs:
     url: https://gitea-${guid}.${domain}/
     external: true
   - name: node3
-    url: http://node03-${guid}.${domain}/
+    url: http://node03/
   - name: node02
-    url: http://node02-${guid}.${domain}/oscap-reports/ospp/
+    url: http://node02/oscap-reports/ospp/
