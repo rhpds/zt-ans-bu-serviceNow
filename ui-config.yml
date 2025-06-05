@@ -22,9 +22,9 @@ tabs:
     external: true
   - name: Report Server
     url: http://node03-${guid}.${domain}/
-    external: true
+    external: false
   - name: Windows Reports
     url: http://node02-${guid}.${domain}/oscap-reports/ospp/
-    external: true
+    external: false
   - name: ">_ control"
     url: /wetty
