@@ -31,3 +31,5 @@ tabs:
     external: false
   - name: ">_ control"
     url: /wetty
+  - name: Cloud (PoC)
+    url: /cloud
