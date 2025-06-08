@@ -154,7 +154,7 @@ virtualmachines:
     networks:
       - default
     services:
-      - name: node02
+      - name: node02-http
         ports:
           - port: 80
             protocol: TCP
