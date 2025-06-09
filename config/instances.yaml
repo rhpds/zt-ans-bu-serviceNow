@@ -144,7 +144,7 @@ virtualmachines:
         - systemctl reload sshd
 
   - name: "node02"
-    image: "rhel-9.5"
+    image: "rhel-8.6"
     memory: "2G"
     cores: 2
     image_size: "30Gi"
@@ -173,7 +173,7 @@ virtualmachines:
       password: ansible123!
       chpasswd: { expire: False }
       runcmd:
-        - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
+        - sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
         - systemctl reload sshd
         
   - name: "node03"

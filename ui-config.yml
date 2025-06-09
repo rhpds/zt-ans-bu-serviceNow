@@ -24,7 +24,7 @@ tabs:
     url: https://node03-${guid}.${domain}/index.html
     external: false
   - name: OpenScap Report
-    url: https://node02-${guid}.${domain}/index.html
+    url: https://node02-${guid}.${domain}/oscap-reports/ospp/
     external: false
   - name: Windows
     url: https://windows-ironrdp-${guid}.${domain}/
