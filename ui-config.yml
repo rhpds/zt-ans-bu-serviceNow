@@ -26,5 +26,10 @@ tabs:
   - name: OpenScap Report
     url: https://node02-${guid}.${domain}/index.html
     external: false
+  - name: Windows
+    url: https://windows-ironrdp-${guid}.${domain}/
+    external: false
   - name: ">_ control"
     url: /wetty
+  - name: Cloud (PoC)
+    url: /cloud

@@ -154,7 +154,7 @@ virtualmachines:
     networks:
       - default
     services:
-      - name: node02
+      - name: node02-http
         ports:
           - port: 80
             protocol: TCP
@@ -210,7 +210,7 @@ virtualmachines:
         - systemctl reload sshd
 
   - name: "windows"
-    image: "base-zero-windows-2025-1"
+    image: "base-zero-windows-2025-3"
     memory: "16G"
     cores: 4
     image_size: "30Gi"
