@@ -1,124 +1,256 @@
+= Windows Patching Report with Ansible
+:toc:
+:toc-placement: preamble
+:icons: font
+:numbered:
 
+== Introduction 🔧
 
-Another great report to generate is a patching report!
-Our Windows server is sure to need some patches but we dont have access to the system.
-So lets get Ansible to get the required patches and we can provide this back to our Windows team.
+Generating patching reports is another essential automation task! Our Windows server is sure to need some patches, but we don't have direct access to the system. Let's use Ansible to gather the required patch information and provide this data back to our Windows team.
 
-Below are credentials for our Ansible Automation Platform that you should use:
+This approach allows us to assess patch requirements without disrupting production systems, providing valuable insights for maintenance planning.
 
+== Lab Environment Setup
+
+=== Credentials
+Use these credentials to access your Ansible Automation Platform:
+
+[cols="1,1", options="header"]
 |===
 | Username | Password
-
-| admin
-| ansible123!
-
-|
-|
+| admin    | ansible123!
 |===
 
+=== Server Information
 Your DNS domain for this lab is: *[[ Instruqt-Var key="DOMAIN" hostname="control" ]]*
 
+[cols="1,1", options="header"]
 |===
-| Server | FQDN
-
-| Windows Server
-| windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node01
-| node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node02
-| node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node03
-| node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Server         | FQDN
+| Windows Server | windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node01         | node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node02         | node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node03         | node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
 |===
 
-= ☑️ We need a patch report
+== Lab Exercise: Creating Windows Update Reports
 
-We can gather all the details and then create a report using jinja templates again.
-We will even post the report as a web page on our Windows host!
+=== Overview
+We'll gather all the patch details and create a comprehensive report using Jinja templates. The report will even be published as a web page on our Windows host for easy access by the Windows team.
 
-Navigate  to *Automation Execution* > *Templates*, and select *Windows Update Report*.
-Before we can launch it we need to create a survey so we can decide which updates we are looking for.
+=== Step 1: Access the Windows Update Template
 
-image::update-template.png[Update_tem]
+. Navigate to *Automation Execution* → *Templates*
+. Select *Windows Update Report*
 
-Navigate to the `Survey` tab and add the following details:
+Before we can launch the template, we need to create a survey to specify which update categories we want to search for.
 
-NOTE: To add each multiple choice option you will need fill in the field and then click on the + to add it to the list.
+.Update Template Configuration
+image::update-template.png[Windows Update template interface]
 
- Question: Which update catagory are you wanting to search for?
- Description: Windows Update Catagory
- Answer variable name: update_catagory
- Answer type: Multiple Choice (single select)
- Multiple Choice Options: Security Updates, Critical Updates, Tools, Definition Updates, Updates
+=== Step 2: Create Survey Configuration
 
-image::survey.png[SURVEY]
+. Navigate to the *Survey* tab
+. Add the following survey configuration:
 
-You can then click on *Create survey question*.
-Make sure you enable the Survey at the top of the pane with the toggle.
+[cols="1,2", options="header"]
+|===
+| Field | Value
+| Question | Which update category are you wanting to search for?
+| Description | Windows Update Category
+| Answer variable name | update_catagory
+| Answer type | Multiple Choice (single select)
+|===
 
-image::survey-enable.png[SURVEY_EN]
+**Multiple Choice Options** (add each option individually using the + button):
+* Security Updates
+* Critical Updates  
+* Tools
+* Definition Updates
+* Updates
 
-Once enabled, we can now launch the template and select *Security Updates* from the drop down list.
+.Survey Configuration Interface
+image::survey.png[Survey configuration screen]
 
-Once the template has completed, navigate to the `Windows Report` tab.
-You should be presented with the outstanding update that is needed for this system.
+=== Step 3: Enable and Configure Survey
 
-image::update-report.png[WIN-REPORT]
+. Click *Create survey question*
+. Enable the Survey using the toggle at the top of the pane
 
-Well done!
-you have just automated a number of backups and you have gathered data and presented it as a report for your team!
-all without affecting production and with Ansible!
+IMPORTANT: Make sure to enable the survey toggle, or the template won't prompt for input during execution.
 
-[#lastCheck]
-= ☑️ Last check!
+.Survey Enable Toggle
+image::survey-enable.png[Survey enablement interface]
 
-Before we finish off, navigate  to *Automation Execution* > *Jobs* and observe that your Server Backup -VSS/Windows jobs that you have scheduled earlier have run.
-You can also run the template Check Windows Backups to see if you have some VSS snapshots!
+=== Step 4: Execute the Template
 
-image::vss-snaps.png[VSS_SNAPS]
+. Launch the template
+. From the dropdown list, select *Security Updates*
+. Wait for the template to complete execution
 
-[#codeSnippets]
-= ☑️ Code Snippets for Review
+=== Step 5: Review the Patch Report
 
-Some key code snippets if you are interested:
+. Once the template completes, navigate to the *Windows Report* tab
+. Review the outstanding updates needed for the system
 
-Generating a Windows report:
+.Windows Update Report
+image::update-report.png[Generated Windows update report]
 
-....
-     tasks:
+The report will display:
+* **Update Title** - Description of each available update
+* **Severity** - Critical, Important, Moderate, or Low
+* **KB Number** - Microsoft Knowledge Base article reference
+* **Size** - Download size for each update
+* **Installation Status** - Current installation state
 
-          - name: Create site directory structure
-      ansible.windows.win_file:
-        path: "{{ report_path }}"
-        state: directory
+== Verification: Scheduled Backup Jobs
 
-    - name: Show us the updates
-      debug:
-        msg: "{{ update_catagory }}"
+=== Last Check: Verify Automated Backups
 
-    - name: Check available updates
-      ansible.windows.win_updates:
-        category_names:
-         - "{{ update_catagory | default(omit) }}"
-        state: searched
-      register: update_result
+Before finishing, let's verify that our previously scheduled backup jobs are working correctly:
 
-    - name: Generate HTML report
-      ansible.windows.win_template:
-        src: templates/win_patch_report.html.j2
-        dest: C:\inetpub\wwwroot\index.html
-        force: true
-      notify: restart_iis
-      vars:
-        updates: "{{ update_result.updates }}"
+. Navigate to *Automation Execution* → *Jobs*
+. Observe that your *Server Backup - VSS/Windows* jobs have run automatically
+. Run the *Check Windows Backups* template to verify VSS snapshots exist
 
-  handlers:
-    - name: restart_iis
-      ansible.windows.win_service:
-        name: W3Svc
-        state: restarted
-        start_mode: auto
-....
+.VSS Snapshot Verification
+image::vss-snaps.png[VSS snapshots verification]
+
+You should see multiple VSS snapshots created by your scheduled automation, demonstrating that your backup strategy is working as designed.
+
+== Code Reference
+
+=== Windows Update Report Generation
+
+Here's the key Ansible code used for generating Windows update reports:
+
+[source,yaml]
+----
+tasks:
+  - name: Create site directory structure
+    ansible.windows.win_file:
+      path: "{{ report_path }}"
+      state: directory
+
+  - name: Show us the updates
+    debug:
+      msg: "{{ update_catagory }}"
+
+  - name: Check available updates
+    ansible.windows.win_updates:
+      category_names:
+        - "{{ update_catagory | default(omit) }}"
+      state: searched
+    register: update_result
+
+  - name: Generate HTML report
+    ansible.windows.win_template:
+      src: templates/win_patch_report.html.j2
+      dest: C:\inetpub\wwwroot\index.html
+      force: true
+    notify: restart_iis
+    vars:
+      updates: "{{ update_result.updates }}"
+
+handlers:
+  - name: restart_iis
+    ansible.windows.win_service:
+      name: W3Svc
+      state: restarted
+      start_mode: auto
+----
+
+=== Key Code Components Explained
+
+**Directory Creation**
+- Creates the necessary directory structure for the web report
+
+**Update Discovery**
+- Uses `ansible.windows.win_updates` module with `state: searched`
+- Filters by specified category (Security Updates, Critical Updates, etc.)
+- Registers results for template processing
+
+**Report Generation**
+- Uses Jinja2 templating to create HTML report
+- Publishes report to IIS web server
+- Automatically restarts IIS service to serve updated content
+
+== Achievements Summary
+
+Congratulations! You've successfully accomplished multiple automation tasks:
+
+### ✅ **Backup Automation**
+* Implemented automated Linux XFS backups
+* Configured Windows VSS snapshots
+* Scheduled recurring backup jobs
+
+### ✅ **Infrastructure Reporting**
+* Generated comprehensive system reports
+* Created security compliance documentation
+* Built Windows patching assessments
+
+### ✅ **Process Automation**
+* Automated critical maintenance tasks
+* Eliminated manual system auditing
+* Provided valuable data to operations teams
+
+All of this was achieved **without affecting production systems** and using **Ansible automation**!
+
+== Key Benefits Realized
+
+=== **Operational Excellence**
+* 🚀 **Reduced Manual Effort** - Automated time-consuming reporting tasks
+* 📊 **Consistent Data Collection** - Standardized information gathering
+* ⏰ **Scheduled Operations** - Unattended execution of critical tasks
+
+=== **Security & Compliance**
+* 🛡️ **Proactive Patch Management** - Early identification of security updates
+* 📋 **Compliance Documentation** - Automated security assessments
+* 🔍 **Risk Assessment** - Clear visibility into system vulnerabilities
+
+=== **Team Collaboration**
+* 🤝 **Cross-Team Reporting** - Shared data between operations and security teams
+* 📈 **Data-Driven Decisions** - Factual basis for maintenance planning
+* 🎯 **Targeted Actions** - Focused remediation based on actual needs
+
+== Next Steps & Recommendations
+
+=== **Immediate Actions**
+. **Schedule Regular Patch Reports** - Set up weekly security update assessments
+. **Expand Coverage** - Include additional Windows servers in the inventory
+. **Integrate with Change Management** - Link patch reports to maintenance windows
+
+=== **Advanced Automation**
+. **Automated Patch Installation** - Progress from reporting to remediation
+. **Integration with ITSM Tools** - Connect reports to ticketing systems
+. **Dashboard Creation** - Build visual reporting interfaces
+
+=== **Best Practices**
+. **Test in Development** - Validate automation in non-production environments
+. **Document Processes** - Maintain clear runbooks for automation workflows
+. **Monitor Performance** - Track automation success rates and timing
+
+== Troubleshooting Guide
+
+=== **Common Issues & Solutions**
+
+**Issue**: Survey not appearing during template execution
+**Solution**: Ensure survey is enabled using the toggle switch
+
+**Issue**: Windows update scan fails
+**Solution**: Verify Windows server connectivity and credential permissions
+
+**Issue**: Report not generating properly
+**Solution**: Check Jinja2 template syntax and variable references
+
+**Issue**: IIS service fails to restart
+**Solution**: Verify service permissions and Windows firewall settings
+
+**Issue**: Backup jobs not running on schedule
+**Solution**: Check schedule configuration and execution environment availability
+
+For additional support, consult the Ansible documentation or contact your system administrator.
+
+---
+
+**🎉 Congratulations!** You've mastered essential Ansible automation skills for infrastructure management, security compliance, and operational reporting. These foundational skills will serve as the basis for more advanced automation scenarios in your environment.
