@@ -144,7 +144,7 @@ virtualmachines:
         - systemctl reload sshd
 
   - name: "node02"
-    image: "rhel-8.6"
+    image: "rhel-8.7"
     memory: "2G"
     cores: 2
     image_size: "30Gi"

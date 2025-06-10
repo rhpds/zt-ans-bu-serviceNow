@@ -18,6 +18,7 @@
       ansible_ssh_port: "{{ lookup('ansible.builtin.env', 'BASTION_PORT') }}"
       ansible_ssh_user: "{{ lookup('ansible.builtin.env', 'BASTION_USER') }}"
       ansible_ssh_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
+      ansible_python_interpreter: /usr/libexec/platform-python
     loop:
       - node01
       - node02
@@ -30,10 +31,8 @@
     satellite_org: "{{ lookup('ansible.builtin.env', 'SATELLITE_ORG') }}"
     satellite_activationkey: "{{ lookup('ansible.builtin.env', 'SATELLITE_ACTIVATIONKEY') }}"
   tasks:
-  - ansible.builtin.wait_for_connection:
-  - name: Simple debug task
-    ansible.builtin.debug:
-      msg: "Hello Runner"
+  - name: "waiting for the port tcp/22 to be open"
+    ansible.builtin.wait_for_connection:
 
   - name: Set config_host variable with ansible_host value
     set_fact:
@@ -50,12 +49,6 @@
       path: "./setup-{{ config_host }}.sh"
     delegate_to: localhost
     register: r_script_test
-
-  - name: Execute setup.sh if it exists
-    when: r_script_test.stat.exists
-    script: "./setup-{{ ansible_host }}.sh"
-    become: true
-    register: r_result
 
   - name: Copy script file
     when: r_script_test.stat.exists
