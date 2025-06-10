@@ -1,147 +1,302 @@
+= Infrastructure Data Gathering with Ansible
+:toc:
+:toc-placement: preamble
+:icons: font
+:numbered:
 
-Welcome!
+== Introduction 📊
 
-You have just joined the team!
-There are so many things you can automate but it can be daunting in starting with automation.
-A number of your tasks are read only, meaning you can safely automate without making any high risk changes.
-This introspection use case is great way to get comfortable automating in order to gain information as well as confidence to automate more as you go.
+Sometimes you just need data about your systems, and Ansible is perfect for this task! While Ansible can automate almost everything, one of the best starting points is gathering infrastructure data.
 
-Below are credentials for the Ansible Automation Platform instance that you should use:
+You know you have servers, networks, and other infrastructure components, but auditing or gathering all the system data can be a massive exercise. Fortunately, you can use Ansible at scale to make this process efficient and automated.
 
+== Lab Environment Setup
+
+=== Credentials
+Use these credentials to access your Ansible Automation Platform:
+
+[cols="1,1", options="header"]
 |===
 | Username | Password
-
-| admin
-| ansible123!
-
-|
-|
+| admin    | ansible123!
 |===
 
+=== Server Information
 Your DNS domain for this lab is: *[[ Instruqt-Var key="DOMAIN" hostname="control" ]]*
 
+[cols="1,1", options="header"]
 |===
-| Server | FQDN
-
-| Windows Server
-| windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node01
-| node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node02
-| node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
-
-| Node03
-| node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Server         | FQDN
+| Windows Server | windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node01         | node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node02         | node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
+| Node03         | node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]
 |===
 
-[#backupLinux]
-= ☑️ Backing up Linux file systems
+== Lab Exercise 1: Discovering Server Information
 
-You have a few Linux servers in your datacenter and a common task is backing up their storage.
-With Ansible you can drive multiple snapshot mechanisms, if its on the cloud, in VMs,  or baremetal you can use Ansible to drive backups.
+=== Overview
+Let's start by gathering detailed information about our servers using Ansible's built-in fact-gathering capabilities.
 
-Let's first see if you have any backups.
-Nagivate to the lab `aap` tab and login using the above credential (`admin/ansible123!`).
+=== Step 1: Access Your Inventory
 
-Click on the Menu drop down icon (sometimes known as a "hamberger icon.")
+. Navigate to your lab `aap` tab and login with the credentials above
+. Navigate to *Automation Execution* → *Infrastructure* → *Inventories*
++
+NOTE: This is where we track all the systems we automate. You'll see several inventories already configured for you.
 
-Navigate to *Automation Execution* > *Templates* and launch the template *Check RHEL Backups*.
-You can launch templates quickly by clicking on the 🚀 icon.
-Once the job is complete you should see there are no backups available.
+. Select the *Video Platform Inventory*
+. Click on the *Hosts* tab
 
-.Backup Check
-image::/backupcheck.png[]
+.Node Setup View
+image::node01-setup.png[Initial node setup interface]
 
-Let's kick off a backup of the XFS file system on RHEL servers!
-Navigate back to *Automation Execution* > *Templates*, and now launch *Server Backup - XFS/RHEL.*.
-You will now backup your three rhel nodes by creating XFS dumps of the file system.
-*This will take some time (6-7 min) so feel free to come back to this in a bit.
-Jobs can run in parallel safely and easily!*
+=== Step 2: Run Ad-Hoc Commands for System Facts
 
-.XFS Backup
-image::xfsbackup.png[XFS]
+We'll use Ansible Automation Platform's ability to run ad-hoc commands to gather system facts and data.
 
-Once the backup has completed you should see that you have successfully created a backup of the volume backups on each server.
-Launch the *Check RHEL Backups* template again to see if the backups are available.
-Again, you can skip this step and come back to it later to make sure the backup occured if it's taking a while.
+. Select the host: `node01`
+. Click on *Run command*
+. From the module dropdown list, select the *Setup* module
+. Click *Next*
 
-.After Backup Check
-image::afterbackupcheck.png[BackupCheck2]
+.Setup Module Selection
+image::setup.png[Setup module configuration]
 
-[#backupWindows]
-= ☑️ Snapshots for Windows
+=== Step 3: Configure Execution Environment
 
-So now that you have some backups of your RHEL systems, what about our Windows systems?
-Windows has a great snapshotting function built-in so lets automate it.
-Your Windows environment has a backup stratergy already with third party tools in our organization but we need to have snapshots of the systems for our databases since snapshots allow backups to be taken without locking or interrupting active files.
+. Select the *Default execution environment*
+. Click *Next*
 
-Navigate  to *Automation Execution* > *Templates*, and launch *Server Snapshot - VSS/Windows*.
+TIP: In Ansible Automation Platform, we use Execution Environments to launch templates and playbooks. This provides consistent, containerized environments for our automation.
 
-image::vss-snap.png[WINDOWS_BK]
+=== Step 4: Choose Credentials
 
-Once completed, lets confirm the VSS snapshot.
-Navigate  to *Automation Execution* > *Templates*, and execute *Check Windows Backups*.
+. Select the *Application Nodes* credential
+. Click *Next*
+. Click *Finish*
 
-image::vss-snap-check.png[WINDOWS_CK]
+=== Step 5: Review System Facts
 
-Awesome!
-We can see that the VSS snapshot is there!
-Lastly, lets configure a schedule so we can drive these snapshots without having to trigger the templates manually.
-This means we can have a re-occuring snapshot without any hassle.
+Once the command executes, you'll see comprehensive system facts displayed.
 
-Navigate  to *Automation Execution* > *Templates*, and select *Server Backup - VSS/Windows*.
-Navigate to the Schedules tab, and click *Create schedule*.
+.System Facts Output
+image::setup-output.png[Complete system facts output]
 
-image::win-shed.png[WINDOWS_SC]
+This output contains all the information that Ansible can gather from the system, including:
 
-You can configure the schedule with the following details:
+* Hardware specifications
+* Operating system details
+* Network configuration
+* Storage information
+* Installed packages
+* Environment variables
+* And much more!
 
- Schedule Name: 5 Min Snappy
- Description: Automated VSS Snaps
- Start date/time: <Leave as is>
- Time Zone: <Leave as is>
+== Lab Exercise 2: Scaling Up - Infrastructure Reports
 
-Click *Next*, you can configure the *Frequency* to Minutely, increase interval to 5, and select *save rule* and click *Next*.
-We wont need any exceptions so you can just click Next on that pane and finally select *Finish*.
+=== Overview
+We need infrastructure awareness across our entire environment! With Ansible, creating dynamic reports based on facts and tasks is straightforward. Let's create comprehensive infrastructure reports.
 
-image::shed-details.png[WINDOWS_details]
+=== Step 1: Generate Application Server Report
 
-Great!
-we can check on this later!
+. Navigate to *Automation Execution* → *Templates*
+. Execute the *Application Server Report* template
+. When prompted with options, select *All*
 
-[#codeSnippets]
-= ☑️ Code Snippets for Review
+=== Step 2: View the Generated Report
 
-Some key code snippets if you are interested:
+. Once the template completes, navigate to the *Report Server* tab
+. Refresh the page to see the generated report
 
-Automating and XFS backup:
+.Server Report Overview
+image::srv-report.png[Comprehensive server report]
 
-....
+Notice that the report includes backup information as well!
+
+.Backup Data Integration
+image::backup-data.png[Backup data within the report]
+
+=== Step 3: Create Custom Reports
+
+You can re-run the report template and choose different options to create reports based on specific criteria:
+
+* Filter by server type
+* Focus on specific metrics
+* Generate reports for particular time periods
+* Create targeted reports for different teams
+
+== Lab Exercise 3: Security Compliance Reporting
+
+=== Overview
+Reports are valuable for operations teams, but InfoSec teams love them even more! Let's run an OpenSCAP compliance report to satisfy security requirements.
+
+Security has requested a compliance report for `Node02`. Let's generate this critical security documentation.
+
+=== Step 1: Run OpenSCAP Compliance Scan
+
+. Navigate to *Automation Execution* → *Templates*
+. Execute the *OpenSCAP Report* template
+. Wait for the job to complete
+
+=== Step 2: Review Compliance Results
+
+. Once completed, navigate to the *Compliance Report* tab
+. View the generated compliance folder
+
+.Compliance Report Folder
+image::compliance_report_folder.png[Compliance report folder structure]
+
+=== Step 3: Analyze Compliance Details
+
+Click on the report to view detailed compliance results:
+
+.Detailed Compliance Report
+image::compliance_report.png[Detailed compliance scan results]
+
+The report will show:
+
+* ✅ **Passed** - Compliant controls
+* ⚠️ **Failed** - Non-compliant controls requiring attention
+* ℹ️ **Informational** - Additional security information
+* 🔍 **Manual** - Items requiring manual verification
+
+== Code Reference
+
+=== OpenSCAP Automation Implementation
+
+Here's the key Ansible code used for OpenSCAP compliance scanning:
+
+[source,yaml]
+----
 tasks:
+  - name: Check if the system is RHEL 8
+    ansible.builtin.debug:
+      msg: "This playbook is not compatible with {{ inventory_hostname }} (not RHEL 8)"
+    when: ansible_distribution != "RedHat" or ansible_distribution_major_version != "8"
+    failed_when: false
 
-- name: Check if xfsdump is installed
-  ansible.builtin.yum:
-    name: xfsdump
-    state: present
-  when: ansible_facts.os_family == "RedHat"
+  - name: Run compliance tasks on RHEL 8 systems only
+    when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "8"
+    block:
+      - name: Get our facts straight
+        ansible.builtin.set_fact:
+          _profile: '{{ compliance_profile | replace("pci_dss", "pci-dss") }}'
+          _report_dir: /tmp/oscap-reports
 
-- name: Ensure the backup directory exists
-  ansible.builtin.file:
-    path: "{{ backup_file | dirname }}"
-    state: directory
-    mode: '0755'
+      - name: Ensure OpenSCAP tools are installed
+        ansible.builtin.dnf:
+          name: '{{ openscap_packages }}'
+          state: present
 
-- name: Perform xfsdump backup
-  ansible.builtin.command:
-    cmd: >
-      xfsdump -l 0 -L {{ backup_label }}
-      -f {{ backup_file }} {{ xfs_mount_point }}
-  register: backup_result
-  ignore_errors: no
+      - name: Configure httpd
+        when: use_httpd | bool
+        block:
+          - name: Install httpd
+            ansible.builtin.dnf:
+              name: httpd
+              state: present
+            notify: Restart httpd
 
-- name: Verify xfsdump success
-  ansible.builtin.debug:
-    msg: "Backup completed successfully: {{ backup_result.stdout }}"
-....
+          - name: Override report directory
+            ansible.builtin.set_fact:
+              _report_dir: /var/www/html/oscap-reports
+
+          - name: Gather service facts
+            ansible.builtin.service_facts:
+
+          - name: Enable firewall http service
+            ansible.posix.firewalld:
+              service: http
+              state: enabled
+              immediate: true
+              permanent: true
+            when: "'firewalld.service' in ansible_facts.services"
+
+          - name: Disable httpd welcome page
+            ansible.builtin.file:
+              path: /etc/httpd/conf.d/welcome.conf
+              state: absent
+            notify: Restart httpd
+
+      - name: Create report on Report Server
+        block:
+          - name: Ensure report directory exists
+            ansible.builtin.file:
+              path: '{{ _report_dir }}/{{ _profile }}'
+              state: directory
+              owner: root
+              group: root
+              mode: 0755
+
+          - name: Set report name
+            ansible.builtin.set_fact:
+              _report: '{{ _report_dir }}/{{ _profile }}/report-{{ inventory_hostname }}-{{ ansible_date_time.iso8601 }}.html'
+
+          - name: Generate compliance report
+            ansible.builtin.command: >-
+              oscap xccdf eval --profile {{ _profile }} --report {{ _report }}
+              /usr/share/xml/scap/ssg/content/ssg-rhel{{ ansible_distribution_major_version }}-ds.xml
+            args:
+              creates: '{{ _report }}'
+            register: _oscap
+            failed_when: _oscap.rc not in [0, 2]
+
+          - name: Set report permissions
+            ansible.builtin.file:
+              path: '{{ _report }}'
+              owner: root
+              group: root
+              mode: 0644
+----
+
+== Key Benefits Achieved
+
+=== Infrastructure Visibility
+* 📈 **Comprehensive Data Collection** - Gather detailed facts from all systems
+* 🔍 **Automated Discovery** - No manual system auditing required
+* 📊 **Dynamic Reporting** - Generate reports based on real-time data
+
+=== Security Compliance
+* 🛡️ **Automated Compliance Scanning** - Regular security assessments
+* 📋 **Standardized Reports** - Consistent compliance documentation
+* ⚡ **Rapid Assessment** - Quick identification of security gaps
+
+=== Operational Efficiency
+* 🚀 **Scalable Operations** - Manage hundreds of systems simultaneously
+* 📅 **Scheduled Automation** - Regular, unattended data collection
+* 🎯 **Targeted Reporting** - Custom reports for different stakeholders
+
+== Next Steps
+
+Congratulations! You've successfully:
+
+* ✅ Gathered comprehensive system facts using Ansible
+* ✅ Generated infrastructure reports at scale
+* ✅ Implemented security compliance scanning
+* ✅ Created automated reporting workflows
+
+=== Recommended Follow-up Actions
+
+. **Schedule Regular Reports** - Set up automated report generation
+. **Expand Compliance Scanning** - Add more security profiles
+. **Create Custom Dashboards** - Build visualization tools
+. **Implement Alerting** - Set up notifications for compliance failures
+
+== Troubleshooting
+
+=== Common Issues and Solutions
+
+**Problem**: Setup module fails to execute
+**Solution**: Verify host connectivity and credential permissions
+
+**Problem**: Compliance scan returns errors
+**Solution**: Ensure OpenSCAP packages are installed and up-to-date
+
+**Problem**: Reports don't generate
+**Solution**: Check execution environment and template configuration
+
+**Problem**: Permission denied errors
+**Solution**: Verify service account has appropriate privileges
+
+For additional assistance, consult the Ansible Automation Platform documentation or contact your system administrator.
