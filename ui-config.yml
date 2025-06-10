@@ -39,6 +39,3 @@ tabs:
   #   url: /wetty_node03
   # - name: Cloud (PoC)
   #   url: /cloud
-  - name: Windows
-    url: https://windows-${guid}.${domain}/
-    external: false
