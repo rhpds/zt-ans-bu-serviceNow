@@ -20,9 +20,6 @@ tabs:
   # - name: gitea
   #   url: https://gitea-${guid}.${domain}/
     external: false
-  - name: Report Server
-    url: https://node03-${guid}.${domain}/index.html
-    external: false
   - name: OpenScap Report
     url: https://node02-${guid}.${domain}/oscap-reports/ospp/
     external: false
@@ -35,7 +32,5 @@ tabs:
     url: /wetty_node01
   - name: ">_ node02"
     url: /wetty_node02
-  - name: ">_ node03"
-    url: /wetty_node03
   - name: Cloud (PoC)
     url: /cloud
