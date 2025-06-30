@@ -6,6 +6,7 @@
     <title>Untitled :: Ansible Automation Roadshow - Scenario 01</title>
     <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-03.html">
     <link rel="prev" href="module-02.html">
+    <link rel="next" href="module-04.html">
     <meta name="generator" content="Antora 3.1.10">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -44,43 +45,94 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-01.html">1. Automated Backups</a>
+    <a class="nav-link" href="module-01.html">1. Creating Incidents</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01.html#backupLinux">Backing up Linux</a>
+    <a class="nav-link" href="module-01.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01.html#backupWindows">Windows VSS</a>
+    <a class="nav-link" href="module-01.html#create">Create Incident</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-01.html#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="module-01.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-02.html">2. Infrastructure Awareness</a>
+    <a class="nav-link" href="module-02.html">2. Problem Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#atscale">System Reports</a>
+    <a class="nav-link" href="module-02.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#compliance">Compliance Reporting</a>
+    <a class="nav-link" href="module-02.html#attach">Attach Problem</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="module-02.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-03.html">3. Windows Reports</a>
+    <a class="nav-link" href="module-03.html">3. Change Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#lastCheck">Check Schedule</a>
+    <a class="nav-link" href="#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="#create">Create Change Request</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-04.html">4. CMDB Management</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#query">Query and Update CMDB</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-05.html">5. Record Cleanup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#query">Query and Close Records</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-06.html">6. ServiceNow Inventory</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#review">Review Inventories</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#sync">Sync Inventory</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -112,200 +164,61 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Exercises</a></li>
-    <li><a href="module-03.html">3. Windows Reports</a></li>
+    <li><a href="module-03.html">3. Change Management</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
 <div class="paragraph">
-<p>Another great report to generate is a patching report!
-Our Windows server is sure to need some patches but we dont have access to the system.
-So lets get Ansible to get the required patches and we can provide this back to our Windows team.</p>
+<p>👋 Introduction</p>
 </div>
-<div class="paragraph">
-<p>Below are credentials for our Ansible Automation Platform that you should use:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Username</th>
-<th class="tableblock halign-left valign-top">Password</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">admin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ansible123!</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Your DNS domain for this lab is: <strong>[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</strong></p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Server</th>
-<th class="tableblock halign-left valign-top">FQDN</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-</tbody>
-</table>
-<h1 id="_we_need_a_patch_report" class="sect0"><a class="anchor" href="#_we_need_a_patch_report"></a>☑️ We need a patch report</h1>
-<div class="paragraph">
-<p>We can gather all the details and then create a report using jinja templates again.
-We will even post the report as a web page on our Windows host!</p>
-</div>
-<div class="paragraph">
-<p>Navigate  to <strong>Automation Execution</strong> &gt; <strong>Templates</strong>, and select <strong>Windows Update Report</strong>.
-Before we can launch it we need to create a survey so we can decide which updates we are looking for.</p>
-</div>
-<div class="imageblock">
+<div class="exampleblock">
 <div class="content">
-<img src="_images/update-template.png" alt="Update_tem">
-</div>
+<div class="paragraph">
+<p>A ServiceNow change is anything added, removed, or modified to address a problem that may be related to a past or ongoing incident.</p>
 </div>
 <div class="paragraph">
-<p>Navigate to the <code>Survey</code> tab and add the following details:</p>
+<p>A new playbook has been created in your <code>VS Code</code> tab.
+- Review the new playbook called <code>change-attach.yml</code> as before</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-To add each multiple choice option you will need fill in the field and then click on the + to add it to the list.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>▶️ Create a change request</p>
 </div>
-<div class="literalblock">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Navigate to <code>Resources &gt; Job Templates</code> in automation controller and launch the job template <code>3 - Attach change request (change-attach.yml)</code></p>
+</li>
+<li>
+<p>Watch for job completion in automation controller</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>🔍 Inspect results</p>
+</div>
+<div class="exampleblock">
 <div class="content">
-<pre>Question: Which update catagory are you wanting to search for?
-Description: Windows Update Catagory
-Answer variable name: update_catagory
-Answer type: Multiple Choice (single select)
-Multiple Choice Options: Security Updates, Critical Updates, Tools, Definition Updates, Updates</pre>
+<div class="paragraph">
+<p>Go back to ServiceNow, select <code>Change - Open</code> under your favorites. This should list out all open change requests. You should see a new change request has been created with the title <code>"Reboot the webserver"</code>. Notice how other relevant fields (such as 'Description' and 'On hold reason') have been updated as well.</p>
 </div>
+<div class="paragraph">
+<p>Move onto the next section by selecting the green "Next" button below.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/survey.png" alt="SURVEY">
+<div class="paragraph">
+<p>🐛 Encountered an issue?</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>You can then click on <strong>Create survey question</strong>.
-Make sure you enable the Survey at the top of the pane with the toggle.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/survey-enable.png" alt="SURVEY_EN">
-</div>
-</div>
-<div class="paragraph">
-<p>Once enabled, we can now launch the template and select <strong>Security Updates</strong> from the drop down list.</p>
-</div>
-<div class="paragraph">
-<p>Once the template has completed, navigate to the <code>Windows Report</code> tab.
-You should be presented with the outstanding update that is needed for this system.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/update-report.png" alt="WIN-REPORT">
-</div>
-</div>
-<div class="paragraph">
-<p>Well done!
-you have just automated a number of backups and you have gathered data and presented it as a report for your team!
-all without affecting production and with Ansible!</p>
-</div>
-<h1 id="lastCheck" class="sect0"><a class="anchor" href="#lastCheck"></a>☑️ Last check!</h1>
-<div class="paragraph">
-<p>Before we finish off, navigate  to <strong>Automation Execution</strong> &gt; <strong>Jobs</strong> and observe that your Server Backup -VSS/Windows jobs that you have scheduled earlier have run.
-You can also run the template Check Windows Backups to see if you have some VSS snapshots!</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/vss-snaps.png" alt="VSS_SNAPS">
-</div>
-</div>
-<h1 id="codeSnippets" class="sect0"><a class="anchor" href="#codeSnippets"></a>☑️ Code Snippets for Review</h1>
-<div class="paragraph">
-<p>Some key code snippets if you are interested:</p>
-</div>
-<div class="paragraph">
-<p>Generating a Windows report:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>     tasks:
-
-          - name: Create site directory structure
-      ansible.windows.win_file:
-        path: "{{ report_path }}"
-        state: directory
-
-    - name: Show us the updates
-      debug:
-        msg: "{{ update_catagory }}"
-
-    - name: Check available updates
-      ansible.windows.win_updates:
-        category_names:
-         - "{{ update_catagory | default(omit) }}"
-        state: searched
-      register: update_result
-
-    - name: Generate HTML report
-      ansible.windows.win_template:
-        src: templates/win_patch_report.html.j2
-        dest: C:\inetpub\wwwroot\index.html
-        force: true
-      notify: restart_iis
-      vars:
-        updates: "{{ update_result.updates }}"
-
-  handlers:
-    - name: restart_iis
-      ansible.windows.win_service:
-        name: W3Svc
-        state: restarted
-        start_mode: auto</pre>
-</div>
+<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+fix-and-close+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;body).</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-02.html" class="query-params-link">2. Infrastructure Awareness</a></span>
+  <span class="prev"><a href="module-02.html" class="query-params-link">2. Problem Management</a></span>
+  <span class="next"><a href="module-04.html" class="query-params-link">4. CMDB Management</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

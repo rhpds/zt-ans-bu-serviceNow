@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Untitled :: Ansible Automation Roadshow - Scenario 01</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-02.html">
-    <link rel="prev" href="module-01.html">
-    <link rel="next" href="module-03.html">
+    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-06.html">
+    <link rel="prev" href="module-05.html">
     <meta name="generator" content="Antora 3.1.10">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -58,18 +57,18 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-02.html">2. Problem Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#introduction">Introduction</a>
+    <a class="nav-link" href="module-02.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#attach">Attach Problem</a>
+    <a class="nav-link" href="module-02.html#attach">Attach Problem</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#inspect">Inspect Results</a>
+    <a class="nav-link" href="module-02.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -118,21 +117,21 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-06.html">6. ServiceNow Inventory</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-06.html#introduction">Introduction</a>
+    <a class="nav-link" href="#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-06.html#review">Review Inventories</a>
+    <a class="nav-link" href="#review">Review Inventories</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-06.html#sync">Sync Inventory</a>
+    <a class="nav-link" href="#sync">Sync Inventory</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-06.html#inspect">Inspect Results</a>
+    <a class="nav-link" href="#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -164,7 +163,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Exercises</a></li>
-    <li><a href="module-02.html">2. Problem Management</a></li>
+    <li><a href="module-06.html">6. ServiceNow Inventory</a></li>
   </ul>
 </nav>
 </div>
@@ -176,65 +175,96 @@
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>A problem in ServiceNow represents the cause of one or more incidents. The root cause of the problem may not be known at the time of creation and may require root cause analysis through the problem management process.</p>
+<p>Up to this point, we&#8217;ve explored some of the modules from <code>servicenow.itsm</code> that we can leverage as a part of an automated incident management process. While the interaction we&#8217;ve had while exploring these modules probably isn&#8217;t how we would implement these modules in production, the modules contained in this collection are very flexible and can be applied to many different use cases within ITSM.</p>
 </div>
 <div class="paragraph">
-<p>Another playbook has been added to your working directory in VS Code and a template has been created to attach a problem to the incident previously created.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>First, inspect the playbook called <code>problem-attach.yml</code> in the <code>VS Code</code> tab.</p>
-</li>
-</ul>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Notice that this playbook will first query for existing incident numbers that you have created and will use the value returned in the task that creates the problem.</p>
-</div>
-</blockquote>
+<p>Apart from ITSM tasks, <code>servicenow.itsm</code> collection also has a really useful inventory script which allows you to query endpoints from the CMDB.</p>
 </div>
 <div class="paragraph">
-<p>▶️ Attach a problem</p>
+<p>A new inventory has been added to Automation Controller, but it hasn&#8217;t queried any hosts yet. Take a look!</p>
+</div>
+<div class="paragraph">
+<p>👀 Review inventories</p>
 </div>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Next, navigate to <code>Resources &gt; Templates</code> and execute the new job template from automation controller by pressing the rocket icon next to the template <code>2 - Attach problem (problem-attach.yml)</code>.</p>
+<p>First, open the Automation Controller tab and navigator the right hand navigation pane to <code>Hosts</code>. Notice that this list is empty. This is because the integration between Ansible Automation Platform and ServiceNow is an API to API integration where the endpoints we&#8217;re targeting are not individual hosts, but an API.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>▶️ Sync ServiceNow inventory</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Next, using the left hand side navigation pane, select <code>Inventories</code>. What&#8217;s new here is the <code>ServiceNow inventory</code> - click on it. Now, select the <code>Sources</code> tab and the <code>Sync</code> 🔄 button.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This just kicked of a series of jobs to update the inventory we&#8217;re pulling out of ServiceNow CMDB!
+- Select <code>Jobs</code> from the left hand navigation pane and you&#8217;ll be able to monitor the progress of this update.</p>
 </div>
 <div class="paragraph">
 <p>🔍 Inspect results</p>
 </div>
-<div class="exampleblock">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once the two jobs have finished, click <code>Hosts</code> on the left hand navigation and notice all of the hosts pulled from CMDB.</p>
+</li>
+<li>
+<p>Also, explore the hosts and groups in Inventories &gt; ServiceNow inventory &gt; Hosts</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This inventory can be carved up in many different ways. The inventory query provided for this inventory is shown below.</p>
+</div>
+<div class="listingblock">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs"># Group hosts automatically, according to values of manufacturer and os columns.
+# Include only records with the specified operating systems.
+# Groups will most likely overlap.
+plugin: servicenow.itsm.now
+group_by:
+  manufacturer:
+  os:
+    includes:
+      - Linux Red Hat
+      - Windows XP</code></pre>
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
 <div class="paragraph">
-<p>That should have completed successfully! Go back to ServiceNow and check under your assigned problems for a new problem number:</p>
+<p>The above inventory is querying the CMDB for Linux and Windows XP operating systems and grouping the restults by manufacturer.</p>
+</div>
+</blockquote>
 </div>
 <div class="paragraph">
-<p>![new problem](<a href="https://play.instruqt.com/assets/tracks/faoq9b1onz2h/c4c44ecb1688eda15480ad90aceea18b/assets/new-problem.png" class="bare">https://play.instruqt.com/assets/tracks/faoq9b1onz2h/c4c44ecb1688eda15480ad90aceea18b/assets/new-problem.png</a>)</p>
-</div>
-<div class="paragraph">
-<p>You can also check to see if the status of the incident has been updated by selecting your incident number under <code>Self-service - Incidents</code>. There should now also be a problem referenced on the incident page.</p>
-</div>
-<div class="paragraph">
-<p>Move onto the next section by selecting the green "Next" button below.</p>
+<p>🎉 All finished! 🎉</p>
 </div>
 <div class="paragraph">
 <p>🐛 Encountered an issue?</p>
 </div>
-</div>
-</div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+attach-problem+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;body).</p>
+<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+servicenow-inventory+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;body).</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01.html" class="query-params-link">1. Creating Incidents</a></span>
-  <span class="next"><a href="module-03.html" class="query-params-link">3. Change Management</a></span>
+  <span class="prev"><a href="module-05.html" class="query-params-link">5. Record Cleanup</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

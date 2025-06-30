@@ -45,43 +45,94 @@
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-01.html">1. Automated Backups</a>
+    <a class="nav-link" href="module-01.html">1. Creating Incidents</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#backupLinux">Backing up Linux</a>
+    <a class="nav-link" href="#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#backupWindows">Windows VSS</a>
+    <a class="nav-link" href="#create">Create Incident</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-02.html">2. Infrastructure Awareness</a>
+    <a class="nav-link" href="module-02.html">2. Problem Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#atscale">System Reports</a>
+    <a class="nav-link" href="module-02.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#compliance">Compliance Reporting</a>
+    <a class="nav-link" href="module-02.html#attach">Attach Problem</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-02.html#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="module-02.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="module-03.html">3. Windows Reports</a>
+    <a class="nav-link" href="module-03.html">3. Change Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-03.html#lastCheck">Check Schedule</a>
+    <a class="nav-link" href="module-03.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-03.html#codeSnippets">Code Snippets</a>
+    <a class="nav-link" href="module-03.html#create">Create Change Request</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-03.html#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-04.html">4. CMDB Management</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#query">Query and Update CMDB</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-04.html#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-05.html">5. Record Cleanup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#query">Query and Close Records</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-05.html#inspect">Inspect Results</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="module-06.html">6. ServiceNow Inventory</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#introduction">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#review">Review Inventories</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#sync">Sync Inventory</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="module-06.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -113,227 +164,83 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Exercises</a></li>
-    <li><a href="module-01.html">1. Automated Backups</a></li>
+    <li><a href="module-01.html">1. Creating Incidents</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
 <div class="paragraph">
-<p>Welcome!</p>
+<p>👋 Introduction</p>
 </div>
-<div class="paragraph">
-<p>You have just joined the team!
-There are so many things you can automate but it can be daunting in starting with automation.
-A number of your tasks are read only, meaning you can safely automate without making any high risk changes.
-This introspection use case is great way to get comfortable automating in order to gain information as well as confidence to automate more as you go.</p>
-</div>
-<div class="paragraph">
-<p>Below are credentials for the Ansible Automation Platform instance that you should use:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Username</th>
-<th class="tableblock halign-left valign-top">Password</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">admin</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ansible123!</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Your DNS domain for this lab is: <strong>[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</strong></p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Server</th>
-<th class="tableblock halign-left valign-top">FQDN</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">windows.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node01.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node02.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Node03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">node03.[[ Instruqt-Var key="DOMAIN" hostname="control" ]]</p></td>
-</tr>
-</tbody>
-</table>
-<h1 id="backupLinux" class="sect0"><a class="anchor" href="#backupLinux"></a>☑️ Backing up Linux file systems</h1>
-<div class="paragraph">
-<p>You have a few Linux servers in your datacenter and a common task is backing up their storage.
-With Ansible you can drive multiple snapshot mechanisms, if its on the cloud, in VMs,  or baremetal you can use Ansible to drive backups.</p>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s first see if you have any backups.
-Nagivate to the lab <code>aap</code> tab and login using the above credential (<code>admin/ansible123!</code>).</p>
-</div>
-<div class="paragraph">
-<p>Click on the Menu drop down icon (sometimes known as a "hamberger icon.")</p>
-</div>
-<div class="paragraph">
-<p>Navigate to <strong>Automation Execution</strong> &gt; <strong>Templates</strong> and launch the template <strong>Check RHEL Backups</strong>.
-You can launch templates quickly by clicking on the 🚀 icon.
-Once the job is complete you should see there are no backups available.</p>
-</div>
-<div class="imageblock">
+<div class="exampleblock">
 <div class="content">
-<img src="_images/backupcheck.png" alt="backupcheck">
-</div>
-<div class="title">Figure 1. Backup Check</div>
+<div class="paragraph">
+<p>In ITIL, an incident refers to an unplanned outage or reduction in quality of an IT service or application. ServiceNow implements technology mapped to ITIL terminology and is accepted as an industry standard for incident management.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s kick off a backup of the XFS file system on RHEL servers!
-Navigate back to <strong>Automation Execution</strong> &gt; <strong>Templates</strong>, and now launch <strong>Server Backup - XFS/RHEL.</strong>.
-You will now backup your three rhel nodes by creating XFS dumps of the file system.
-<strong>This will take some time (6-7 min) so feel free to come back to this in a bit.
-Jobs can run in parallel safely and easily!</strong></p>
+<p>The servicenow.itsm certified collection allows organizations to leverage incident management within Ansible Automation Platform workflows.</p>
 </div>
-<div class="imageblock">
+<div class="paragraph">
+<p>A playbook has been created in the <code>VS Code</code> tab called <code>incident-create.yml</code>.
+- Inspect this playbook and review the in-line comments to understand how the collection is being leveraged.</p>
+</div>
+<div class="paragraph">
+<p>▶️ Create incident</p>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Next, use the login credentials supplied in <code>readme.md</code> to access the Automation Controller tab.</p>
+</li>
+<li>
+<p>Navigate to <code>Resources &gt; Templates</code> and press the rocket icon to launch the <code>1 - Create incident (incident-create.yml)</code> job.
+![launch job icon](<a href="https://play.instruqt.com/assets/tracks/faoq9b1onz2h/93b0a49d5ccabe4a72ffc70e3772c419/assets/launch-icon.png" class="bare">https://play.instruqt.com/assets/tracks/faoq9b1onz2h/93b0a49d5ccabe4a72ffc70e3772c419/assets/launch-icon.png</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>🔍 Inspect results</p>
+</div>
+<div class="exampleblock">
 <div class="content">
-<img src="_images/xfsbackup.png" alt="XFS">
-</div>
-<div class="title">Figure 2. XFS Backup</div>
+<div class="paragraph">
+<p>If the previous step completed successfully, you should see a new incident has been created. To verify that this is the case:
+- Use the ServiceNow credentials listed below or from <code>readme.md</code> to access ServiceNow from the <code>ServiceNow</code> tab.</p>
 </div>
 <div class="paragraph">
-<p>Once the backup has completed you should see that you have successfully created a backup of the volume backups on each server.
-Launch the <strong>Check RHEL Backups</strong> template again to see if the backups are available.
-Again, you can skip this step and come back to it later to make sure the backup occured if it&#8217;s taking a while.</p>
+<p>| key | value |
+| -------- | -------- |
+| username     | [[ Instruqt-Var key="SANDBOX" hostname="controller" ]]     |
+| password  | [[ Instruqt-Var key="SANDBOX" hostname="controller" ]]</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/afterbackupcheck.png" alt="BackupCheck2">
-</div>
-<div class="title">Figure 3. After Backup Check</div>
-</div>
-<h1 id="backupWindows" class="sect0"><a class="anchor" href="#backupWindows"></a>☑️ Snapshots for Windows</h1>
-<div class="paragraph">
-<p>So now that you have some backups of your RHEL systems, what about our Windows systems?
-Windows has a great snapshotting function built-in so lets automate it.
-Your Windows environment has a backup stratergy already with third party tools in our organization but we need to have snapshots of the systems for our databases since snapshots allow backups to be taken without locking or interrupting active files.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In ServiceNow, click the star icon to access pre-configured favorites and select <code>Self-service - Incidents</code>:
+![servicenow screenshot](<a href="https://play.instruqt.com/assets/tracks/faoq9b1onz2h/66f9b994fbd523bff7a044fa910ed9fc/assets/snow-star.png" class="bare">https://play.instruqt.com/assets/tracks/faoq9b1onz2h/66f9b994fbd523bff7a044fa910ed9fc/assets/snow-star.png</a>)</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Navigate  to <strong>Automation Execution</strong> &gt; <strong>Templates</strong>, and launch <strong>Server Snapshot - VSS/Windows</strong>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/vss-snap.png" alt="WINDOWS_BK">
-</div>
+<p>You should see a new Incident has been created! To verify this was done by you, access your newly created incident using the bullet and screenshot above. Your unique username for this environment should be shown in the Incident description. The incident number should also match the incident number displayed in the job execution output within Automation Controller.</p>
 </div>
 <div class="paragraph">
-<p>Once completed, lets confirm the VSS snapshot.
-Navigate  to <strong>Automation Execution</strong> &gt; <strong>Templates</strong>, and execute <strong>Check Windows Backups</strong>.</p>
+<p>Move onto the next section by selecting the green "Next" button below.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/vss-snap-check.png" alt="WINDOWS_CK">
+<div class="paragraph">
+<p>🐛 Encountered an issue?</p>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>Awesome!
-We can see that the VSS snapshot is there!
-Lastly, lets configure a schedule so we can drive these snapshots without having to trigger the templates manually.
-This means we can have a re-occuring snapshot without any hassle.</p>
-</div>
-<div class="paragraph">
-<p>Navigate  to <strong>Automation Execution</strong> &gt; <strong>Templates</strong>, and select <strong>Server Backup - VSS/Windows</strong>.
-Navigate to the Schedules tab, and click <strong>Create schedule</strong>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/win-shed.png" alt="WINDOWS_SC">
-</div>
-</div>
-<div class="paragraph">
-<p>You can configure the schedule with the following details:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Schedule Name: 5 Min Snappy
-Description: Automated VSS Snaps
-Start date/time: &lt;Leave as is&gt;
-Time Zone: &lt;Leave as is&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Click <strong>Next</strong>, you can configure the <strong>Frequency</strong> to Minutely, increase interval to 5, and select <strong>save rule</strong> and click <strong>Next</strong>.
-We wont need any exceptions so you can just click Next on that pane and finally select <strong>Finish</strong>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/shed-details.png" alt="WINDOWS_details">
-</div>
-</div>
-<div class="paragraph">
-<p>Great!
-we can check on this later!</p>
-</div>
-<h1 id="codeSnippets" class="sect0"><a class="anchor" href="#codeSnippets"></a>☑️ Code Snippets for Review</h1>
-<div class="paragraph">
-<p>Some key code snippets if you are interested:</p>
-</div>
-<div class="paragraph">
-<p>Automating and XFS backup:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>tasks:
-
-- name: Check if xfsdump is installed
-  ansible.builtin.yum:
-    name: xfsdump
-    state: present
-  when: ansible_facts.os_family == "RedHat"
-
-- name: Ensure the backup directory exists
-  ansible.builtin.file:
-    path: "{{ backup_file | dirname }}"
-    state: directory
-    mode: '0755'
-
-- name: Perform xfsdump backup
-  ansible.builtin.command:
-    cmd: &gt;
-      xfsdump -l 0 -L {{ backup_label }}
-      -f {{ backup_file }} {{ xfs_mount_point }}
-  register: backup_result
-  ignore_errors: no
-
-- name: Verify xfsdump success
-  ansible.builtin.debug:
-    msg: "Backup completed successfully: {{ backup_result.stdout }}"</pre>
-</div>
+<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+incident-creation+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;body=).</p>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="index.html" class="query-params-link">Exercises</a></span>
-  <span class="next"><a href="module-02.html" class="query-params-link">2. Infrastructure Awareness</a></span>
+  <span class="next"><a href="module-02.html" class="query-params-link">2. Problem Management</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

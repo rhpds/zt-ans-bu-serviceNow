@@ -4,25 +4,14 @@ systemctl stop systemd-tmpfiles-setup.service
 systemctl disable systemd-tmpfiles-setup.service
 
 # Install collection(s)
-ansible-galaxy collection install ansible.eda
 ansible-galaxy collection install community.general
-ansible-galaxy collection install ansible.windows
-ansible-galaxy collection install microsoft.ad
-
-# # ## setup rhel user
-# touch /etc/sudoers.d/rhel_sudoers
-# echo "%rhel ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/rhel_sudoers
-# cp -a /root/.ssh/* /home/$USER/.ssh/.
-# chown -R rhel:rhel /home/$USER/.ssh
+ansible-galaxy collection install servicenow.itsm
 
 # Create an inventory file for this environment
 tee /tmp/inventory << EOF
 [nodes]
 node01
 node02
-
-[storage]
-storage01
 
 [all]
 node01
@@ -35,10 +24,8 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_python_interpreter=/usr/bin/python3
 
 EOF
-# sudo chown rhel:rhel /tmp/inventory
 
-
-# # # creates a playbook to setup environment
+# creates a playbook to setup environment
 tee /tmp/setup.yml << EOF
 ---
 ### Automation Controller setup 
@@ -66,50 +53,6 @@ tee /tmp/setup.yml << EOF
         username: rhel
         password: ansible123!
 
-  - name: (EXECUTION) add Windows machine credential
-    ansible.controller.credential:
-      name: 'Windows Nodes'
-      organization: Default
-      credential_type: Machine
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      inputs:
-        username: Administrator
-        password: Ansible123!
-
-  - name: (EXECUTION) add Arista credential
-    ansible.controller.credential:
-      name: 'Arista Network'
-      organization: Default
-      credential_type: Machine
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      inputs:
-        username: ansible
-        password: ansible
-
-  - name: Add Network EE
-    ansible.controller.execution_environment:
-      name: "Edge_Network_ee"
-      image: quay.io/acme_corp/network-ee
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-  - name: Add Windows EE
-    ansible.controller.execution_environment:
-      name: "Windows_ee"
-      image: quay.io/acme_corp/windows-ee
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
   - name: Add RHEL EE
     ansible.controller.execution_environment:
       name: "Rhel_ee"
@@ -119,10 +62,10 @@ tee /tmp/setup.yml << EOF
       controller_password: ansible123!
       validate_certs: false
 
-  - name: Add Video platform inventory
+  - name: Add ServiceNow Inventory
     ansible.controller.inventory:
-      name: "Video Platform Inventory"
-      description: "Nodes used for streaming"
+      name: "ServiceNow Inventory"
+      description: "Nodes for ServiceNow automation"
       organization: "Default"
       state: present
       controller_host: "https://localhost"
@@ -130,11 +73,11 @@ tee /tmp/setup.yml << EOF
       controller_password: ansible123!
       validate_certs: false
 
-  - name: Add Streaming Server hosts
+  - name: Add ServiceNow hosts
     ansible.controller.host:
       name: "{{ item }}"
-      description: "Application Nodes"
-      inventory: "Video Platform Inventory"
+      description: "ServiceNow Automation Nodes"
+      inventory: "ServiceNow Inventory"
       state: present
       enabled: true
       controller_host: "https://localhost"
@@ -144,256 +87,31 @@ tee /tmp/setup.yml << EOF
     loop:
       - node01
       - node02
-      - node03
  
-  - name: Add Streaming server group
+  - name: Add ServiceNow group
     ansible.controller.group:
-      name: "Streaming_Infrastucture"
-      description: "Streaming Nodes"
-      inventory: "Video Platform Inventory"
+      name: "ServiceNow_Nodes"
+      description: "ServiceNow Automation Nodes"
+      inventory: "ServiceNow Inventory"
       hosts:
         - node01
         - node02
-        - node03
       variables:
         ansible_user: rhel
       controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-  - name: Add Streaming server group
-    ansible.controller.group:
-      name: "Reporting"
-      description: "Report Servers"
-      inventory: "Video Platform Inventory"
-      hosts:
-        - node03
-      variables:
-        ansible_user: rhel
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-
-  #   # Network
- 
-  - name: Add Edge Network Devices
-    ansible.controller.inventory:
-      name: "Edge Network"
-      description: "Network for delivery"
-      organization: "Default"
-      state: present
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-  - name: Add CEOS1
-    ansible.controller.host:
-      name: "ceos01"
-      description: "Edge Leaf"
-      inventory: "Edge Network"
-      state: present
-      enabled: true
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      variables:
-        ansible_host: node02
-        ansible_port: 2001
-
-  - name: Add CEOS2
-    ansible.controller.host:
-      name: "ceos02"
-      description: "Edge Leaf"
-      inventory: "Edge Network"
-      state: present
-      enabled: true
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      variables:
-        ansible_host: node02
-        ansible_port: 2002
-
-  - name: Add CEOS3
-    ansible.controller.host:
-      name: "ceos03"
-      description: "Edge Leaf"
-      inventory: "Edge Network"
-      state: present
-      enabled: true
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      variables:
-        ansible_host: node02
-        ansible_port: 2003
-
-  - name: Add EOS Network Group
-    ansible.controller.group:
-      name: "Delivery_Network"
-      description: "EOS Network"
-      inventory: "Edge Network"
-      hosts:
-        - ceos01
-        - ceos02
-        - ceos03
-      variables:
-        ansible_user: ansible
-        ansible_connection: ansible.netcommon.network_cli 
-        ansible_network_os: arista.eos.eos 
-        ansible_password: ansible 
-        ansible_become: yes 
-        ansible_become_method: enable
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      
-  #   ## Extra Inventories 
-
-  # - name: Add Storage Infrastructure
-  #   ansible.controller.inventory:
-  #    name: "Cache Storage"
-  #    description: "Edge NAS Storage"
-  #    organization: "Default"
-  #    state: present
-  #    controller_host: "https://localhost"
-  #    controller_username: admin
-  #    controller_password: ansible123!
-  #    validate_certs: false
-
-  # - name: Add Storage Node
-  #   ansible.controller.host:
-  #    name: "Storage01"
-  #    description: "Edge NAS Storage"
-  #    inventory: "Cache Storage"
-  #    state: present
-  #    enabled: true
-  #    controller_host: "https://localhost"
-  #    controller_username: admin
-  #    controller_password: ansible123!
-  #    validate_certs: false
-
-  - name:  Add Windows Inventory
-    ansible.controller.inventory:
-     name: "Windows Directory Servers"
-     description: "AD Infrastructure"
-     organization: "Default"
-     state: present
-     controller_host: "https://localhost"
-     controller_username: admin
-     controller_password: ansible123!
-     validate_certs: false
-
-  - name: Add Windows Inventory Host
-    ansible.controller.host:
-     name: "windows"
-     description: "Directory Servers"
-     inventory: "Windows Directory Servers"
-     state: present
-     enabled: true
-     controller_host: "https://localhost"
-     controller_username: admin
-     controller_password: ansible123!
-     validate_certs: false
-     variables:
-       ansible_host: windows
-
-  - name: Create group with extra vars
-    ansible.controller.group:
-      name: "domain_controllers"
-      inventory: "Windows Directory Servers"
-      hosts:
-        - windows
-      state: present
-      variables:
-        ansible_connection: winrm
-        ansible_port: 5986
-        ansible_winrm_server_cert_validation: ignore
-        ansible_winrm_transport: credssp
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-        
-  - name: (EXECUTION) Add project
-    ansible.controller.project:
-      name: "Roadshow"
-      description: "Roadshow Content"
-      organization: "Default"
-      scm_type: git
-      scm_url: http://gitea:3000/student/aap25-roadshow-content.git       ##ttps://github.com/nmartins0611/aap25-roadshow-content.git
-      state: present
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-  - name: (DECISIONS) Create an AAP Credential
-    ansible.eda.credential:
-      name: "AAP"
-      description: "To execute jobs from EDA"
-      inputs:
-        host: "https://control-{{ GUID }}.{{ DOMAIN }}/api/controller/"
-        username: "admin"
-        password: "ansible123!"
-      credential_type_name: "Red Hat Ansible Automation Platform"
-      organization_name: Default
-      controller_host: https://localhost
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
 
 ###############TEMPLATES###############
 
-  # - name: Add System Report
-  #   ansible.controller.job_template:
-  #     name: "System Report"
-  #     job_type: "run"
-  #     organization: "Default"
-  #     inventory: "Video Platform Inventory"
-  #     project: "Roadshow"
-  #     playbook: "playbooks/section01/server_re[ort].yml"
-  #     execution_environment: "RHEL EE"
-  #     credentials:
-  #       - "Application Nodes"
-  #     state: "present"
-  #     controller_host: "https://localhost"
-  #     controller_username: admin
-  #     controller_password: ansible123!
-  #     validate_certs: false
-
-  # - name: Add Windows Setup Template
-  #   ansible.controller.job_template:
-  #     name: "Windows Patching Report"
-  #     job_type: "run"
-  #     organization: "Default"
-  #     inventory: "Windows Directory Servers"
-  #     project: "Roadshow"
-  #     playbook: "playbooks/section01/windows_report.yml"
-  #     execution_environment: "Windows_ee"
-  #     credentials:
-  #       - "Windows Nodes"
-  #     state: "present"
-  #     controller_host: "https://localhost"
-  #     controller_username: admin
-  #     controller_password: ansible123!
-  #     validate_certs: false
-
   - name: Add Rhel Report Template
     ansible.controller.job_template:
       name: "Application Server Report"
       job_type: "run"
       organization: "Default"
-      inventory: "Video Platform Inventory"
-      project: "Roadshow"
+      inventory: "ServiceNow Inventory"
+      project: "ServiceNow"
       playbook: "playbooks/section01/rhel_report.yml"
       execution_environment: "Rhel_ee"
       credentials:
@@ -425,29 +143,12 @@ tee /tmp/setup.yml << EOF
       name: "OpenSCAP Report"
       job_type: "run"
       organization: "Default"
-      inventory: "Video Platform Inventory"
-      project: "Roadshow"
+      inventory: "ServiceNow Inventory"
+      project: "ServiceNow"
       playbook: "playbooks/section01/rhel_compliance_report.yml"
       execution_environment: "Rhel_ee"
       credentials:
         - "Application Nodes"
-      state: "present"
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-
-  - name: Add Windows Update Report Template
-    ansible.controller.job_template:
-      name: "Windows Update Report"
-      job_type: "run"
-      organization: "Default"
-      inventory: "Windows Directory Servers"
-      project: "Roadshow"
-      playbook: "playbooks/section01/windows_update_report.yml"
-      execution_environment: "Windows_ee"
-      credentials:
-        - "Windows Nodes"
       state: "present"
       controller_host: "https://localhost"
       controller_username: admin
@@ -459,8 +160,8 @@ tee /tmp/setup.yml << EOF
       name: "Server Backup - XFS/RHEL"
       job_type: "run"
       organization: "Default"
-      inventory: "Video Platform Inventory"
-      project: "Roadshow"
+      inventory: "ServiceNow Inventory"
+      project: "ServiceNow"
       playbook: "playbooks/section01/xfs_backup.yml"
       execution_environment: "Rhel_ee"
       credentials:
@@ -476,8 +177,8 @@ tee /tmp/setup.yml << EOF
       name: "Check RHEL Backup"
       job_type: "run"
       organization: "Default"
-      inventory: "Video Platform Inventory"
-      project: "Roadshow"
+      inventory: "ServiceNow Inventory"
+      project: "ServiceNow"
       playbook: "playbooks/section01/check_backups.yml"
       execution_environment: "Rhel_ee"
       credentials:
@@ -488,49 +189,125 @@ tee /tmp/setup.yml << EOF
       controller_password: ansible123!
       validate_certs: false
 
+EOF
 
-  - name: Add Windows Backup 
-    ansible.controller.job_template:
-      name: "Server Backup - VSS/Windows"
-      job_type: "run"
-      organization: "Default"
-      inventory: "Windows Directory Servers"
-      project: "Roadshow"
-      playbook: "playbooks/section01/vss_windows.yml"
-      execution_environment: "Windows_ee"
-      credentials:
-        - "Windows Nodes"
-      state: "present"
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
+# execute above playbook
+ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml
 
-  - name: Add Windows Backup Check
-    ansible.controller.job_template:
-      name: "Check Windows Backups"
-      job_type: "run"
-      organization: "Default"
-      inventory: "Windows Directory Servers"
-      project: "Roadshow"
-      playbook: "playbooks/section01/check_windowsvss.yml"
-      execution_environment: "Windows_ee"
-      credentials:
-        - "Windows Nodes"
-      state: "present"
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
+# make challenge dir
+su - rhel -c 'mkdir /home/rhel/challenge-1'
+
+# Create a playbook for the user to execute which will create a SN incident
+tee /home/rhel/servicenow_project/incident-create.yml << EOF
+---
+- name: Automate SNOW 
+  hosts: localhost
+  connection: local
+  collections:
+    - servicenow.itsm
+
+  tasks:
+
+    # Always give your tasks a useful name
+    - name: Create incident
+
+      # This task leverages the 'incident' module from the 'itsm' collection 
+      # within the 'servicenow' namespace
+      servicenow.itsm.incident:
+
+        state: new
+        caller: "{{ lookup('env', 'SN_USERNAME') }}"
+
+        # Feel free to modify this line
+        short_description: "User created a new incident using Ansible Automation Platform"
+
+        # These fields can also contain different variables from previous workflow steps,
+        # environment variables, etc.. Feel free to modify this line
+        description: "User {{ lookup('env', 'SN_USERNAME') }} successfully created a new incident!"
+        impact: low
+        urgency: low
+      
+      # Register the output of this task for use within subsequent tasks
+      register: new_incident
+
+    - set_fact:
+        incident_number_cached: "{{ new_incident.record.number }}"
+        cacheable: true
+
+    - debug:
+
+        # Use the output of the incident creation task to display the incident number
+        msg: "A new incident has been created: {{ new_incident.record.number }}"
 
 EOF
 
-# # # chown files
-# sudo chown rhel:rhel /tmp/setup.yml
-# sudo chown rhel:rhel /tmp/inventory
-# sudo chown rhel:rhel /tmp/git-setup.yml
+# chown above file
+sudo chown rhel:rhel /home/rhel/servicenow_project/incident-create.yml
 
-# # # execute above playbook
+# Write a new playbook to create a template from above playbook
+tee /home/rhel/challenge-1/template-create.yml << EOF
+---
+- name: Create job template for create-incident
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - awx.awx
 
+  tasks:
 
-ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup.yml
+    - name: Post create-incident job template
+      job_template:
+        name: "1 - Create incident (incident-create.yml)"
+        job_type: "run"
+        organization: "Default"
+        inventory: "Demo Inventory"
+        project: "ServiceNow"
+        playbook: "student_project/incident-create.yml"
+        execution_environment: "ServiceNow EE"
+        use_fact_cache: false
+        credentials:
+          - "servicenow credential"
+        state: "present"
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
+
+EOF
+
+# chown above file
+sudo chown rhel:rhel /home/rhel/challenge-1/template-create.yml
+
+# Execute above playbook
+su - rhel -c 'ansible-playbook /home/rhel/challenge-1/template-create.yml'
+
+# Grant student account access to challenge job template  
+tee /home/rhel/challenge-1/role-update.yml << EOF
+---
+- name: Create job template for create-incident
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - awx.awx
+
+  tasks:
+
+    - name: Post create-incident job template
+      role:
+        user: student
+        role: execute
+        job_templates:
+          - "1 - Create incident (incident-create.yml)"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
+
+EOF
+
+# chown above file
+sudo chown rhel:rhel /home/rhel/challenge-1/role-update.yml
+
+# Execute above playbook
+su - rhel -c 'ansible-playbook /home/rhel/challenge-1/role-update.yml'

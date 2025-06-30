@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Untitled :: Ansible Automation Roadshow - Scenario 01</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-02.html">
-    <link rel="prev" href="module-01.html">
-    <link rel="next" href="module-03.html">
+    <link rel="canonical" href="https://redhat-scholars.github.io/course-template/modules/module-05.html">
+    <link rel="prev" href="module-04.html">
+    <link rel="next" href="module-06.html">
     <meta name="generator" content="Antora 3.1.10">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -58,18 +58,18 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-02.html">2. Problem Management</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#introduction">Introduction</a>
+    <a class="nav-link" href="module-02.html#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#attach">Attach Problem</a>
+    <a class="nav-link" href="module-02.html#attach">Attach Problem</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#inspect">Inspect Results</a>
+    <a class="nav-link" href="module-02.html#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -103,18 +103,18 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="module-05.html">5. Record Cleanup</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-05.html#introduction">Introduction</a>
+    <a class="nav-link" href="#introduction">Introduction</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-05.html#query">Query and Close Records</a>
+    <a class="nav-link" href="#query">Query and Close Records</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="module-05.html#inspect">Inspect Results</a>
+    <a class="nav-link" href="#inspect">Inspect Results</a>
   </li>
 </ul>
   </li>
@@ -164,7 +164,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Exercises</a></li>
-    <li><a href="module-02.html">2. Problem Management</a></li>
+    <li><a href="module-05.html">5. Record Cleanup</a></li>
   </ul>
 </nav>
 </div>
@@ -176,36 +176,20 @@
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>A problem in ServiceNow represents the cause of one or more incidents. The root cause of the problem may not be known at the time of creation and may require root cause analysis through the problem management process.</p>
+<p>It&#8217;s now time to cleanup the records that were created as a part of this learning track. To do this, we&#8217;re going to leverage different modules to locate records created by your ServiceNow user.</p>
 </div>
 <div class="paragraph">
-<p>Another playbook has been added to your working directory in VS Code and a template has been created to attach a problem to the incident previously created.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>First, inspect the playbook called <code>problem-attach.yml</code> in the <code>VS Code</code> tab.</p>
-</li>
-</ul>
-</div>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Notice that this playbook will first query for existing incident numbers that you have created and will use the value returned in the task that creates the problem.</p>
-</div>
-</blockquote>
+<p>To do this, inspect the playbook <code>close-records-by-user.yml</code> in VS Code. There are a few new modules here. These <code>*_info</code> modules are being used to query for different record types (incident, problem, and change_request) for active records created by your username. Ansible then transforms these returned records into simple lists of objects and passes the lists to their respective modules to update/close the records. For any fields not implemented by the module itself, there is a module parameter called <code>other</code> that can be used to specify any other field or custom fields for that particular table.</p>
 </div>
 <div class="paragraph">
-<p>▶️ Attach a problem</p>
+<p>▶️ Query and close records</p>
 </div>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Next, navigate to <code>Resources &gt; Templates</code> and execute the new job template from automation controller by pressing the rocket icon next to the template <code>2 - Attach problem (problem-attach.yml)</code>.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>To perform this automation:
+- Navigate to <code>Resources &gt; Templates</code> and launch the job template <code>5 - Query and close records by user (close-records-by-user.yml</code> in automation controller
+- Monitor the output of the job template and wait for the job to complete</p>
 </div>
 <div class="paragraph">
 <p>🔍 Inspect results</p>
@@ -213,16 +197,10 @@
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>That should have completed successfully! Go back to ServiceNow and check under your assigned problems for a new problem number:</p>
+<p>Once the job completes, all records that you had created in previous challenges should be closed or removed! The job output should show all the relevant record numbers that were cleaned up. Refresh your views in ServiceNow to see the updates.</p>
 </div>
 <div class="paragraph">
-<p>![new problem](<a href="https://play.instruqt.com/assets/tracks/faoq9b1onz2h/c4c44ecb1688eda15480ad90aceea18b/assets/new-problem.png" class="bare">https://play.instruqt.com/assets/tracks/faoq9b1onz2h/c4c44ecb1688eda15480ad90aceea18b/assets/new-problem.png</a>)</p>
-</div>
-<div class="paragraph">
-<p>You can also check to see if the status of the incident has been updated by selecting your incident number under <code>Self-service - Incidents</code>. There should now also be a problem referenced on the incident page.</p>
-</div>
-<div class="paragraph">
-<p>Move onto the next section by selecting the green "Next" button below.</p>
+<p>Now that everything has been cleaned up, move onto the next challenge! Click the green "Next" button below.</p>
 </div>
 <div class="paragraph">
 <p>🐛 Encountered an issue?</p>
@@ -230,11 +208,11 @@
 </div>
 </div>
 <div class="paragraph">
-<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+attach-problem+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;body).</p>
+<p>If you have encountered an issue or have noticed something not quite right, please [open an issue](<a href="https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&amp;title=New+servicenow+issue:+query-and-update-records+(Sandbox+id:+">[ Instruqt-Var key="SANDBOX" hostname="controller"</a>])&amp;assignees=cloin).</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="module-01.html" class="query-params-link">1. Creating Incidents</a></span>
-  <span class="next"><a href="module-03.html" class="query-params-link">3. Change Management</a></span>
+  <span class="prev"><a href="module-04.html" class="query-params-link">4. CMDB Management</a></span>
+  <span class="next"><a href="module-06.html" class="query-params-link">6. ServiceNow Inventory</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
