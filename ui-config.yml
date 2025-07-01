@@ -5,26 +5,27 @@ antora:
   dir: www
   modules:
     - name: module-01
-      label: "Backup and Snapshots"
+      label: "Incident creation"
       solveButton: false
     - name: module-02
-      label: "Infrastructure Reporting"
+      label: "Attaching a problem"
       solveButton: false
     - name: module-03
-      label: "Windows Reporting"
+      label: "Root cause, fix and close"
+      solveButton: false
+        - name: module-04
+      label: "Query and update ServiceNow"
+      solveButton: false
+    - name: module-05
+      label: "Query and update records"
+      solveButton: false
+    - name: module-06
+      label: "Use ServiceNow as an inventory"
       solveButton: false
 
 tabs:
-  - name: control
+  - name: aap
     url: https://control-${guid}.${domain}/
-  # - name: gitea
-  #   url: https://gitea-${guid}.${domain}/
-    external: false
-  - name: OpenScap Report
-    url: https://node02-${guid}.${domain}/oscap-reports/ospp/
-    external: false
-  - name: Windows
-    url: https://windows-ironrdp-${guid}.${domain}/
     external: false
   - name: ">_ control"
     url: /wetty
@@ -32,5 +33,3 @@ tabs:
     url: /wetty_node01
   - name: ">_ node02"
     url: /wetty_node02
-  - name: Cloud (PoC)
-    url: /cloud

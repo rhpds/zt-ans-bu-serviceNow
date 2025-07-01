@@ -1,6 +1,6 @@
 ---
 site:
-  title: Ansible Automation Roadshow - Scenario 01
+  title: Get started with ServiceNow automation
   url: https://redhat-scholars.github.io/course-template
   start_page: modules::index.adoc
 
