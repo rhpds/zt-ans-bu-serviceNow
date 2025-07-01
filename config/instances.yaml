@@ -1,6 +1,6 @@
 ---
 virtualmachines:
-  - name: "controller"
+  - name: "control"
     image: "base-zero-aap-2.5-container-ce"
     memory: "16G"
     cores: 4
@@ -11,16 +11,16 @@ virtualmachines:
     networks:
       - default
     services:
-      - name: controller-https
+      - name: control-https
         ports:
           - port: 443
             protocol: TCP
             targetPort: 443
-            name: controller-https
+            name: control-https
     routes:
-      - name: controller-https
-        host: controller
-        service: controller-https
+      - name: control-https
+        host: control
+        service: control-https
         targetPort: 443
         tls: true
         tls_termination: reencrypt
