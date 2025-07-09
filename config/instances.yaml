@@ -81,7 +81,7 @@ virtualmachines:
     # Add VS Code server route
     routes:
       - name: node01-vscode
-        host: vscode-node01
+        host: node01
         service: node01-vscode
         targetPort: 8080
         tls: false
