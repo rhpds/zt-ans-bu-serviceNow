@@ -13,7 +13,7 @@ antora:
     - name: module-03
       label: "Root cause, fix and close"
       solveButton: false
-        - name: module-04
+    - name: module-04
       label: "Query and update ServiceNow"
       solveButton: false
     - name: module-05
