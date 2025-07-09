@@ -35,5 +35,5 @@ tabs:
     url: /wetty_node02
   # Add VS Code server tab
   - name: "VS Code"
-    url: https://vscode-node01-${guid}.${domain}/
+    url: https://vscode-node01-${guid}.${domain}:8080/
     external: false
