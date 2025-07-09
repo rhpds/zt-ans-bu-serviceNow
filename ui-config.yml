@@ -33,3 +33,7 @@ tabs:
     url: /wetty_node01
   - name: ">_ node02"
     url: /wetty_node02
+  # Add VS Code server tab
+  - name: "VS Code"
+    url: https://vscode-node01-${guid}.${domain}/
+    external: false

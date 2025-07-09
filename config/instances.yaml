@@ -70,6 +70,21 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
+    # Add VS Code server service
+    services:
+      - name: node01-vscode
+        ports:
+          - port: 8080
+            protocol: TCP
+            targetPort: 8080
+            name: node01-vscode
+    # Add VS Code server route
+    routes:
+      - name: node01-vscode
+        host: vscode-node01
+        service: node01-vscode
+        targetPort: 8080
+        tls: false
     userdata: |-
       #cloud-config
       user: rhel
