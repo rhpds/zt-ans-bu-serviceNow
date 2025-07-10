@@ -5,6 +5,8 @@ virtualmachines:
     memory: "16G"
     cores: 4
     image_size: "30Gi"
+    terminals:
+      - name: wetty_sean
     tags:
       - key: "AnsibleGroup"
         value: "isolated"
@@ -17,7 +19,18 @@ virtualmachines:
             protocol: TCP
             targetPort: 443
             name: control-https
+      - name: control-vscode
+        ports:
+          - port: 8080
+            protocol: TCP
+            targetPort: 8080
+            name: control-vscode
     routes:
+      - name: control-vscode
+        host: control
+        service: control-vscode
+        targetPort: 8080
+        tls: false
       - name: control-https
         host: control
         service: control-https
@@ -70,21 +83,6 @@ virtualmachines:
         value: "isolated"
     networks:
       - default
-    # Add VS Code server service
-    services:
-      - name: node01-vscode
-        ports:
-          - port: 8080
-            protocol: TCP
-            targetPort: 8080
-            name: node01-vscode
-    # Add VS Code server route
-    routes:
-      - name: node01-vscode
-        host: node01
-        service: node01-vscode
-        targetPort: 8080
-        tls: false
     userdata: |-
       #cloud-config
       user: rhel
@@ -93,7 +91,6 @@ virtualmachines:
       runcmd:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
-
   - name: "node02"
     image: "rhel-9.5"
     memory: "2G"

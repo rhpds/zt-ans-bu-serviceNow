@@ -80,35 +80,7 @@ chmod -R 777 /backup
 # VS Code Server Setup using agnosticd role
 echo "Setting up VS Code Server..."
 
-# Clone agnosticd with sparse checkout for vscode-server role
-cd /tmp
-rm -rf agnosticd
-git clone --filter=blob:none --no-checkout https://github.com/redhat-cop/agnosticd.git
-cd agnosticd
-git sparse-checkout init --cone
-git sparse-checkout set ansible/roles/vscode-server
-git checkout
 
-tee /tmp/agnosticd/ansible/vscode-setup.yml << EOF
----
-- hosts: localhost
-  become: true
-  tasks:
-   - include_role:
-        name: vscode-server
-     vars:
-      vscode_user_name: rhel
-      vscode_user_password: ansible123!
-      vscode_server_hostname: 0.0.0.0
-      vscode_server_port: 8080
-      vscode_server_install_extension:
-        - redhat.ansible
-        - ms-python.python
-EOF
-
-# Run the ansible playbook
-cd /tmp/agnosticd
-ansible-playbook -i localhost, -c local vscode-setup.yml
 
 # Create servicenow project directory
 mkdir -p /home/rhel/servicenow_project

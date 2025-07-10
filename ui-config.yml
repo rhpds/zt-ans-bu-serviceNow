@@ -29,11 +29,13 @@ tabs:
     external: false
   - name: ">_ control"
     url: /wetty
+  - name: ">_ S.E.A.N"
+    url: /wetty_sean
   - name: ">_ node01"
     url: /wetty_node01
   - name: ">_ node02"
     url: /wetty_node02
   # Add VS Code server tab
   - name: "VS Code"
-    url: https://vscode-node01-${guid}.${domain}:8080/
+    url: https://control-${guid}.${domain}:8080/
     external: false
