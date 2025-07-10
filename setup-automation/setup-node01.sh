@@ -132,10 +132,6 @@ cat > /home/rhel/.local/share/code-server/User/settings.json << EOF
 EOF
 chown -R rhel:rhel /home/rhel/.local
 
-# Open firewall for VS Code server
-firewall-cmd --permanent --add-port=8080/tcp
-firewall-cmd --reload
-
 # Start and enable code-server
 systemctl daemon-reload
 systemctl enable code-server
