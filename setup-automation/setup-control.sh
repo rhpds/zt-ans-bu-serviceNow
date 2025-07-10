@@ -42,7 +42,7 @@ git sparse-checkout init --cone
 git sparse-checkout set ansible/roles/vscode-server
 git checkout
 
-tee /tmp/agnosticd/ansible/vscode-setup.yml << EOF
+tee /home/rhel/vscode-setup.yml << EOF
 ---
 - hosts: localhost
   become: true
@@ -60,7 +60,7 @@ tee /tmp/agnosticd/ansible/vscode-setup.yml << EOF
 EOF
 
 # Run the ansible playbook
-cd /tmp/agnosticd
+cd /home/rhel
 ansible-playbook -i localhost, -c local vscode-setup.yml
 
 # create a playbook to customize learner Controller
