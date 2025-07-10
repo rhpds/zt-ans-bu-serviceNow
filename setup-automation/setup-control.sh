@@ -19,27 +19,6 @@ git sparse-checkout init --cone
 git sparse-checkout set ansible/roles/vscode-server
 git checkout
 
-# VSCode server playbook
-tee /home/rhel/vscode-setup.yml << EOF
----
-- hosts: localhost
-  become: true
-  tasks:
-    - include_role:
-        name: vscode-server
-      vars:
-        vscode_user_name: rhel
-        vscode_user_password: ansible123!
-        vscode_server_hostname: 0.0.0.0
-        vscode_server_port: 8080
-        vscode_server_install_extension:
-          - redhat.ansible
-          - ms-python.python
-EOF
-
-cd /home/rhel
-ansible-playbook -i localhost, -c local vscode-setup.yml
-
 # Controller configuration playbook (local only)
 tee /home/rhel/setup-controller.yml << EOF
 ---
@@ -186,9 +165,34 @@ EOF
 # chown above file
 sudo chown rhel:rhel /home/rhel/setup-controller.yml
 
-# Run playbook (no external token needed)
+# Run playbook 
 echo "execute setup-controller playbook"
 su - rhel -c 'ansible-playbook /home/rhel/setup-controller.yml'
+
+# VSCode server playbook
+tee /home/rhel/vscode-setup.yml << EOF
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - include_role:
+        name: vscode-server
+      vars:
+        vscode_user_name: rhel
+        vscode_user_password: ansible123!
+        vscode_server_hostname: 0.0.0.0
+        vscode_server_port: 8080
+        vscode_server_install_extension:
+          - redhat.ansible
+          - ms-python.python
+EOF
+
+# chown above file
+sudo chown rhel:rhel /home/rhel/vscode-setup.yml
+
+# Run playbook 
+echo "execute vscode-setup playbook"
+su - rhel -c 'ansible-playbook /home/rhel/vscode-setup.yml'
 
 # Write credentials to README for learner
 su - rhel -c 'tee -a /home/rhel/servicenow_project/readme.md << EOF
