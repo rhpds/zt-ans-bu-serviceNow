@@ -5,8 +5,6 @@ virtualmachines:
     memory: "16G"
     cores: 4
     image_size: "30Gi"
-    terminals:
-      - name: wetty_sean
     tags:
       - key: "AnsibleGroup"
         value: "isolated"
