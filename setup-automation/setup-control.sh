@@ -161,13 +161,6 @@ sudo chown rhel:rhel /home/rhel/setup-controller.yml
 echo "execute setup-controller playbook"
 su - rhel -c 'ansible-playbook /home/rhel/setup-controller.yml'
 
-# chown above file
-sudo chown rhel:rhel /home/rhel/vscode-setup.yml
-
-# Run playbook 
-echo "execute vscode-setup playbook"
-su - rhel -c 'ansible-playbook /home/rhel/vscode-setup.yml'
-
 # Write credentials to README for learner
 su - rhel -c 'tee -a /home/rhel/servicenow_project/readme.md << EOF
 # Environment credentials
@@ -236,7 +229,6 @@ ansible-navigator:
     file: 'artifacts/ansible-navigator.log'
     level: warning
   editor:
-    command: code-server {filename}
     console: false
 EOL'
 

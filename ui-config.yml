@@ -29,6 +29,6 @@ tabs:
     external: false
   - name: ">_ control"
     url: /wetty
-  - name: "VS Code"
-    url: https://control-${guid}.${domain}:8080/
+  - name: "code server"
+    url: https://code-server-${guid}.${domain}:8080/
     external: false
