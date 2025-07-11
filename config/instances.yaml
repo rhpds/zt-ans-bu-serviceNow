@@ -97,6 +97,7 @@ virtualmachines:
         - systemctl reload sshd
   - name: code-server
     image: codercom/code-server:latest
+    image_size: "30Gi"
     command: [ "code-server" ]
     args: [ "--auth", "none", "--user-data-dir", "/home/coder/.local/share/code-server", "--extensions-dir", "/home/coder/.local/share/code-server/extensions", "--bind-addr", "0.0.0.0:8080", "/home/coder/project" ]
     ports:
