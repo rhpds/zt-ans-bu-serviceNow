@@ -109,6 +109,9 @@ virtualmachines:
     volumes:
       - name: code-storage
         emptyDir: {}
+    tags:
+      - key: "AnsibleGroup"
+        value: "isolated"
     memory: 2Gi
     environment:
       HOME: "/home/coder"
