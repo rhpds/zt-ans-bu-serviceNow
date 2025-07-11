@@ -10,14 +10,6 @@ su - rhel -c 'mkdir /home/rhel/servicenow_project'
 chmod a+x /home/rhel/
 su - awx -c 'ln -s /home/rhel/servicenow_project/ /var/lib/awx/projects/'
 
-# Clone agnosticd role (for vscode-server setup)
-cd /tmp
-rm -rf agnosticd
-git clone --filter=blob:none --no-checkout https://github.com/redhat-cop/agnosticd.git
-cd agnosticd
-git sparse-checkout init --cone
-git sparse-checkout set ansible/roles/vscode-server
-git checkout
 
 # Controller configuration playbook (local only)
 tee /home/rhel/setup-controller.yml << EOF
@@ -169,24 +161,6 @@ sudo chown rhel:rhel /home/rhel/setup-controller.yml
 echo "execute setup-controller playbook"
 su - rhel -c 'ansible-playbook /home/rhel/setup-controller.yml'
 
-# VSCode server playbook
-tee /home/rhel/vscode-setup.yml << EOF
----
-- hosts: localhost
-  become: true
-  tasks:
-    - include_role:
-        name: vscode-server
-      vars:
-        vscode_user_name: rhel
-        vscode_user_password: ansible123!
-        vscode_server_hostname: 0.0.0.0
-        vscode_server_port: 8080
-        vscode_server_install_extension:
-          - redhat.ansible
-          - ms-python.python
-EOF
-
 # chown above file
 sudo chown rhel:rhel /home/rhel/vscode-setup.yml
 
@@ -210,11 +184,6 @@ su - $USER -c 'loginctl enable-linger $USER'
 # Pull EE
 su - $USER -c 'podman pull quay.io/acme_corp/servicenow-ee:latest'
 
-# Install VSCode Ansible extension
-su - $USER -c 'code-server --install-extension redhat.ansible --force'
-
-# Set default vscode settings
-su - $USER -c 'cat >/home/$USER/.local/share/code-server/User/settings.json <<EOL
 {
   "git.ignoreLegacyWarning": true,
   "window.menuBarVisibility": "visible",

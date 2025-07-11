@@ -17,18 +17,6 @@ virtualmachines:
             protocol: TCP
             targetPort: 443
             name: control-https
-      - name: control-vscode
-        ports:
-          - port: 8080
-            protocol: TCP
-            targetPort: 8080
-            name: control-vscode
-    routes:
-      - name: control-vscode
-        host: control
-        service: control-vscode
-        targetPort: 8080
-        tls: false
       - name: control-https
         host: control
         service: control-https
