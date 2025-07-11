@@ -115,6 +115,8 @@ virtualmachines:
     tags:
       - key: "AnsibleGroup"
         value: "isolated"
+    networks:
+      - default
     environment:
       HOME: "/home/coder"
     services:
