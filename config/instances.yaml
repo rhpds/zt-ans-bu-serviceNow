@@ -104,6 +104,8 @@ virtualmachines:
       - name: code-server
         containerPort: 8080
         protocol: TCP
+        memory: "2G"
+        cores: 2
     volumeMounts:
       - name: code-storage
         mountPath: /home/coder/
@@ -113,7 +115,6 @@ virtualmachines:
     tags:
       - key: "AnsibleGroup"
         value: "isolated"
-    memory: 2Gi
     environment:
       HOME: "/home/coder"
     services:
