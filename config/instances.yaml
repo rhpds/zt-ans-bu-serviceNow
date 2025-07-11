@@ -98,14 +98,14 @@ virtualmachines:
   - name: code-server
     image: codercom/code-server:latest
     image_size: "30Gi"
+    memory: "2G"
+    cores: 2
     command: [ "code-server" ]
     args: [ "--auth", "none", "--user-data-dir", "/home/coder/.local/share/code-server", "--extensions-dir", "/home/coder/.local/share/code-server/extensions", "--bind-addr", "0.0.0.0:8080", "/home/coder/project" ]
     ports:
       - name: code-server
         containerPort: 8080
         protocol: TCP
-        memory: "2G"
-        cores: 2
     volumeMounts:
       - name: code-storage
         mountPath: /home/coder/
