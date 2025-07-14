@@ -69,7 +69,7 @@ tee /home/rhel/setup-controller.yml << EOF
       validate_certs: false
 
     - name: add ServiceNow Type
-    ansible.controller.credential_type:
+      ansible.controller.credential_type:
       name: ServiceNow
       description: ServiceNow Credential
       kind: cloud
