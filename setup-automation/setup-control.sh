@@ -39,10 +39,10 @@ tee /home/rhel/setup-controller.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
-        inputs:
-          SN_USERNAME: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
-          SN_PASSWORD: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
-          SN_HOST: https://ansible.service-now.com
+        #inputs:
+        #  SN_USERNAME: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
+        #  SN_PASSWORD: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
+        #  SN_HOST: https://ansible.service-now.com
 
     - name: add rhel machine credential
       awx.awx.credential:
@@ -166,8 +166,8 @@ su - rhel -c 'tee -a /home/rhel/servicenow_project/readme.md << EOF
 # Environment credentials
 
 ## ServiceNow
-- username: $(echo $INSTRUQT_PARTICIPANT_ID)
-- password: $(echo $INSTRUQT_PARTICIPANT_ID)
+#- username: $(echo $INSTRUQT_PARTICIPANT_ID)
+#- password: $(echo $INSTRUQT_PARTICIPANT_ID)
 
 EOF'
 
@@ -218,9 +218,8 @@ ansible-navigator:
     environment-variables:
       pass:
         - SN_HOST
-        - SN_USERNAME
-        - SN_PASSWORD
-        - INSTRUQT_PARTICIPANT_ID
+        #- SN_USERNAME
+        #- SN_PASSWORD
   playbook-artifact:
     enable: true
     save-as: "{playbook_dir}/artifacts/{playbook_name}-artifact-{time_stamp}.json"
@@ -234,8 +233,6 @@ EOL'
 
 # Set environment variables in bashrc for navigator
 su - $USER -c 'echo "export SN_HOST=https://ansible.service-now.com" >> /home/rhel/.bashrc'
-su - $USER -c 'echo "export SN_USERNAME=$INSTRUQT_PARTICIPANT_ID" >> /home/rhel/.bashrc'
-su - $USER -c 'echo "export SN_PASSWORD=$INSTRUQT_PARTICIPANT_ID" >> /home/rhel/.bashrc'
 
 # Clean up old navigator
 su - $USER -c 'sudo dnf -y remove ansible-navigator'
