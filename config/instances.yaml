@@ -31,8 +31,8 @@ containers:
         targetPort: 8080
         tls: true
         tls_termination: Edge
-    commands:
-      - git clone http://gitea:gitea@gitea:3000/student/aap25-roadshow-content.git /home/coder/project
+    #commands:
+    #  - git clone http://gitea:gitea@gitea:3000/student/aap25-roadshow-content.git /home/coder/project
 virtualmachines:
   - name: "control"
     image: "base-zero-aap-2.5-container-ce"
