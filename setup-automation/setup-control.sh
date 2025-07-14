@@ -52,66 +52,66 @@ tee /home/rhel/setup-controller.yml << EOF
   tasks:
     - name: Add EE to the controller instance
       ansible.controller.execution_environment:
-      name: "RHEL EE"
-      image: quay.io/acme_corp/rhel_90_ee:latest
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
+        name: "RHEL EE"
+        image: quay.io/acme_corp/rhel_90_ee:latest
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
     
     - name: Add EE to the controller instance
       ansible.controller.execution_environment:
-      name: "ServiceNow EE"
-      image: quay.io/acme_corp/servicenow-ee:latest
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
+        name: "ServiceNow EE"
+        image: quay.io/acme_corp/servicenow-ee:latest
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
 
     - name: add ServiceNow Type
       ansible.controller.credential_type:
-      name: ServiceNow
-      description: ServiceNow Credential
-      kind: cloud
-      inputs: 
-        fields:
-          - id: SN_HOST
-            type: string
-            label: SNOW Instance
-          - id: SN_USERNAME
-            type: string
-            label: SNOW Username
-          - id: SN_PASSWORD
-            type: string
-            secret: true
-            label: SNOW Password
-        required:
-          - SN_HOST
-          - SN_USERNAME
-          - SN_PASSWORD
-      injectors:
-          env:
-           SN_HOST: "{{ SN_HOST_VAR }}"
-           SN_USERNAME: "{{ SN_USER_VAR }}"
-           SN_PASSWORD: "{{ SN_PASSWORD_VAR }}"
-      state: present
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
+        name: ServiceNow
+        description: ServiceNow Credential
+        kind: cloud
+        inputs: 
+          fields:
+            - id: SN_HOST
+              type: string
+              label: SNOW Instance
+            - id: SN_USERNAME
+              type: string
+              label: SNOW Username
+            - id: SN_PASSWORD
+              type: string
+              secret: true
+              label: SNOW Password
+          required:
+            - SN_HOST
+            - SN_USERNAME
+            - SN_PASSWORD
+        injectors:
+            env:
+              SN_HOST: "{{ SN_HOST_VAR }}"
+              SN_USERNAME: "{{ SN_USER_VAR }}"
+              SN_PASSWORD: "{{ SN_PASSWORD_VAR }}"
+        state: present
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
 
-  - name: add snow credential
-    ansible.controller.credential:
-      name: 'ServiceNow'
-      organization: Default
-      credential_type: ServiceNow
-      controller_host: "https://localhost"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-      inputs:
-        SN_USERNAME: aap-roadshow
-        SN_PASSWORD: Ans1ble123!
-        SN_HOST: https://ansible.service-now.com
+    - name: add snow credential
+      ansible.controller.credential:
+        name: 'ServiceNow'
+        organization: Default
+        credential_type: ServiceNow
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
+        inputs:
+          SN_USERNAME: aap-roadshow
+          SN_PASSWORD: Ans1ble123!
+          SN_HOST: https://ansible.service-now.com
 
     - name: add rhel machine credential
       awx.awx.credential:
@@ -194,7 +194,7 @@ tee /home/rhel/setup-controller.yml << EOF
         validate_certs: false
 
     - name: Post SNOW user create job template
-      job_template:
+      awx.awx.job_template:
         name: "0 - Create SNOW demo user"
         job_type: "run"
         organization: "Default"
@@ -204,7 +204,7 @@ tee /home/rhel/setup-controller.yml << EOF
         execution_environment: "ServiceNow EE"
         ask_variables_on_launch: true
         credentials:
-          - "servicenow credential"
+          - "ServiceNow"
         state: "present"
         controller_host: "https://localhost"
         controller_username: admin
