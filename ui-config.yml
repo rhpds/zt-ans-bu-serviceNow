@@ -32,3 +32,5 @@ tabs:
   - name: "code server"
     url: https://code-server-${guid}.${domain}:8080/
     external: false
+  - name: ServiceNow
+    url: https://ansible.service-now.com

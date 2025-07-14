@@ -10,6 +10,30 @@ su - rhel -c 'mkdir /home/rhel/servicenow_project'
 chmod a+x /home/rhel/
 su - awx -c 'ln -s /home/rhel/servicenow_project/ /var/lib/awx/projects/'
 
+# Create an inventory file for this environment
+tee /tmp/inventory << EOF
+[nodes]
+node01
+node02
+
+[storage]
+storage01
+
+[all]
+node01
+node02
+aap
+
+[all:vars]
+ansible_user = rhel
+ansible_password = ansible123!
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_python_interpreter=/usr/bin/python3
+
+EOF
+
+sudo chown rhel:rhel /tmp/inventory
+
 
 # Controller configuration playbook (local only)
 tee /home/rhel/setup-controller.yml << EOF
@@ -18,31 +42,76 @@ tee /home/rhel/setup-controller.yml << EOF
   hosts: localhost
   connection: local
   collections:
-    - awx.awx
+    - ansible.controller
+  vars:
+    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+    SN_HOST_VAR: "{{ '{{' }} SN_HOST {{ '}}' }}"
+    SN_USER_VAR: "{{ '{{' }} SN_USERNAME {{ '}}' }}"
+    SN_PASSWORD_VAR: "{{ '{{' }} SN_PASSWORD {{ '}}' }}"
+
   tasks:
-
     - name: Add EE to the controller instance
-      awx.awx.execution_environment:
-        name: "ServiceNow EE"
-        image: quay.io/acme_corp/servicenow-ee:latest
-        controller_host: "https://localhost"
-        controller_username: admin
-        controller_password: ansible123!
-        validate_certs: false
+    ansible.controller.execution_environment:
+      name: "RHEL EE"
+      image: quay.io/acme_corp/rhel_90_ee:latest
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+    
+    - name: Add EE to the controller instance
+    ansible.controller.execution_environment:
+      name: "ServiceNow EE"
+      image: quay.io/acme_corp/servicenow-ee:latest
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
 
-    - name: add snow credential
-      awx.awx.credential:
-        name: 'servicenow credential'
-        organization: Default
-        credential_type: servicenow.itsm
-        controller_host: "https://localhost"
-        controller_username: admin
-        controller_password: ansible123!
-        validate_certs: false
-        #inputs:
-        #  SN_USERNAME: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
-        #  SN_PASSWORD: "{{ lookup('env', 'INSTRUQT_PARTICIPANT_ID') }}"
-        #  SN_HOST: https://ansible.service-now.com
+    - name: add ServiceNow Type
+    ansible.controller.credential_type:
+      name: ServiceNow
+      description: ServiceNow Credential
+      kind: cloud
+      inputs: 
+        fields:
+          - id: SN_HOST
+            type: string
+            label: SNOW Instance
+          - id: SN_USERNAME
+            type: string
+            label: SNOW Username
+          - id: SN_PASSWORD
+            type: string
+            secret: true
+            label: SNOW Password
+        required:
+          - SN_HOST
+          - SN_USERNAME
+          - SN_PASSWORD
+      injectors:
+          env:
+           SN_HOST: "{{ SN_HOST_VAR }}"
+           SN_USERNAME: "{{ SN_USER_VAR }}"
+           SN_PASSWORD: "{{ SN_PASSWORD_VAR }}"
+      state: present
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+  - name: add snow credential
+    ansible.controller.credential:
+      name: 'ServiceNow'
+      organization: Default
+      credential_type: ServiceNow
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+      inputs:
+        SN_USERNAME: aap-roadshow
+        SN_PASSWORD: Ans1ble123!
+        SN_HOST: https://ansible.service-now.com
 
     - name: add rhel machine credential
       awx.awx.credential:
@@ -161,49 +230,11 @@ sudo chown rhel:rhel /home/rhel/setup-controller.yml
 echo "execute setup-controller playbook"
 su - rhel -c 'ansible-playbook /home/rhel/setup-controller.yml'
 
-# Write credentials to README for learner
-su - rhel -c 'tee -a /home/rhel/servicenow_project/readme.md << EOF
-# Environment credentials
-
-## ServiceNow
-#- username: $(echo $INSTRUQT_PARTICIPANT_ID)
-#- password: $(echo $INSTRUQT_PARTICIPANT_ID)
-
 EOF'
 
 # Enable linger so podman can function for user
 su - $USER -c 'loginctl enable-linger $USER'
 
-# Pull EE
-su - $USER -c 'podman pull quay.io/acme_corp/servicenow-ee:latest'
-
-{
-  "git.ignoreLegacyWarning": true,
-  "window.menuBarVisibility": "visible",
-  "git.enableSmartCommit": true,
-  "workbench.tips.enabled": false,
-  "workbench.startupEditor": "readme",
-  "telemetry.enableTelemetry": false,
-  "search.smartCase": true,
-  "git.confirmSync": false,
-  "workbench.colorTheme": "Solarized Dark",
-  "update.showReleaseNotes": false,
-  "update.mode": "none",
-  "ansible.ansibleLint.enabled": true,
-  "ansible.ansible.useFullyQualifiedCollectionNames": true,
-  "redhat.telemetry.enabled": true,
-  "markdown.preview.doubleClickToSwitchToEditor": false,
-  "files.exclude": {
-    "**/.*": true
-  },
-  "ansible.executionEnvironment.enabled": true,
-  "ansible.executionEnvironment.image": "quay.io/acme_corp/servicenow-ee:latest",
-  "ansibleServer.trace.server": "verbose",
-  "files.associations": {
-    "*.yml": "ansible"
-  }
-}
-EOL'
 
 # Write ansible-navigator config
 su - $USER -c 'cat >/home/rhel/servicenow_project/ansible-navigator.yml <<EOL
