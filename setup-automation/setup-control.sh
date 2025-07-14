@@ -51,7 +51,7 @@ tee /home/rhel/setup-controller.yml << EOF
 
   tasks:
     - name: Add EE to the controller instance
-    ansible.controller.execution_environment:
+      ansible.controller.execution_environment:
       name: "RHEL EE"
       image: quay.io/acme_corp/rhel_90_ee:latest
       controller_host: "https://localhost"
@@ -60,7 +60,7 @@ tee /home/rhel/setup-controller.yml << EOF
       validate_certs: false
     
     - name: Add EE to the controller instance
-    ansible.controller.execution_environment:
+      ansible.controller.execution_environment:
       name: "ServiceNow EE"
       image: quay.io/acme_corp/servicenow-ee:latest
       controller_host: "https://localhost"
