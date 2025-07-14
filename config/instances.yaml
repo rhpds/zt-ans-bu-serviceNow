@@ -96,6 +96,8 @@ virtualmachines:
         - echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/50-cloud-init.conf
         - systemctl reload sshd
   - name: code-server
+    image_type: registry
+    image: codercom/code-server:latest
     containerDisk: codercom/code-server:latest
     image_size: "30Gi"
     memory: "2G"
