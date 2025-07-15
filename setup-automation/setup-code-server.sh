@@ -1,4 +1,5 @@
 #!/bin/bash
+USER=rhel
 
 # Pull the servicenow EE
 su - $USER -c 'podman pull quay.io/acme_corp/servicenow-ee:latest'
