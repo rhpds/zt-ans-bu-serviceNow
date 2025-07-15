@@ -4,7 +4,6 @@ USER=rhel
 #Make sure collection is installed
 ansible-galaxy collection install ansible.controller
 
-
 # Create an inventory file for this environment
 tee /tmp/inventory << EOF
 [nodes]
