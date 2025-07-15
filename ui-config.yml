@@ -34,3 +34,4 @@ tabs:
     external: false
   - name: ServiceNow
     url: https://ansible.service-now.com
+    external: true
