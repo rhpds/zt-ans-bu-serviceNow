@@ -14,14 +14,13 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
     - ansible.controller
 
   tasks:
-
     - name: Post create-incident job template
       ansible.controller.job_template:
         name: "1 - Create incident (incident-create.yml)"
         job_type: "run"
         organization: "Default"
         inventory: "Demo Inventory"
-        project: "ServiceNow"
+        project: "ServiceNow - admin"
         playbook: "student_project/incident-create.yml"
         execution_environment: "ServiceNow EE"
         use_fact_cache: false
@@ -38,9 +37,6 @@ EOF
 chown rhel:rhel /home/rhel/challenge-1/template-create.yml
 
 ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /home/rhel/challenge-1/template-create.yml
-
-# Execute the playbook to create the job template
-ansible-playbook /home/rhel/challenge-1/template-create.yml
 
 # Write a new playbook to grant the student access to the job template
 tee /home/rhel/challenge-1/role-update.yml << EOF
@@ -69,4 +65,4 @@ EOF
 chown rhel:rhel /home/rhel/challenge-1/role-update.yml
 
 # Execute the playbook to assign role access
-ansible-playbook /home/rhel/challenge-1/role-update.yml
+ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /home/rhel/challenge-1/role-update.yml

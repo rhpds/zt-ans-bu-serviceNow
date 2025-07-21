@@ -61,7 +61,7 @@ tee /tmp/setup-controller.yml << EOF
 
     - name: add ServiceNow Type
       ansible.controller.credential_type:
-        name: ServiceNow
+        name: 'ServiceNow Credential'
         description: ServiceNow Credential
         kind: cloud
         inputs: 
@@ -92,7 +92,7 @@ tee /tmp/setup-controller.yml << EOF
 
     - name: add snow credential
       ansible.controller.credential:
-        name: 'ServiceNow'
+        name: 'ServiceNow credential'
         organization: Default
         credential_type: ServiceNow
         controller_host: "https://localhost"
@@ -161,18 +161,6 @@ tee /tmp/setup-controller.yml << EOF
       ansible.controller.project:
         name: "ServiceNow - admin"
         description: "Project containing users ServiceNow playbooks for admin use"
-        organization: Default
-        state: present
-        scm_type: git
-        scm_url: https://github.com/cloin/instruqt-snow
-        controller_host: "https://localhost"
-        controller_username: admin
-        controller_password: ansible123!
-        validate_certs: false
-    - name: Add student project
-      ansible.controller.project:
-        name: "ServiceNow"
-        description: "Project containing users ServiceNow playbooks"
         organization: Default
         state: present
         scm_type: git
