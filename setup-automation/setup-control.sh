@@ -169,6 +169,18 @@ tee /tmp/setup-controller.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
+    - name: Add student project
+      ansible.controller.project:
+        name: "ServiceNow"
+        description: "Project containing users ServiceNow playbooks"
+        organization: Default
+        state: present
+        scm_type: git
+        scm_url: https://github.com/cloin/instruqt-snow
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
     - name: Delete native job template
       ansible.controller.job_template:
         name: "Demo Job Template"

@@ -16,7 +16,7 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
   tasks:
 
     - name: Post create-incident job template
-      job_template:
+      ansible.controller.job_template:
         name: "1 - Create incident (incident-create.yml)"
         job_type: "run"
         organization: "Default"
@@ -26,7 +26,7 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
         execution_environment: "ServiceNow EE"
         use_fact_cache: false
         credentials:
-          - "servicenow credential"
+          - "ServiceNow"
         state: "present"
         controller_host: "https://localhost"
         controller_username: admin
@@ -36,6 +36,8 @@ EOF
 
 # chown above file
 chown rhel:rhel /home/rhel/challenge-1/template-create.yml
+
+ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /home/rhel/challenge-1/template-create.yml
 
 # Execute the playbook to create the job template
 ansible-playbook /home/rhel/challenge-1/template-create.yml
