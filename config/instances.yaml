@@ -61,7 +61,18 @@ virtualmachines:
             protocol: TCP
             targetPort: 443
             name: control-https
+      - name: control-uvicorn
+        ports:
+          - port: 8501
+            protocol: TCP
+            targetPort: 8501
+            name: control-uvicorn
     routes:
+      - name: control-uvicorn
+        host: uvicorn
+        service: control-uvicorn
+        targetPort: 8501
+        tls: false
       - name: control-https
         host: control
         service: control-https

@@ -169,6 +169,14 @@ tee /tmp/setup-controller.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
+    - name: Delete native job template
+      ansible.controller.job_template:
+        name: "Demo Job Template"
+        state: "absent"
+        controller_username: admin
+        controller_password: ansible123!
+        controller_host: "https://localhost"
+        validate_certs: false
 
 EOF
 

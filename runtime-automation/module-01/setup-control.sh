@@ -1,56 +1,9 @@
 #!/bin/bash
 
 # make challenge dir
-su - rhel -c 'mkdir /home/rhel/challenge-1'
+mkdir -p /home/rhel/challenge-1
 
-# Create a playbook for the user to execute which will create a SN incident
-tee /home/rhel/servicenow_project/incident-create.yml << EOF
----
-- name: Automate SNOW 
-  hosts: localhost
-  connection: local
-  collections:
-    - servicenow.itsm
-
-  tasks:
-
-    # Always give your tasks a useful name
-    - name: Create incident
-
-      # This task leverages the 'incident' module from the 'itsm' collection 
-      # within the 'servicenow' namespace
-      servicenow.itsm.incident:
-
-        state: new
-        caller: "{{ lookup('env', 'SN_USERNAME') }}"
-
-        # Feel free to modify this line
-        short_description: "User created a new incident using Ansible Automation Platform"
-
-        # These fields can also contain different variables from previous workflow steps,
-        # environment variables, etc.. Feel free to modify this line
-        description: "User {{ lookup('env', 'SN_USERNAME') }} successfully created a new incident!"
-        impact: low
-        urgency: low
-      
-      # Register the output of this task for use within subsequent tasks
-      register: new_incident
-
-    - set_fact:
-        incident_number_cached: "{{ new_incident.record.number }}"
-        cacheable: true
-
-    - debug:
-
-        # Use the output of the incident creation task to display the incident number
-        msg: "A new incident has been created: {{ new_incident.record.number }}"
-
-EOF
-
-# chown above file
-sudo chown rhel:rhel /home/rhel/servicenow_project/incident-create.yml
-
-# Write a new playbook to create a template from above playbook
+# Write a new playbook to create a job template from the previous playbook
 tee /home/rhel/challenge-1/template-create.yml << EOF
 ---
 - name: Create job template for create-incident
@@ -58,7 +11,7 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
   connection: local
   gather_facts: false
   collections:
-    - awx.awx
+    - ansible.controller
 
   tasks:
 
@@ -79,28 +32,27 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
-
 EOF
 
 # chown above file
-sudo chown rhel:rhel /home/rhel/challenge-1/template-create.yml
+chown rhel:rhel /home/rhel/challenge-1/template-create.yml
 
-# Execute above playbook
-su - rhel -c 'ansible-playbook /home/rhel/challenge-1/template-create.yml'
+# Execute the playbook to create the job template
+ansible-playbook /home/rhel/challenge-1/template-create.yml
 
-# Grant student account access to challenge job template  
+# Write a new playbook to grant the student access to the job template
 tee /home/rhel/challenge-1/role-update.yml << EOF
 ---
-- name: Create job template for create-incident
+- name: Grant 'student' execute access to job template
   hosts: localhost
   connection: local
   gather_facts: false
   collections:
-    - awx.awx
+    - ansible.controller
 
   tasks:
 
-    - name: Post create-incident job template
+    - name: Add execute role for student
       role:
         user: student
         role: execute
@@ -109,11 +61,10 @@ tee /home/rhel/challenge-1/role-update.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
-
 EOF
 
 # chown above file
-sudo chown rhel:rhel /home/rhel/challenge-1/role-update.yml
+chown rhel:rhel /home/rhel/challenge-1/role-update.yml
 
-# Execute above playbook
-su - rhel -c 'ansible-playbook /home/rhel/challenge-1/role-update.yml'
+# Execute the playbook to assign role access
+ansible-playbook /home/rhel/challenge-1/role-update.yml
