@@ -157,6 +157,18 @@ tee /tmp/setup-controller.yml << EOF
         controller_username: admin
         controller_password: ansible123!
         validate_certs: false
+    - name: Add admin project
+      ansible.controller.project:
+        name: "ServiceNow - admin"
+        description: "Project containing users ServiceNow playbooks for admin use"
+        organization: Default
+        state: present
+        scm_type: git
+        scm_url: https://github.com/cloin/instruqt-snow
+        controller_host: "https://localhost"
+        controller_username: admin
+        controller_password: ansible123!
+        validate_certs: false
 
 EOF
 
