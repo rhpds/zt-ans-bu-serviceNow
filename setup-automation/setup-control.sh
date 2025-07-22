@@ -183,6 +183,7 @@ EOF
 # chown above file
 sudo chown rhel:rhel /tmp/setup-controller.yml
 sudo chown rhel:rhel /tmp/inventory
+sudo chown -R rhel:rhel /root/.ansible/collections
 
 sleep 20
 
