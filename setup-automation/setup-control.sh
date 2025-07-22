@@ -50,7 +50,7 @@ tee /tmp/setup-controller.yml << EOF
         controller_password: ansible123!
         validate_certs: false
     
-    - name: Add EE to the controller instance
+    - name: Add SNOW EE to the controller instance
       ansible.controller.execution_environment:
         name: "ServiceNow EE"
         image: quay.io/acme_corp/servicenow-ee:latest
