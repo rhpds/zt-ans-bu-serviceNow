@@ -34,7 +34,7 @@ tee /tmp/setup-controller.yml << EOF
   collections:
     - ansible.controller
   vars:
-    SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
+    #SANDBOX_ID: "{{ lookup('env', '_SANDBOX_ID') | default('SANDBOX_ID_NOT_FOUND', true) }}"
     SN_HOST_VAR: "{{ '{{' }} SN_HOST {{ '}}' }}"
     SN_USER_VAR: "{{ '{{' }} SN_USERNAME {{ '}}' }}"
     SN_PASSWORD_VAR: "{{ '{{' }} SN_PASSWORD {{ '}}' }}"
@@ -91,7 +91,7 @@ tee /tmp/setup-controller.yml << EOF
 
     - name: add snow credential
       ansible.controller.credential:
-        name: 'ServiceNow credential'
+        name: 'ServiceNow Credential'
         organization: Default
         credential_type: 'ServiceNow Credential'
         controller_host: "https://localhost"
@@ -186,5 +186,4 @@ sudo chown rhel:rhel /tmp/inventory
 
 sleep 20
 
-sudo -u rhel ANSIBLE_COLLECTIONS_PATH=/home/rhel/.ansible/collections:/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
 #ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
