@@ -1,5 +1,4 @@
 #!/bin/bash
-USER=rhel
 
 #Make sure collection is installed
 ansible-galaxy collection install ansible.controller
@@ -187,4 +186,5 @@ sudo chown rhel:rhel /tmp/inventory
 
 sleep 20
 
-ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
+sudo -u rhel ANSIBLE_COLLECTIONS_PATH=/home/rhel/.ansible/collections:/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
+#ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
