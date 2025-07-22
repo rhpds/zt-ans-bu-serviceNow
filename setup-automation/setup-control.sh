@@ -140,8 +140,8 @@ tee /tmp/setup-controller.yml << EOF
         controller_password: ansible123!
         validate_certs: false
       loop:
-        - node1
-        - node2
+        - node01
+        - node02
 
     - name: Add group
       ansible.controller.group:
@@ -149,8 +149,8 @@ tee /tmp/setup-controller.yml << EOF
         description: "rhel host group"
         inventory: rhel inventory
         hosts:
-          - node1
-          - node2
+          - node01
+          - node02
         variables:
           ansible_user: rhel
         controller_host: "https://localhost"
