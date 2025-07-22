@@ -187,5 +187,5 @@ sudo chown rhel:rhel /tmp/inventory
 sleep 20
 
 # Run the playbook with the correct collections path environment variable and only existing paths
-ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections" \
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
 ansible-playbook -i /tmp/inventory /tmp/setup-controller.yml
