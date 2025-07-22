@@ -94,7 +94,7 @@ tee /tmp/setup-controller.yml << EOF
       ansible.controller.credential:
         name: 'ServiceNow credential'
         organization: Default
-        credential_type: ServiceNow
+        credential_type: 'ServiceNow Credential'
         controller_host: "https://localhost"
         controller_username: admin
         controller_password: ansible123!
@@ -172,6 +172,7 @@ tee /tmp/setup-controller.yml << EOF
     - name: Delete native job template
       ansible.controller.job_template:
         name: "Demo Job Template"
+        organization: Default
         state: "absent"
         controller_username: admin
         controller_password: ansible123!
