@@ -11,23 +11,23 @@ tee /tmp/template-create.yml << EOF
     - ansible.controller
 
   tasks:
-    - name: Post create-incident job template
-      ansible.controller.job_template:
-        name: "1 - Create incident (incident-create.yml)"
-        job_type: "run"
-        organization: "Default"
-        inventory: "Demo Inventory"
-        project: "ServiceNow - admin"
-        playbook: "student_project/incident-create.yml"
-        execution_environment: "ServiceNow EE"
-        use_fact_cache: false
-        credentials:
-          - "ServiceNow"
-        state: "present"
-        controller_host: "https://localhost"
-        controller_username: admin
-        controller_password: ansible123!
-        validate_certs: false
+  - name: Post create-incident job template
+    ansible.controller.job_template:
+      name: "1 - Create incident (incident-create.yml)"
+      job_type: "run"
+      organization: "Default"
+      inventory: "Demo Inventory"
+      project: "ServiceNow - admin"
+      playbook: "student_project/incident-create.yml"
+      execution_environment: "ServiceNow EE"
+      use_fact_cache: false
+      credentials:
+        - "ServiceNow"
+      state: "present"
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
 EOF
 
 # chown above file
@@ -47,16 +47,15 @@ tee /tmp/role-update.yml << EOF
     - ansible.controller
 
   tasks:
-
-    - name: Add execute role for student
-      role:
-        user: student
-        role: execute
-        job_templates:
-          - "1 - Create incident (incident-create.yml)"
-        controller_username: admin
-        controller_password: ansible123!
-        validate_certs: false
+  - name: Add execute role for student
+    role:
+      user: student
+      role: execute
+      job_templates:
+        - "1 - Create incident (incident-create.yml)"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
 EOF
 
 # chown above file
