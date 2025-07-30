@@ -39,6 +39,7 @@ ansible-playbook -i /tmp/inventory /tmp/template-create.yml
 # Write a new playbook to grant the student access to the job template
 tee /tmp/role-update.yml << EOF
 ---
+
 - name: Grant 'student' execute access to job template
   hosts: localhost
   connection: local
@@ -47,6 +48,18 @@ tee /tmp/role-update.yml << EOF
     - ansible.controller
 
   tasks:
+  - name: Create student user
+  ansible.controller.user:
+    username: student
+    password: student123!
+    email: student@example.com
+    first_name: Student
+    last_name: User
+    is_superuser: false
+    controller_username: admin
+    controller_password: ansible123!
+    validate_certs: false
+    
   - name: Add execute role for student
     role:
       user: student
