@@ -49,7 +49,7 @@ tee /tmp/role-update.yml << EOF
 
   tasks:
   - name: Create student user
-    ansible.controller.user:
+    ansible.platform.user:
       username: student
       password: student123!
       email: student@example.com
@@ -61,7 +61,7 @@ tee /tmp/role-update.yml << EOF
       validate_certs: false
     
   - name: Add execute role for student
-    ansible.controller.role:
+    ansible.platform.role:
       user: student
       role: execute
       job_templates:
@@ -69,6 +69,7 @@ tee /tmp/role-update.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
+
 EOF
 
 # chown above file

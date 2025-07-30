@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Make sure collection is installed
-ansible-galaxy collection install ansible.controller
+ansible-galaxy collection install ansible.controller ansible.platform
 
 # Create an inventory file for this environment
 tee /tmp/inventory << EOF
