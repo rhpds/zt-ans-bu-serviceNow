@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# make challenge dir
-mkdir -p /home/rhel/challenge-1
-
 # Write a new playbook to create a job template from the previous playbook
-tee /home/rhel/challenge-1/template-create.yml << EOF
+tee /tmp/template-create.yml << EOF
 ---
 - name: Create job template for create-incident
   hosts: localhost
@@ -34,12 +31,13 @@ tee /home/rhel/challenge-1/template-create.yml << EOF
 EOF
 
 # chown above file
-chown rhel:rhel /home/rhel/challenge-1/template-create.yml
+chown rhel:rhel /tmp/template-create.yml
 
-ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /home/rhel/challenge-1/template-create.yml
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
+ansible-playbook -i /tmp/inventory /tmp/template-create.yml
 
 # Write a new playbook to grant the student access to the job template
-tee /home/rhel/challenge-1/role-update.yml << EOF
+tee /tmp/role-update.yml << EOF
 ---
 - name: Grant 'student' execute access to job template
   hosts: localhost
@@ -62,7 +60,8 @@ tee /home/rhel/challenge-1/role-update.yml << EOF
 EOF
 
 # chown above file
-chown rhel:rhel /home/rhel/challenge-1/role-update.yml
+chown rhel:rhel /tmp/template-create.yml
 
 # Execute the playbook to assign role access
-ANSIBLE_COLLECTIONS_PATH=/tmp/ansible-automation-platform-containerized-setup-bundle-2.5-9-x86_64/collections/:/root/.ansible/collections/ansible_collections/ ansible-playbook -i /tmp/inventory /home/rhel/challenge-1/role-update.yml
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
+ansible-playbook -i /tmp/inventory /tmp/role-update.yml
