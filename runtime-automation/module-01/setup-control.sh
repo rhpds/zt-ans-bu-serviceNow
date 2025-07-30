@@ -22,7 +22,7 @@ tee /tmp/template-create.yml << EOF
       execution_environment: "ServiceNow EE"
       use_fact_cache: false
       credentials:
-        - "ServiceNow"
+        - "ServiceNow Credential"
       state: "present"
       controller_host: "https://localhost"
       controller_username: admin
@@ -49,19 +49,19 @@ tee /tmp/role-update.yml << EOF
 
   tasks:
   - name: Create student user
-  ansible.controller.user:
-    username: student
-    password: student123!
-    email: student@example.com
-    first_name: Student
-    last_name: User
-    is_superuser: false
-    controller_username: admin
-    controller_password: ansible123!
-    validate_certs: false
+    ansible.controller.user:
+      username: student
+      password: student123!
+      email: student@example.com
+      first_name: Student
+      last_name: User
+      is_superuser: false
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
     
   - name: Add execute role for student
-    role:
+    ansible.controller.role:
       user: student
       role: execute
       job_templates:
