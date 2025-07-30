@@ -16,7 +16,7 @@ tee /tmp/template-create.yml << EOF
       name: "1 - Create incident (incident-create.yml)"
       job_type: "run"
       organization: "Default"
-      inventory: "Demo Inventory"
+      inventory: "rhel inventory"
       project: "ServiceNow - admin"
       playbook: "student_project/incident-create.yml"
       execution_environment: "ServiceNow EE"
@@ -35,4 +35,3 @@ chown rhel:rhel /tmp/template-create.yml
 
 ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
 ansible-playbook -i /tmp/inventory /tmp/template-create.yml
-

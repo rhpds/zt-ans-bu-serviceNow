@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Make sure collection is installed
-ansible-galaxy collection install ansible.controller ansible.platform
+ansible-galaxy collection install ansible.controller ansible.platform servicenow.itsm
 
 # Create an inventory file for this environment
 tee /tmp/inventory << EOF
