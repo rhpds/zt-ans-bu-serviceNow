@@ -16,7 +16,7 @@ tee /tmp/template-create.yml << EOF
       name: "1 - Create incident (incident-create.yml)"
       job_type: "run"
       organization: "Default"
-      inventory: "rhel inventory"
+      inventory: "Demo Inventory"
       project: "ServiceNow - admin"
       playbook: "student_project/incident-create.yml"
       execution_environment: "ServiceNow EE"

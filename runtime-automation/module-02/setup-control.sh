@@ -72,7 +72,7 @@ tee /tmp/template-create-problem.yml << EOF
       name: "2 - Attach problem (problem-attach.yml)"
       job_type: "run"
       organization: "Default"
-      inventory: "rhel inventory"
+      inventory: "Demo Inventory"
       project: "ServiceNow - admin"
       playbook: "student_project/problem-attach.yml"
       execution_environment: "ServiceNow EE"
