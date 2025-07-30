@@ -74,11 +74,11 @@ tee /tmp/template-create-problem-attach.yml << EOF
       job_type: "run"
       organization: "Default"
       inventory: "Demo Inventory"
-      project: "ServiceNow"
+      project: "ServiceNow - admin"
       playbook: "student_project/change-attach.yml"
       execution_environment: "ServiceNow EE"
       credentials:
-        - "servicenow credential"
+        - "ServiceNow Credential"
       state: "present"
       # ask_variables_on_launch: true
       # extra_vars:
