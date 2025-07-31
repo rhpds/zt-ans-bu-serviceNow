@@ -1,21 +1,18 @@
 #!/bin/bash
 
-# make challenge dir
-su - rhel -c 'mkdir /home/rhel/challenge-6'
-
 # Create a playbook for the user to execute which will create a SN incident
-tee /home/rhel/challenge-6/create-inventory-project.yml << EOF
+tee /tmp/create-inventory-project.yml << EOF
 ---
 - name: Configure SCM project 
   hosts: localhost
   connection: local
   collections:
-    - awx.awx
+    - ansible.controller
 
   tasks:
 
   - name: Add SCM project
-    awx.awx.project:
+    ansible.controller.project:
       name: "ServiceNow inventory project"
       description: "Project that contains a now.yml to be sourced by an inventory"
       organization: Default
@@ -31,27 +28,29 @@ tee /home/rhel/challenge-6/create-inventory-project.yml << EOF
 EOF
 
 # chown above file
-su chown rhel:rhel /home/rhel/challenge-6/create-inventory-project.yml
+su chown rhel:rhel /tmp/create-inventory-project.yml
 
 # execute above playbook
-su - rhel -c 'ansible-playbook /home/rhel/challenge-6/create-inventory-project.yml'
+# Run the playbook with the correct collections path environment variable and only existing paths
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
+ansible-playbook -i /tmp/inventory /tmp/create-inventory-project.yml
 
 
 
 # Write a new playbook to create an inventory sourcing project above
-tee /home/rhel/challenge-6/create-inventory.yml << EOF
+tee /tmp/create-inventory.yml << EOF
 ---
 - name: Configure servicenow inventory
   hosts: localhost
   connection: local
   gather_facts: false
   collections:
-    - awx.awx
+    - ansible.controller
 
   tasks:
 
   - name: Add servicenow inventory
-    awx.awx.inventory:
+    ansible.controller.inventory:
       name: "ServiceNow inventory"
       description: "Servers added to ServiceNow CMDB"
       organization: "Default"
@@ -66,7 +65,7 @@ tee /home/rhel/challenge-6/create-inventory.yml << EOF
       name: "inventory-source"
       description: "now.yml from project 'ServiceNow inventory project'"
       inventory: "ServiceNow inventory"
-      credential: "servicenow credential"
+      credential: "ServiceNow Credential"
       source: scm
       source_project: "ServiceNow inventory project"
       source_path: now.yml
@@ -78,24 +77,11 @@ tee /home/rhel/challenge-6/create-inventory.yml << EOF
       controller_password: ansible123!
       validate_certs: false
 
-  - name: Add created inventory role to student
-    role:
-      user: student
-      role: "{{ item }}"
-      inventories:
-        - "ServiceNow inventory"
-      controller_username: admin
-      controller_password: ansible123!
-      validate_certs: false
-    loop:
-      - "read"
-      - "use"
-      - "update"
-
 EOF
 
 # chown above file
-sudo chown rhel:rhel /home/rhel/challenge-6/create-inventory.yml
+sudo chown rhel:rhel /tmp/create-inventory.yml
 
-# Execute above playbook
-su - rhel -c 'ansible-playbook /home/rhel/challenge-6/create-inventory.yml'
+# Run the playbook with the correct collections path environment variable and only existing paths
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
+ansible-playbook -i /tmp/inventory /tmp/create-inventory.yml
