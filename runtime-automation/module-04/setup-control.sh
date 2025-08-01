@@ -101,7 +101,7 @@ tee /tmp/template-create-module04.yml << EOF
       validate_certs: false
 
   - name: Create a workflow job template with schema in template
-    awx.awx.workflow_job_template:
+    ansible.controller.workflow_job_template:
       name: "4.0 - Query node info and update CMDB (multiple job templates)"
       inventory: Demo Inventory
       controller_host: "https://localhost"
