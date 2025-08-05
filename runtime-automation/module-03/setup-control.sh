@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Create a playbook for the user to execute which will create a SN incident
+tee /tmp/change-attach.yml << EOF
+---
+- name: Automate SNOW 
+  hosts: localhost
+  connection: local
+  collections:
+    - servicenow.itsm
+    
+  vars:
+    demo_username: "{{ lookup('env', 'SN_USERNAME') }}"
+    problem_list: []
+
+  tasks:
+
+  - name: find user created problems
+    servicenow.itsm.problem_info:
+      query:
+        - sys_created_by: LIKE {{ demo_username }}
+          active: = true
+    register: problems
+
+  - name: query problem number and creation time 
+    set_fact:
+      problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
+    loop: "{{ problems.records }}"
+    when: problems
+
+  - name: Assign problem for assessment
+    servicenow.itsm.problem:
+      number: "{{ item.number }}"
+      state: 3
+      assigned_to: "{{ demo_username }}"
+    loop: "{{ problem_list }}"
+
+  - name: Create change request for resolving a problem
+    servicenow.itsm.change_request:
+      state: new
+      type: standard
+      short_description: "Reboot the webserver"
+      description: "Just power off the entire rack to be sure"
+      on_hold: true
+      hold_reason: "Wait until after board meeting!"
+      other:
+        parent: "{{ item.number }}"
+    loop: "{{ problem_list }}"
+    register: change
+
+  # - debug:
+  #     msg: "A new change request has been created {{ change.record.number }}"
+
+EOF
+
+# chown above file
+chown rhel:rhel /tmp/change-attach.yml
+
+# Write a new playbook to create a template from above playbook
+tee /tmp/template-create-problem-attach.yml << EOF
+---
+- name: Create job template for problem-attach
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - ansible.controller
+
+  tasks:
+
+  - name: Post change-attach job template
+    job_template:
+      name: "3 - Attach change request (change-attach.yml)"
+      job_type: "run"
+      organization: "Default"
+      inventory: "Demo Inventory"
+      project: "ServiceNow - admin"
+      playbook: "student_project/change-attach.yml"
+      execution_environment: "ServiceNow EE"
+      credentials:
+        - "ServiceNow Credential"
+      state: "present"
+      # ask_variables_on_launch: true
+      # extra_vars:
+      #   problem_number: changeMe
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+
+EOF
+
+# chown above file
+chown rhel:rhel /tmp/template-create-problem-attach.yml
+
+# Execute above playbook
+ANSIBLE_COLLECTIONS_PATH="/root/.ansible/collections/ansible_collections/" \
+ansible-playbook -i /tmp/inventory /tmp/template-create-problem-attach.yml
