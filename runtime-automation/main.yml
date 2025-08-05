@@ -9,7 +9,7 @@
       ansible_ssh_host: "{{ lookup('ansible.builtin.env', 'BASTION_HOST') }}"
       ansible_ssh_port: "{{ lookup('ansible.builtin.env', 'BASTION_PORT') }}"
       ansible_ssh_user: "{{ lookup('ansible.builtin.env', 'BASTION_USER') }}"
-      ansible_ssh_pass: "{{ lookupe('ansible.builtin.env', 'BASTION_PASSWORD') }}"
+      ansible_ssh_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
       ansible_become_pass: "{{ lookup('ansible.builtin.env', 'BASTION_PASSWORD') }}"
 - name: Demo Playbook for the ansible-runner API
   hosts: all:!localhost
