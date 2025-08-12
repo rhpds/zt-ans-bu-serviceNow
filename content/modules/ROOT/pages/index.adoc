@@ -1,43 +1,75 @@
 = {lab_name}
+:toc:
+:toc-placement!:
 
-The `lab_name` var, known as an asciidoc attribute, above was set in `./content/antora.yml` and can be used to set the lab_name or title of your content.
-You are both free to change its value and if you prefer to use a different var name, you can change the value of `lab_name`, for example to `title` in `./content/antora.yml` and then reference it in your content as `\{title}`. +
+image::rhel-logo-black.jpg[Red Hat Enterprise Linux Logo,width=300,align=center]
 
-image::rhel-logo-black.jpg[rhel-logo-black,55%,55%]
+Welcome to the ServiceNow Automation with Ansible workshop. This hands-on lab will teach you how to integrate Ansible Automation Platform with ServiceNow ITSM to automate common IT service management tasks.
 
-== Variables
+toc::[]
 
-Other vars can also be set there, such as `ssh_user` and `ssh_password`, and referenced inline in the lab content by using the `\{foo}` syntax.
+== Workshop Overview
 
-This is another var, or asciidoc attribute, from `./content/antora.yml` {my_var}
+In this workshop, you will learn how to use the `servicenow.itsm` certified collection to automate ServiceNow operations through Ansible playbooks and job templates. You'll explore real-world scenarios that demonstrate the power of combining Ansible's automation capabilities with ServiceNow's ITSM platform.
 
-== Writing your lab
+=== What You'll Learn
 
-Whatever type of content you are writing we'll refer to your *content* as "your lab" in this document.
+By the end of this workshop, you will be able to:
 
-=== Lab structure
+* Create and manage ServiceNow incidents using Ansible
+* Implement automated problem management workflows
+* Automate change request processes
+* Query and update configuration items in the CMDB
+* Perform automated record cleanup and maintenance
+* Use ServiceNow as a dynamic inventory source for Ansible
 
-Wether you are writing a lab
+=== Workshop Modules
 
-* First, we will build a monolithic application already compiled as RPM packages and put it into a container. This will allow us to deploy the application, copy it between machines, and update it separately from the operating system. This process affords us a portable and easily maintained component instead of tightly coupling the application with your operating system maintenance.
+This workshop is organized into six progressive modules:
 
-* In closing we will build a second container on a different operating system version that makes an application not packaged into RPMs. This will be similar to a web application deployment, positioning the correct files at the right locations. To do this, we will pull a project from GitHub and position the component files within our container image. The purpose of this is to achieve a portable application container that can deploy on several different versions of Red Hat Enterprise Linux. This also provides the benefit of decoupling your application maintenance, which would all happen by building new containers versus operating system maintenance. The container is no longer reliant on the operating system installed on the machine where the application is deployed.
+[cols="1,3,2"]
+|===
+|Module |Title |Focus Area
 
-. Now let's examine this cluster a bit more by describing the cluster (the `$GUID` environment variable is already set for you so you can immediately describe your individual cluster):
-+
-[source,sh,role=execute]
-----
-podman ps
-----
-+
-.Sample Output
-[source,texinfo,subs="attributes"]
-----
-CONTAINER ID  IMAGE                        COMMAND           CREATED      STATUS      PORTS                 NAMES
-2dcfee9e50c4  docker.io/library/httpd:2.4  httpd-foreground  3 hours ago  Up 3 hours  0.0.0.0:8080->80/tcp  showroom-httpd
-----
+|1 |xref:module-01.adoc[Creating Incidents] |Learn the basics of incident creation through automation
+|2 |xref:module-02.adoc[Problem Management] |Attach problems to incidents and manage relationships
+|3 |xref:module-03.adoc[Change Management] |Automate change request creation and approval workflows
+|4 |xref:module-04.adoc[CMDB Management] |Query, create, and update configuration items
+|5 |xref:module-05.adoc[Record Cleanup] |Implement automated record maintenance and cleanup
+|6 |xref:module-06.adoc[ServiceNow Inventory] |Use ServiceNow CMDB as an Ansible inventory source
+|===
+
+== Lab Environment
+
+=== Prerequisites
+
+Before starting this workshop, ensure you have:
+
+* Basic understanding of Ansible concepts and playbooks
+* Familiarity with ITIL/ITSM terminology
+* Access to the provided lab environment
 
 === Lab Access
 
-The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
-All steps of this lab are to be completed as the `{ssh_user}` user.
+The terminal window to your right is already logged into the lab environment as the `{ssh_user}` user via SSH. All steps in this lab should be completed as the `{ssh_user}` user.
+
+You have access to the following components:
+
+* **Automation Controller**: Pre-configured with job templates and inventories
+* **ServiceNow Instance**: Developer instance with sample data
+* **VS Code**: Integrated development environment with sample playbooks
+* **Command Line**: Direct access to the control node
+
+=== Getting Started
+
+To begin the workshop:
+
+1. Review the environment setup in the terminal
+2. Familiarize yourself with the VS Code interface
+3. Access the Automation Controller using the provided credentials
+4. Navigate to Module 1 to start your learning journey
+
+[TIP]
+====
+Keep the ServiceNow and Automation Controller tabs open throughout the workshop as you'll be switching between them frequently to observe the results of your automation tasks.
+====

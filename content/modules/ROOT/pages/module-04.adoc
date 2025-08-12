@@ -1,31 +1,200 @@
-👋 Introduction
+= CMDB Management
+:toc:
+:toc-placement!:
+
+Learn how to automate ServiceNow Configuration Management Database (CMDB) operations using Ansible to query and update configuration items.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
+In ITIL, a Configuration Management Database (CMDB) is a centralized repository that organizations use to track hardware and software assets throughout their lifecycle. The ServiceNow CMDB serves as the single source of truth for IT asset management, providing:
+
+* **Asset Tracking**: Complete inventory of IT infrastructure components
+* **Relationship Mapping**: Dependencies and connections between configuration items
+* **Change Impact Analysis**: Understanding how changes affect related systems
+* **Service Mapping**: Linking business services to underlying infrastructure
+
+=== Configuration Items (CIs)
+
+Configuration Items represent individual components in your IT infrastructure:
+
+* **Hardware**: Servers, network devices, storage systems
+* **Software**: Applications, operating systems, databases
+* **Services**: Business services, technical services
+* **Documentation**: Procedures, policies, service level agreements
+
+=== CMDB Automation Benefits
+
+Using Ansible to automate CMDB operations provides:
+
+* **Accuracy**: Automated data collection reduces manual entry errors
+* **Consistency**: Standardized data formats and update procedures
+* **Timeliness**: Real-time updates as infrastructure changes
+* **Integration**: Seamless connection with existing automation workflows
+
+=== Lab Environment Setup
+
+For this module, two Red Hat Enterprise Linux (RHEL) servers have been automatically provisioned:
+* **node1**: Primary test server
+* **node2**: Secondary test server
+
+These servers have been added to the Automation Controller inventory and are ready for CMDB integration.
+
+=== Review the Playbooks
+
+Two specialized playbooks have been created in your VS Code workspace:
+
+* **`collect-node-info.yml`**: Gathers detailed information about the RHEL nodes
+* **`create-update-config-items.yml`**: Creates or updates configuration items in the CMDB
+
+.Task: Examine the CMDB playbooks
 ====
-In ITIL, a configuration management database (CMDB) is a database that an organization uses to track hardware and software assets. ServiceNow CMDB is typically a critical service within an organization and is often seen as the single source of truth for tracking IT assets.
-
-Ansible Automation Platform is able to leverage modules within the `servicenow.itsm` collection to both query and update configuration items within ServiceNow's CMDB.
-
-For this challenge, two Red Hat Enterprise Linux (RHEL) servers have automatically been provisioned and added to an inventory on automation controller. Their hostnames are `node1` and `node2`. Two additional playbooks have been created in the `VS Code` tab.
-- `collect-node-info.yml` gathers information about these two new RHEL nodes
-- `create-update-config-items.yml` uses the collected data to create or update two new configuration items in the CMDB
-
-View the current group of linux configuration items by typing "Linux" in the ServiceNow filter navigator box and click on `Configuration -> Servers -> Linux` to view a list of configuration items in the Linux server group.
-
-![servicenow filter navigator](https://play.instruqt.com/assets/tracks/faoq9b1onz2h/ce47b3ba499b64e4ac1b8465276a4f41/assets/navigator-filter.jpg)
-
-▶️ Query nodes and create/update CMDB
+1. Open the VS Code tab in your lab environment
+2. Review `collect-node-info.yml` to understand data collection methods
+3. Examine `create-update-config-items.yml` to see how CI updates work
+4. Note the data mapping between Ansible facts and ServiceNow fields
 ====
-The two new playbooks have been combined into a single Workflow Job Template in automation controller called: `4.0 - Query node info and update CMDB (multiple job templates)`
-- This new Workflow Job Template line also has a new button that, when clicked, shows a visualization of the tasks being performed displayed as nodes in a map.
-- Launch the new Workflow Job Template
-- As the Workflow is running, clicking on any of the nodes should bring you to the corresponding job that was launched for each of the nodes in the visualizer.
 
-🔍 Inspect results
+=== Current CMDB State
+
+Before running the automation, examine the current state of Linux configuration items:
+
+.Procedure: View existing Linux CIs
 ====
-- View the updated group of linux configuration items by typing "Linux" in the ServiceNow filter navigator box and click on `Configuration -> Servers -> Linux` to view a list of configuration items in the Linux server group.
-- Notice that two new configuration items have been created and the IP address fields have been attached the the configuration items
+1. Access the ServiceNow tab
+2. In the filter navigator, type "Linux"
+3. Navigate to *Configuration* → *Servers* → *Linux*
+4. Review the current list of Linux server configuration items
 
-Move onto the next section by selecting the green "Next" button below.
-
-🐛 Encountered an issue?
+image::navigator-filter.jpg[ServiceNow filter navigator,width=500]
 ====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+configuration-items+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&body). 
+
+Note the current number of Linux servers and their details - you'll compare this after running the automation.
+
+[[query]]
+== Query Nodes and Update CMDB
+
+Execute the workflow to collect node information and update the ServiceNow CMDB with configuration items.
+
+=== Workflow Job Template
+
+The CMDB automation has been implemented as a Workflow Job Template that combines multiple operations:
+
+.Procedure: Execute the CMDB workflow
+====
+1. Navigate to the Automation Controller tab
+2. Go to *Resources* → *Templates*
+3. Locate the `4.0 - Query node info and update CMDB (multiple job templates)` workflow
+4. Click the rocket icon (🚀) to launch the workflow
+====
+
+=== Workflow Visualization
+
+The Workflow Job Template includes a visualization feature:
+
+* **Workflow Map**: Visual representation of job dependencies and flow
+* **Real-time Status**: Live updates showing job progress
+* **Interactive Nodes**: Click on workflow nodes to view individual job details
+* **Parallel Execution**: Multiple jobs running simultaneously for efficiency
+
+.Task: Monitor workflow execution
+====
+1. After launching the workflow, look for the visualization button
+2. Click the visualization icon to open the workflow map
+3. Observe the job nodes and their execution status
+4. Click on individual nodes to view job details and output
+5. Monitor the overall workflow progress
+====
+
+=== Workflow Components
+
+The workflow typically includes these phases:
+
+1. **Discovery Phase**: Collect system information from target nodes
+2. **Data Processing**: Transform collected data into ServiceNow format
+3. **CMDB Update**: Create or update configuration items
+4. **Relationship Mapping**: Establish connections between CIs
+5. **Validation**: Verify successful CMDB updates
+
+[[inspect]]
+== Inspect Results
+
+Verify that the configuration items were successfully created or updated in the ServiceNow CMDB.
+
+=== Verify CMDB Updates
+
+.Procedure: Check updated Linux configuration items
+====
+1. Return to the ServiceNow tab
+2. In the filter navigator, type "Linux"
+3. Navigate to *Configuration* → *Servers* → *Linux*
+4. Review the updated list of Linux server configuration items
+5. Compare with the initial state you observed earlier
+====
+
+=== Expected Results
+
+You should observe the following changes:
+
+* **New Configuration Items**: Two new Linux server CIs (node1 and node2)
+* **IP Address Population**: Network information automatically populated
+* **System Details**: Hardware and software specifications included
+* **Timestamps**: Creation or update times reflecting the automation execution
+
+=== Configuration Item Details
+
+Click on each new configuration item to examine the populated fields:
+
+[cols="2,3"]
+|===
+|Field Category |Expected Information
+
+|Basic Information |Hostname, FQDN, operating system
+|Network Details |IP addresses, MAC addresses, network interfaces
+|Hardware Specs |CPU count, memory, disk space
+|Software Info |Operating system version, installed packages
+|Discovery Data |Last discovered date, discovery source
+|===
+
+=== Data Accuracy Validation
+
+Verify that the automated data collection captured accurate information:
+
+* **IP Addresses**: Should match the actual node network configuration
+* **System Specifications**: CPU, memory, and disk information should be current
+* **OS Details**: Operating system version and architecture should be correct
+* **Hostnames**: Should correspond to the actual server names (node1, node2)
+
+== Understanding CMDB Automation
+
+This module demonstrates several key concepts:
+
+* **Automated Discovery**: How Ansible can collect system information
+* **Data Transformation**: Converting system facts to ServiceNow format
+* **CMDB Integration**: Programmatic creation and updating of CIs
+* **Workflow Orchestration**: Coordinating multiple automation tasks
+
+=== Benefits Realized
+
+* **Reduced Manual Effort**: Eliminates manual data entry for new systems
+* **Improved Accuracy**: Automated collection reduces human errors
+* **Consistent Updates**: Standardized data format and update procedures
+* **Real-time Synchronization**: CMDB stays current with infrastructure changes
+
+== Next Steps
+
+With your CMDB successfully updated with new configuration items, you're ready to proceed to Module 5, where you'll learn about automated record cleanup and maintenance tasks.
+
+== Troubleshooting
+
+Common issues and solutions:
+
+* **CIs not created**: Verify node connectivity and ServiceNow permissions
+* **Missing IP addresses**: Check network configuration and discovery settings
+* **Duplicate entries**: Review CI identification and matching logic
+* **Permission errors**: Ensure ServiceNow user has CMDB write permissions
+* **Workflow failures**: Check individual job logs for specific error messages
+
+For additional assistance, consult your lab environment documentation or contact your instructor.

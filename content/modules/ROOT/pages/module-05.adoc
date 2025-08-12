@@ -1,21 +1,226 @@
-👋 Introduction
+= Record Cleanup
+:toc:
+:toc-placement!:
+
+Learn how to automate ServiceNow record maintenance and cleanup tasks using Ansible to query and close records systematically.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
+As part of good ITSM hygiene, it's important to maintain clean and current records in ServiceNow. This module demonstrates how to automate the cleanup of records created during the workshop, showcasing techniques that can be applied to regular maintenance tasks in production environments.
+
+=== Record Cleanup Scenarios
+
+Automated record cleanup is useful for:
+
+* **Workshop/Training Cleanup**: Removing test data after learning exercises
+* **Periodic Maintenance**: Closing stale or abandoned records
+* **Data Governance**: Ensuring records follow proper lifecycle management
+* **Compliance**: Meeting retention and cleanup requirements
+
+=== Cleanup Strategy
+
+The cleanup process involves several steps:
+
+1. **Discovery**: Query for records matching specific criteria
+2. **Validation**: Ensure records are appropriate for cleanup
+3. **Processing**: Update or close records systematically
+4. **Verification**: Confirm cleanup operations completed successfully
+
+=== Review the Cleanup Playbook
+
+A specialized playbook called `close-records-by-user.yml` has been created for this cleanup operation.
+
+.Task: Examine the cleanup playbook
 ====
-It's now time to cleanup the records that were created as a part of this learning track. To do this, we're going to leverage different modules to locate records created by your ServiceNow user.
-
-To do this, inspect the playbook `close-records-by-user.yml` in VS Code. There are a few new modules here. These `*_info` modules are being used to query for different record types (incident, problem, and change_request) for active records created by your username. Ansible then transforms these returned records into simple lists of objects and passes the lists to their respective modules to update/close the records. For any fields not implemented by the module itself, there is a module parameter called `other` that can be used to specify any other field or custom fields for that particular table.
-
-▶️ Query and close records
+1. Open the VS Code tab in your lab environment
+2. Locate and open the `close-records-by-user.yml` file
+3. Review the playbook structure and logic
+4. Pay attention to the different module types used
 ====
-To perform this automation:
-- Navigate to `Resources > Templates` and launch the job template `5 - Query and close records by user (close-records-by-user.yml` in automation controller
-- Monitor the output of the job template and wait for the job to complete
 
-🔍 Inspect results
+=== Understanding Info Modules
+
+The playbook uses several `*_info` modules that provide query capabilities:
+
+* **`servicenow.itsm.incident_info`**: Queries incident records
+* **`servicenow.itsm.problem_info`**: Searches problem records
+* **`servicenow.itsm.change_request_info`**: Finds change request records
+
+These modules search for active records created by your username and return structured data for processing.
+
+=== Data Transformation Process
+
+The playbook demonstrates advanced Ansible techniques:
+
+1. **Query Execution**: Info modules retrieve relevant records
+2. **Data Processing**: Ansible transforms returned data into manageable lists
+3. **Record Updates**: Lists are passed to update modules for bulk processing
+4. **Field Handling**: Uses the `other` parameter for custom or non-standard fields
+
+=== The 'other' Parameter
+
+For fields not directly implemented by ServiceNow modules, the `other` parameter allows specification of:
+* Custom fields specific to your ServiceNow instance
+* Additional standard fields not covered by module parameters
+* Complex field values requiring special formatting
+
+[[query]]
+== Query and Close Records
+
+Execute the cleanup automation to systematically close all records created during the workshop.
+
+=== Cleanup Execution
+
+.Procedure: Launch the cleanup job
 ====
-Once the job completes, all records that you had created in previous challenges should be closed or removed! The job output should show all the relevant record numbers that were cleaned up. Refresh your views in ServiceNow to see the updates.
-
-Now that everything has been cleaned up, move onto the next challenge! Click the green "Next" button below.
-
-🐛 Encountered an issue?
+1. Navigate to the Automation Controller tab
+2. Go to *Resources* → *Templates*
+3. Locate the `5 - Query and close records by user (close-records-by-user.yml)` job template
+4. Click the rocket icon (🚀) to launch the cleanup job
+5. Monitor the job output carefully during execution
 ====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+query-and-update-records+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&assignees=cloin). 
+
+=== Monitoring the Cleanup Process
+
+As the job runs, observe the following phases:
+
+1. **Discovery Phase**: Queries identify records for cleanup
+   * Incident records matching your username
+   * Problem records created by you
+   * Change requests under your name
+
+2. **Validation Phase**: Confirms records are appropriate for closure
+   * Verifies record ownership
+   * Checks current status eligibility
+   * Validates business rules compliance
+
+3. **Processing Phase**: Updates and closes identified records
+   * Updates incident status to "Resolved" or "Closed"
+   * Closes problem records with appropriate resolution
+   * Completes change requests with implementation status
+
+4. **Reporting Phase**: Provides summary of cleanup actions
+   * Lists all affected record numbers
+   * Reports success/failure status
+   * Documents any errors or exceptions
+
+=== Expected Job Output
+
+The job output should display:
+* Number of records found for each type (incidents, problems, changes)
+* Specific record numbers being processed
+* Status updates for each closure operation
+* Final summary of completed actions
+
+[[inspect]]
+== Inspect Results
+
+Verify that all workshop records have been successfully closed or removed from active status.
+
+=== Verification Process
+
+.Procedure: Confirm cleanup completion
+====
+1. Wait for the cleanup job to complete successfully
+2. Review the job output for the summary of actions taken
+3. Note all record numbers that were processed
+4. Access the ServiceNow tab to verify the changes
+====
+
+=== ServiceNow Verification
+
+Check each record type to confirm cleanup:
+
+.Incidents
+====
+1. Navigate to *Self-service - Incidents* in ServiceNow
+2. Look for incidents created during the workshop
+3. Verify they now show "Resolved" or "Closed" status
+4. Check that closure notes indicate automated cleanup
+====
+
+.Problems
+====
+1. Access the Problems view in ServiceNow
+2. Search for problems created during Modules 2-3
+3. Confirm they show appropriate closed status
+4. Verify resolution details are populated
+====
+
+.Change Requests
+====
+1. Go to *Change - Open* or *Change - All* views
+2. Locate change requests from Module 3
+3. Verify they show completed or closed status
+4. Check implementation and closure details
+====
+
+=== Expected Cleanup Results
+
+After successful cleanup, you should observe:
+
+[cols="2,3"]
+|===
+|Record Type |Expected State
+
+|Incidents |Status: Resolved/Closed, Resolution: Automated cleanup
+|Problems |State: Closed, Resolution: Workshop completion
+|Change Requests |State: Closed/Complete, Implementation: Automated
+|Configuration Items |Remain active (CIs typically aren't "closed")
+|===
+
+=== Refresh Views
+
+Some ServiceNow views may cache data:
+* Refresh your browser or press F5
+* Navigate away from and back to list views
+* Use the "Refresh" button in ServiceNow if available
+* Check timestamps to ensure you're seeing current data
+
+== Understanding Cleanup Automation
+
+This module demonstrates several important concepts:
+
+=== Bulk Operations
+* **Efficient Processing**: Handle multiple records in a single operation
+* **Consistent Updates**: Apply standardized closure procedures
+* **Error Handling**: Manage individual record failures gracefully
+* **Audit Trail**: Maintain complete records of automated actions
+
+=== Production Applications
+
+Similar techniques can be used for:
+* **Scheduled Maintenance**: Regular cleanup of old or stale records
+* **Data Lifecycle Management**: Implementing retention policies
+* **Compliance Automation**: Meeting regulatory cleanup requirements
+* **Environment Management**: Sanitizing test/development instances
+
+=== Best Practices Demonstrated
+
+* **Query Filtering**: Target specific records based on criteria
+* **Data Validation**: Confirm records before making changes
+* **Incremental Processing**: Handle records systematically
+* **Result Verification**: Confirm successful completion
+
+== Workshop Cleanup Complete
+
+With all workshop records properly closed and cleaned up, your ServiceNow instance is ready for the final module. The cleanup process demonstrates how automation can maintain data hygiene and implement consistent record lifecycle management.
+
+== Next Steps
+
+You're now ready to proceed to Module 6, the final module of this workshop, where you'll explore how to use ServiceNow as a dynamic inventory source for Ansible operations.
+
+== Troubleshooting
+
+Common cleanup issues and solutions:
+
+* **Records not found**: Verify previous modules completed successfully
+* **Permission errors**: Ensure ServiceNow user has update/close permissions
+* **Partial cleanup**: Check for records in different states or assignments
+* **Job failures**: Review individual record processing for specific errors
+* **Validation errors**: Confirm business rules allow automated closure
+
+For additional support, refer to your lab environment documentation or contact your instructor.

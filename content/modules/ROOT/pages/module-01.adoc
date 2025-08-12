@@ -1,40 +1,106 @@
-👋 Introduction
-====
+= Creating Incidents
+:toc:
+:toc-placement!:
+
+Learn how to automate ServiceNow incident creation using Ansible Automation Platform and the servicenow.itsm certified collection.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
 In ITIL, an incident refers to an unplanned outage or reduction in quality of an IT service or application. ServiceNow implements technology mapped to ITIL terminology and is accepted as an industry standard for incident management.
 
-The servicenow.itsm certified collection allows organizations to leverage incident management within Ansible Automation Platform workflows.
+The `servicenow.itsm` certified collection allows organizations to leverage incident management within Ansible Automation Platform workflows, enabling:
 
-A playbook has been created in the `VS Code` tab called `incident-create.yml`.
-- Inspect this playbook and review the in-line comments to understand how the collection is being leveraged.
+* Automated incident creation from monitoring systems
+* Standardized incident reporting processes
+* Integration with existing automation workflows
+* Consistent incident data structure and classification
 
-▶️ Create incident
+=== Review the Playbook
+
+A playbook has been created in the VS Code tab called `incident-create.yml`.
+
+.Task: Inspect the playbook
 ====
-- Next, use the login credentials supplied in `readme.md` to access the Automation Controller tab.
-
-- Navigate to `Resources > Templates` and press the rocket icon to launch the `1 - Create incident (incident-create.yml)` job.
-![launch job icon](https://play.instruqt.com/assets/tracks/faoq9b1onz2h/93b0a49d5ccabe4a72ffc70e3772c419/assets/launch-icon.png)
-
-🔍 Inspect results
+1. Open the VS Code tab in your lab environment
+2. Locate and open the `incident-create.yml` file
+3. Review the in-line comments to understand how the collection is being leveraged
+4. Pay attention to the module parameters and their purposes
 ====
 
-If the previous step completed successfully, you should see a new incident has been created. To verify that this is the case:
-- Use the ServiceNow credentials listed below or from `readme.md` to access ServiceNow from the `ServiceNow` tab.
+Key elements to notice in the playbook:
+* How authentication is handled
+* Required and optional parameters for incident creation
+* How dynamic data is incorporated into the incident
 
+[[create]]
+== Create Incident
 
-| key | value |
-| -------- | -------- |
-| username     | [[ Instruqt-Var key="SANDBOX" hostname="controller" ]]     |
-| password  | [[ Instruqt-Var key="SANDBOX" hostname="controller" ]]
+Now you'll execute the playbook through Automation Controller to create a ServiceNow incident.
 
-
-- In ServiceNow, click the star icon to access pre-configured favorites and select `Self-service - Incidents`:
-![servicenow screenshot](https://play.instruqt.com/assets/tracks/faoq9b1onz2h/66f9b994fbd523bff7a044fa910ed9fc/assets/snow-star.png)
-
-
-You should see a new Incident has been created! To verify this was done by you, access your newly created incident using the bullet and screenshot above. Your unique username for this environment should be shown in the Incident description. The incident number should also match the incident number displayed in the job execution output within Automation Controller.
-
-Move onto the next section by selecting the green "Next" button below.
-
-🐛 Encountered an issue?
+.Procedure: Launch the job template
 ====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+incident-creation+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&body=).
+1. Use the login credentials supplied in the lab environment to access the Automation Controller tab
+2. Navigate to *Resources* > *Templates*
+3. Locate the `1 - Create incident (incident-create.yml)` job template
+4. Click the rocket icon (🚀) to launch the job
+
+image::launch-icon.png[Launch job icon,width=50]
+====
+
+Monitor the job execution and note:
+* The job status and any output messages
+* The incident number created (you'll need this for verification)
+* Any error messages or warnings
+
+[[inspect]]
+== Inspect Results
+
+Verify that the incident was successfully created in ServiceNow.
+
+.Procedure: Verify incident creation
+====
+1. Use the ServiceNow credentials from your lab environment to access the ServiceNow tab
+2. In ServiceNow, click the star icon (⭐) to access pre-configured favorites
+3. Select *Self-service - Incidents*
+
+image::snow-star.png[ServiceNow favorites screenshot,width=400]
+
+4. Locate your newly created incident in the list
+5. Click on the incident to view its details
+====
+
+=== Verification Points
+
+To confirm the incident was created by your automation:
+
+* **Username**: Your unique lab username should appear in the incident description
+* **Incident Number**: Should match the number displayed in the Automation Controller job output
+* **Timestamp**: Should correspond to when you ran the job
+* **Status**: Should be in "New" or "Active" state
+
+.Expected Results
+[NOTE]
+====
+You should see a new incident with:
+- A unique incident number (e.g., INC0012345)
+- Your lab username in the description
+- Appropriate priority and category settings
+- Timestamp matching your job execution
+====
+
+== Next Steps
+
+Once you've successfully created and verified your incident, you're ready to move on to Module 2, where you'll learn about problem management and how to attach problems to existing incidents.
+
+== Troubleshooting
+
+If you encounter issues:
+
+. **Job fails to execute**: Check your Automation Controller credentials and network connectivity
+. **Incident not visible**: Verify you're logged into ServiceNow with the correct credentials
+. **Permission errors**: Ensure your ServiceNow user has appropriate ITSM permissions
+
+For additional support, refer to the lab environment documentation or contact your instructor.

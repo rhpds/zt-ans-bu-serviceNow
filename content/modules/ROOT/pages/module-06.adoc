@@ -1,29 +1,146 @@
-👋 Introduction
+= ServiceNow Inventory
+:toc:
+:toc-placement!:
+
+Learn how to use ServiceNow CMDB as a dynamic inventory source for Ansible Automation Platform operations.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
+Throughout this workshop, you've explored various modules from the `servicenow.itsm` collection for automating incident management processes. While the examples demonstrated basic automation scenarios, these modules are highly flexible and can be adapted to numerous production use cases within ITSM.
+
+=== Beyond ITSM Modules
+
+The `servicenow.itsm` collection provides more than just ITSM task automation. One of its most powerful features is the **dynamic inventory plugin** that allows you to query endpoints directly from the ServiceNow CMDB.
+
+=== Dynamic Inventory Benefits
+
+Using ServiceNow as an Ansible inventory source provides:
+
+* **Single Source of Truth**: Eliminate duplicate inventory management
+* **Real-time Data**: Inventory updates automatically as CMDB changes
+* **Rich Metadata**: Leverage all CMDB attributes for targeting and grouping
+* **Compliance**: Ensure automation only targets authorized systems
+* **Integration**: Seamless connection between ITSM and automation workflows
+
+=== Inventory Architecture
+
+The ServiceNow inventory plugin:
+
+1. **Queries CMDB**: Retrieves configuration items based on filters
+2. **Transforms Data**: Converts CI data into Ansible inventory format
+3. **Creates Groups**: Organizes hosts by attributes (OS, manufacturer, location)
+4. **Provides Variables**: Makes CMDB fields available as host variables
+5. **Updates Dynamically**: Refreshes inventory data on demand
+
+=== Current State
+
+A new ServiceNow inventory has been pre-configured in Automation Controller, but it hasn't synchronized with the CMDB yet. You'll explore this inventory and trigger its first synchronization.
+
+[[review]]
+== Review Inventories
+
+Examine the current state of inventories in Automation Controller and understand the ServiceNow integration architecture.
+
+=== Current Host Inventory
+
+.Procedure: Check existing hosts
 ====
-Up to this point, we've explored some of the modules from `servicenow.itsm` that we can leverage as a part of an automated incident management process. While the interaction we've had while exploring these modules probably isn't how we would implement these modules in production, the modules contained in this collection are very flexible and can be applied to many different use cases within ITSM.
-
-Apart from ITSM tasks, `servicenow.itsm` collection also has a really useful inventory script which allows you to query endpoints from the CMDB.
-
-A new inventory has been added to Automation Controller, but it hasn't queried any hosts yet. Take a look!
-
-👀 Review inventories
+1. Open the Automation Controller tab
+2. Navigate to *Hosts* in the left navigation pane
+3. Observe the current host list
 ====
-- First, open the Automation Controller tab and navigator the right hand navigation pane to `Hosts`. Notice that this list is empty. This is because the integration between Ansible Automation Platform and ServiceNow is an API to API integration where the endpoints we're targeting are not individual hosts, but an API.
 
-▶️ Sync ServiceNow inventory
+.Expected Observation
+[NOTE]
 ====
-- Next, using the left hand side navigation pane, select `Inventories`. What's new here is the `ServiceNow inventory` - click on it. Now, select the `Sources` tab and the `Sync` 🔄 button.
+The host list appears empty or contains only the lab infrastructure hosts. This is expected because:
 
-This just kicked of a series of jobs to update the inventory we're pulling out of ServiceNow CMDB!
-- Select `Jobs` from the left hand navigation pane and you'll be able to monitor the progress of this update.
-
-🔍 Inspect results
+* The ServiceNow inventory hasn't been synchronized yet
+* The integration works API-to-API, not through individual host connections
+* Hosts will appear after ServiceNow CMDB synchronization
 ====
-- Once the two jobs have finished, click `Hosts` on the left hand navigation and notice all of the hosts pulled from CMDB.
-- Also, explore the hosts and groups in Inventories > ServiceNow inventory > Hosts
 
-This inventory can be carved up in many different ways. The inventory query provided for this inventory is shown below.
-```
+=== Understanding the Integration
+
+The Ansible-ServiceNow integration architecture:
+
+* **API Integration**: Direct communication between Automation Controller and ServiceNow APIs
+* **No Agent Required**: Target systems don't need Ansible agents or SSH access
+* **CMDB as Source**: ServiceNow CMDB serves as the authoritative inventory source
+* **Dynamic Updates**: Inventory refreshes based on current CMDB state
+
+[[sync]]
+== Sync ServiceNow Inventory
+
+Trigger the ServiceNow inventory synchronization to populate Automation Controller with CMDB data.
+
+=== Inventory Synchronization Process
+
+.Procedure: Initiate inventory sync
+====
+1. In Automation Controller, navigate to *Inventories* in the left navigation
+2. Locate and click on the *ServiceNow inventory*
+3. Select the *Sources* tab within the inventory details
+4. Click the *Sync* button (🔄) to initiate synchronization
+====
+
+=== What Happens During Sync
+
+The synchronization process triggers multiple operations:
+
+1. **API Query**: Automation Controller queries ServiceNow CMDB using configured filters
+2. **Data Retrieval**: ServiceNow returns configuration items matching the criteria
+3. **Data Processing**: Raw CMDB data is transformed into Ansible inventory format
+4. **Group Creation**: Hosts are organized into groups based on attributes
+5. **Variable Assignment**: CMDB fields become available as host variables
+
+=== Monitoring Sync Progress
+
+.Procedure: Track synchronization jobs
+====
+1. Navigate to *Jobs* in the left navigation pane
+2. Look for inventory sync jobs that were triggered
+3. Monitor job progress and status
+4. Review job output for any errors or warnings
+====
+
+The sync process may take a few minutes depending on:
+* Number of configuration items in the CMDB
+* Complexity of the inventory query
+* Network latency between systems
+* ServiceNow instance performance
+
+[[inspect]]
+== Inspect Results
+
+Examine the synchronized inventory data and understand how ServiceNow CMDB information appears in Automation Controller.
+
+=== Verify Host Population
+
+.Procedure: Check synchronized hosts
+====
+1. Once the sync jobs complete, navigate to *Hosts* in the left navigation
+2. Observe the hosts that have been pulled from the ServiceNow CMDB
+3. Note the host names, groups, and associated metadata
+====
+
+.Procedure: Explore inventory details
+====
+1. Go to *Inventories* → *ServiceNow inventory* → *Hosts*
+2. Review the imported hosts and their properties
+3. Examine the group memberships and organization
+4. Click on individual hosts to see their variables and metadata
+====
+
+=== Understanding Inventory Configuration
+
+The ServiceNow inventory uses a specific configuration that demonstrates flexible querying:
+
+[source,yaml]
+----
 # Group hosts automatically, according to values of manufacturer and os columns.
 # Include only records with the specified operating systems.
 # Groups will most likely overlap.
@@ -34,11 +151,95 @@ group_by:
     includes:
       - Linux Red Hat
       - Windows XP
-```
-> The above inventory is querying the CMDB for Linux and Windows XP operating systems and grouping the restults by manufacturer.
+----
 
-🎉 All finished! 🎉
+=== Configuration Breakdown
 
-🐛 Encountered an issue?
-====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+servicenow-inventory+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&body). 
+* **Plugin**: Uses `servicenow.itsm.now` for CMDB integration
+* **Filtering**: Only includes specified operating systems (Linux Red Hat, Windows XP)
+* **Grouping**: Creates groups based on manufacturer and operating system
+* **Overlapping Groups**: Hosts may belong to multiple groups simultaneously
+
+=== Expected Groups
+
+The inventory configuration should create groups such as:
+* **By Operating System**: `os_linux_red_hat`, `os_windows_xp`
+* **By Manufacturer**: Groups based on hardware manufacturers
+* **Combined Criteria**: Intersection of OS and manufacturer attributes
+
+=== Host Variables
+
+Each host imported from ServiceNow includes variables derived from CMDB fields:
+* System specifications (CPU, memory, disk)
+* Network configuration (IP addresses, MAC addresses)
+* Software inventory (installed applications, patch levels)
+* Administrative data (asset tags, locations, owners)
+
+== Inventory Use Cases
+
+This dynamic inventory enables powerful automation scenarios:
+
+=== Targeted Automation
+* **OS-Specific Tasks**: Run playbooks only on specific operating systems
+* **Hardware-Based Operations**: Target actions based on manufacturer or model
+* **Location-Aware Automation**: Execute tasks based on physical or logical location
+* **Role-Based Targeting**: Use business application assignments for targeting
+
+=== Integration Benefits
+* **Compliance**: Ensure automation only affects authorized systems
+* **Accuracy**: Inventory always reflects current CMDB state
+* **Efficiency**: Eliminate manual inventory maintenance
+* **Auditability**: Maintain clear relationship between ITSM and automation
+
+== Advanced Configuration Options
+
+The ServiceNow inventory plugin supports numerous configuration options:
+
+* **Custom Queries**: Filter CIs using any CMDB field
+* **Field Mapping**: Map ServiceNow fields to Ansible variables
+* **Group Creation**: Define complex grouping strategies
+* **Caching**: Control inventory refresh frequency
+* **Authentication**: Various ServiceNow authentication methods
+
+== Workshop Completion
+
+🎉 **Congratulations!** 🎉
+
+You have successfully completed the ServiceNow Automation with Ansible workshop! Throughout this journey, you've learned to:
+
+1. ✓ Create and manage ServiceNow incidents through automation
+2. ✓ Implement automated problem management workflows
+3. ✓ Automate change request creation and tracking
+4. ✓ Query and update ServiceNow CMDB configuration items
+5. ✓ Perform automated record cleanup and maintenance
+6. ✓ Use ServiceNow CMDB as a dynamic Ansible inventory source
+
+=== Key Takeaways
+
+* **Integration Power**: Ansible and ServiceNow provide seamless ITSM automation
+* **Workflow Automation**: Complex ITIL processes can be fully automated
+* **Data Synchronization**: Maintain consistency between systems automatically
+* **Operational Efficiency**: Reduce manual tasks and improve accuracy
+* **Scalability**: Automation scales to handle enterprise-level operations
+
+=== Next Steps
+
+To continue your ServiceNow automation journey:
+
+* Explore additional modules in the `servicenow.itsm` collection
+* Implement custom workflows for your organization's needs
+* Integrate ServiceNow automation with monitoring and alerting systems
+* Develop custom inventory configurations for your environment
+* Create reusable automation patterns and best practices
+
+== Troubleshooting
+
+Common inventory issues and solutions:
+
+* **No hosts imported**: Check ServiceNow connectivity and query filters
+* **Missing groups**: Verify group_by configuration and CMDB data
+* **Authentication errors**: Confirm ServiceNow credentials and permissions
+* **Sync job failures**: Review ServiceNow API limits and instance performance
+* **Outdated data**: Trigger manual sync or adjust cache settings
+
+For additional support, refer to the ServiceNow and Ansible documentation or contact your system administrators.

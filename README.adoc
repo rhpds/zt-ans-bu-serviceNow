@@ -1,1 +1,65 @@
+= ServiceNow Automation with Ansible
+:toc:
+:toc-placement!:
 
+This repository contains learning materials and automation scripts for integrating Ansible Automation Platform with ServiceNow ITSM.
+
+toc::[]
+
+== Overview
+
+This workshop demonstrates how to use the `servicenow.itsm` certified collection to automate common ServiceNow operations including:
+
+* Creating and managing incidents
+* Problem management workflows  
+* Change request automation
+* CMDB management and updates
+* Record cleanup and maintenance
+* ServiceNow inventory integration
+
+== Repository Structure
+
+[source]
+----
+├── config/                    # Infrastructure configuration
+│   ├── firewall.yaml
+│   ├── instances.yaml
+│   └── networks.yaml
+├── content/                   # Workshop content (AsciiDoc)
+│   └── modules/ROOT/
+│       ├── pages/            # Workshop modules
+│       └── assets/images/    # Workshop screenshots
+├── runtime-automation/        # Lab automation scripts
+├── setup-automation/          # Environment setup scripts
+└── utilities/                # Lab utility scripts
+----
+
+== Getting Started
+
+The workshop content is organized into six modules:
+
+1. **Creating Incidents** - Learn to create ServiceNow incidents via Ansible
+2. **Problem Management** - Attach problems to existing incidents
+3. **Change Management** - Create and manage change requests
+4. **CMDB Management** - Query and update configuration items
+5. **Record Cleanup** - Automate record maintenance tasks
+6. **ServiceNow Inventory** - Use ServiceNow as an Ansible inventory source
+
+== Prerequisites
+
+* Access to ServiceNow instance
+* Ansible Automation Platform or AWX
+* Basic understanding of Ansible playbooks
+* Familiarity with ITSM concepts
+
+== Lab Environment
+
+The lab environment includes:
+* Pre-configured Automation Controller
+* ServiceNow developer instance
+* Sample playbooks and job templates
+* Test infrastructure for hands-on exercises
+
+== Support
+
+For issues or questions about this workshop content, please open an issue in the repository.

@@ -1,29 +1,31 @@
-* xref:module-01.adoc[1. Creating Incidents]
+* xref:index.adoc[Workshop Overview]
+
+* xref:module-01.adoc[Module 1: Creating Incidents]
 ** xref:module-01.adoc#introduction[Introduction]
 ** xref:module-01.adoc#create[Create Incident]
 ** xref:module-01.adoc#inspect[Inspect Results]
 
-* xref:module-02.adoc[2. Problem Management]
+* xref:module-02.adoc[Module 2: Problem Management]
 ** xref:module-02.adoc#introduction[Introduction]
 ** xref:module-02.adoc#attach[Attach Problem]
 ** xref:module-02.adoc#inspect[Inspect Results]
 
-* xref:module-03.adoc[3. Change Management]
+* xref:module-03.adoc[Module 3: Change Management]
 ** xref:module-03.adoc#introduction[Introduction]
 ** xref:module-03.adoc#create[Create Change Request]
 ** xref:module-03.adoc#inspect[Inspect Results]
 
-* xref:module-04.adoc[4. CMDB Management]
+* xref:module-04.adoc[Module 4: CMDB Management]
 ** xref:module-04.adoc#introduction[Introduction]
 ** xref:module-04.adoc#query[Query and Update CMDB]
 ** xref:module-04.adoc#inspect[Inspect Results]
 
-* xref:module-05.adoc[5. Record Cleanup]
+* xref:module-05.adoc[Module 5: Record Cleanup]
 ** xref:module-05.adoc#introduction[Introduction]
 ** xref:module-05.adoc#query[Query and Close Records]
 ** xref:module-05.adoc#inspect[Inspect Results]
 
-* xref:module-06.adoc[6. ServiceNow Inventory]
+* xref:module-06.adoc[Module 6: ServiceNow Inventory]
 ** xref:module-06.adoc#introduction[Introduction]
 ** xref:module-06.adoc#review[Review Inventories]
 ** xref:module-06.adoc#sync[Sync Inventory]

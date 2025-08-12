@@ -1,21 +1,150 @@
-👋 Introduction
+= Change Management
+:toc:
+:toc-placement!:
+
+Learn how to automate ServiceNow change management by creating change requests to address problems and incidents.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
+In ITIL, a change request represents any addition, modification, or removal made to address problems or improve IT services. ServiceNow change management enables organizations to:
+
+* Control and track all changes to IT infrastructure
+* Minimize risk through proper planning and approval processes
+* Maintain change records for audit and compliance purposes
+* Coordinate changes with business requirements and schedules
+
+=== Types of Changes
+
+ServiceNow typically categorizes changes into several types:
+
+* **Standard Changes**: Pre-approved, low-risk changes that follow established procedures
+* **Normal Changes**: Regular changes that require approval through the Change Advisory Board (CAB)
+* **Emergency Changes**: Urgent changes needed to resolve critical issues
+
+=== Change-Problem Relationship
+
+Changes are often created to:
+* Resolve known problems permanently
+* Implement workarounds for ongoing issues
+* Address root causes identified during problem investigation
+* Prevent recurrence of incidents
+
+=== Review the Playbook
+
+A new playbook called `change-attach.yml` has been created in your VS Code workspace.
+
+.Task: Inspect the change request playbook
 ====
-A ServiceNow change is anything added, removed, or modified to address a problem that may be related to a past or ongoing incident.
-
-A new playbook has been created in your `VS Code` tab.
-- Review the new playbook called `change-attach.yml` as before
-
-▶️ Create a change request
+1. Open the VS Code tab in your lab environment
+2. Locate and open the `change-attach.yml` file
+3. Review the playbook structure and parameters
+4. Note how it references existing problems or incidents
 ====
-- Navigate to `Resources > Job Templates` in automation controller and launch the job template `3 - Attach change request (change-attach.yml)`
-- Watch for job completion in automation controller
 
-🔍 Inspect results
+Key elements to observe:
+* Change request categorization and priority
+* Required approval workflows
+* Risk assessment and impact analysis
+* Implementation timeline and rollback plans
+
+[[create]]
+== Create a Change Request
+
+Execute the playbook to create a change request that addresses your problem from Module 2.
+
+.Procedure: Launch the change request job
 ====
-Go back to ServiceNow, select `Change - Open` under your favorites. This should list out all open change requests. You should see a new change request has been created with the title `"Reboot the webserver"`. Notice how other relevant fields (such as 'Description' and 'On hold reason') have been updated as well.
-
-Move onto the next section by selecting the green "Next" button below.
-
-🐛 Encountered an issue?
+1. Navigate to the Automation Controller tab
+2. Go to *Resources* > *Job Templates*
+3. Locate the `3 - Attach change request (change-attach.yml)` job template
+4. Click the rocket icon (🚀) to launch the job
+5. Monitor the job execution for completion
 ====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+fix-and-close+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&body).
+
+=== Change Request Details
+
+The playbook will create a change request with:
+* **Title**: "Reboot the webserver" (example remediation action)
+* **Description**: Detailed explanation of the proposed change
+* **Justification**: Reference to the related problem or incident
+* **Risk Assessment**: Evaluation of potential impact
+* **Implementation Plan**: Steps to execute the change
+
+Monitor the job output for:
+* Change request number assignment
+* Status and state information
+* Any validation or error messages
+
+[[inspect]]
+== Inspect Results
+
+Verify that the change request was successfully created and properly configured.
+
+.Procedure: Verify change request creation
+====
+1. Access the ServiceNow tab using your lab credentials
+2. Navigate to your pre-configured favorites (star icon ⭐)
+3. Select *Change - Open* to view open change requests
+4. Locate your newly created change request
+====
+
+=== Expected Change Request Properties
+
+Look for these key attributes in your change request:
+
+[cols="2,3"]
+|===
+|Field |Expected Value
+
+|Short Description |"Reboot the webserver" or similar remediation action
+|State |"New" or "Assess" depending on configuration
+|Priority |Appropriate based on related problem/incident
+|Category |Software or Hardware as applicable
+|Description |Detailed explanation of the change purpose
+|Justification |Reference to related problem or incident
+|===
+
+=== Additional Field Validation
+
+Verify that other relevant fields have been populated:
+* **On Hold Reason**: May be set if approval is pending
+* **Assigned To**: Should reflect the appropriate change implementer
+* **Planned Start/End Dates**: Timeline for change implementation
+* **Risk**: Assessment of potential impact (Low, Medium, High)
+
+== Understanding Change Workflows
+
+This module demonstrates several change management concepts:
+
+* **Automated Change Creation**: Programmatic generation of change requests
+* **Problem-Change Linkage**: Connecting changes to their underlying justification
+* **Standardized Documentation**: Consistent change request formatting
+* **Integration Points**: How changes fit into overall ITSM processes
+
+=== Change Approval Process
+
+In a production environment, your change request would typically:
+
+1. **Assessment**: Technical review of proposed change
+2. **Authorization**: Approval by Change Advisory Board (CAB)
+3. **Scheduling**: Coordination with business requirements
+4. **Implementation**: Execution of the approved change
+5. **Review**: Post-implementation validation and closure
+
+== Next Steps
+
+With your change request successfully created, you're ready to proceed to Module 4, where you'll learn about CMDB management and how to query and update configuration items that might be affected by your changes.
+
+== Troubleshooting
+
+Common issues and solutions:
+
+* **Change not created**: Verify ServiceNow user has change management permissions
+* **Missing related records**: Ensure previous modules completed successfully
+* **Approval workflow issues**: Check change management configuration settings
+* **Field validation errors**: Review required vs. optional field settings
+
+For additional support, refer to your lab environment documentation or contact your instructor.

@@ -1,27 +1,145 @@
-👋 Introduction
+= Problem Management
+:toc:
+:toc-placement!:
+
+Learn how to automate ServiceNow problem management by creating problems and linking them to existing incidents.
+
+toc::[]
+
+[[introduction]]
+== Introduction
+
+In ServiceNow's ITIL implementation, a problem represents the underlying cause of one or more incidents. Problems are used to:
+
+* Identify root causes of recurring incidents
+* Prevent future incidents through permanent fixes
+* Track workarounds and known errors
+* Maintain relationships between incidents and their underlying causes
+
+The root cause of a problem may not be known at creation time and often requires investigation through the problem management process.
+
+=== Understanding Problem-Incident Relationships
+
+Problems and incidents have a many-to-one relationship:
+* One problem can be associated with multiple incidents
+* Each incident can be linked to at most one problem
+* Problems help identify patterns and systemic issues
+
+=== Review the Playbook
+
+A new playbook called `problem-attach.yml` has been added to your VS Code workspace.
+
+.Task: Inspect the problem creation playbook
 ====
-A problem in ServiceNow represents the cause of one or more incidents. The root cause of the problem may not be known at the time of creation and may require root cause analysis through the problem management process.
-
-Another playbook has been added to your working directory in VS Code and a template has been created to attach a problem to the incident previously created.
-
-- First, inspect the playbook called `problem-attach.yml` in the `VS Code` tab.
-
-> Notice that this playbook will first query for existing incident numbers that you have created and will use the value returned in the task that creates the problem.
-
-▶️ Attach a problem
+1. Open the VS Code tab in your lab environment
+2. Locate and open the `problem-attach.yml` file
+3. Review the playbook structure and logic
+4. Pay attention to how it queries for existing incidents
 ====
-- Next, navigate to `Resources > Templates` and execute the new job template from automation controller by pressing the rocket icon next to the template `2 - Attach problem (problem-attach.yml)`.
 
-🔍 Inspect results
+Key aspects to notice:
+* The playbook first queries for existing incident numbers you created
+* It uses the returned incident data in the problem creation task
+* The problem is automatically linked to the incident
+* Additional problem-specific fields are populated
+
+[[attach]]
+== Attach a Problem
+
+Execute the playbook to create a problem and associate it with your existing incident.
+
+.Procedure: Launch the problem attachment job
 ====
-That should have completed successfully! Go back to ServiceNow and check under your assigned problems for a new problem number:
-
-![new problem](https://play.instruqt.com/assets/tracks/faoq9b1onz2h/c4c44ecb1688eda15480ad90aceea18b/assets/new-problem.png)
-
-You can also check to see if the status of the incident has been updated by selecting your incident number under `Self-service - Incidents`. There should now also be a problem referenced on the incident page.
-
-Move onto the next section by selecting the green "Next" button below.
-
-🐛 Encountered an issue?
+1. Navigate to the Automation Controller tab
+2. Go to *Resources* > *Templates*
+3. Locate the `2 - Attach problem (problem-attach.yml)` job template
+4. Click the rocket icon (🚀) to execute the job
 ====
-If you have encountered an issue or have noticed something not quite right, please [open an issue](https://github.com/ansible/instruqt/issues/new?labels=getting-started-servicenow-automation&title=New+servicenow+issue:+attach-problem+(Sandbox+id:+[[ Instruqt-Var key="SANDBOX" hostname="controller" ]])&body).
+
+=== What Happens During Execution
+
+The playbook performs these operations:
+
+1. **Query Phase**: Searches for incidents created by your user account
+2. **Problem Creation**: Creates a new problem record in ServiceNow
+3. **Relationship Establishment**: Links the problem to the identified incident
+4. **Field Population**: Sets appropriate problem details and categorization
+
+Monitor the job output to see:
+* Which incident was found and selected
+* The problem number that was created
+* The relationship establishment between records
+
+[[inspect]]
+== Inspect Results
+
+Verify that the problem was created and properly linked to your incident.
+
+=== Verify Problem Creation
+
+.Procedure: Check the new problem
+====
+1. Access the ServiceNow tab using your lab credentials
+2. Navigate to your pre-configured favorites (star icon ⭐)
+3. Select the appropriate problems view
+4. Locate your newly created problem
+
+image::new-problem.png[New problem screenshot,width=600]
+====
+
+Look for:
+* A new problem number (e.g., PRB0012345)
+* Your username in the problem description or assignment
+* Proper categorization and priority settings
+* Timestamp matching your job execution
+
+=== Verify Incident Update
+
+.Procedure: Check incident-problem relationship
+====
+1. In ServiceNow, navigate to *Self-service - Incidents*
+2. Select your incident from Module 1
+3. Review the incident details for problem references
+4. Confirm the problem number appears in the related records
+====
+
+The incident should now show:
+* Updated status (if applicable)
+* Reference to the associated problem number
+* Modified timestamp reflecting the relationship update
+
+=== Expected Relationship
+
+[cols="2,3"]
+|===
+|Field |Expected Value
+
+|Incident Status |May be updated to "In Progress" or similar
+|Problem Reference |Should display the new problem number
+|Last Modified |Should reflect the time of problem attachment
+|Related Records |Problem should appear in related lists
+|===
+
+== Understanding the Automation
+
+This module demonstrates several important automation concepts:
+
+* **Data Querying**: How to search for existing records using Ansible
+* **Dynamic Relationships**: Creating links between different record types
+* **Workflow Integration**: Building upon previous automation steps
+* **ITIL Process Automation**: Implementing standard ITSM workflows
+
+== Next Steps
+
+With your problem successfully created and linked, you're ready to proceed to Module 3, where you'll learn about change management and how to create change requests for resolving problems.
+
+== Troubleshooting
+
+Common issues and solutions:
+
+* **No incidents found**: Ensure you completed Module 1 successfully
+* **Permission errors**: Verify your ServiceNow user has problem management permissions
+* **Relationship not visible**: Check if you're viewing the correct incident record
+* **Job execution fails**: Review the playbook syntax and authentication settings
+
+For additional assistance, consult your lab environment documentation.
