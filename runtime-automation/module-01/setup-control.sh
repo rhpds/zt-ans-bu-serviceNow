@@ -28,6 +28,23 @@ tee /tmp/template-create.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
+
+  - name: Get project file content
+    ansible.controller.project_file:
+      name: "ServiceNow - admin"
+      path: "student_project/incident-create.yml"
+      controller_host: "https://localhost"
+      controller_username: admin
+      controller_password: ansible123!
+      validate_certs: false
+    register: playbook_content
+
+  - name: Copy incident-create.yml to code-server for student review
+    copy:
+      content: "{{ playbook_content.content | b64decode }}"
+      dest: /home/coder/incident-create.yml
+    delegate_to: code-server
+
 EOF
 
 # chown above file

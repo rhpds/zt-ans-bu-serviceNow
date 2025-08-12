@@ -13,6 +13,10 @@ node02
 node01
 node02
 aap
+code-server
+
+[code-server]
+code-server
 
 [all:vars]
 ansible_user = rhel
