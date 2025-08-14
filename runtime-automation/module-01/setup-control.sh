@@ -3,9 +3,8 @@
 # Write a new playbook to create a job template from the previous playbook
 tee /tmp/template-create.yml << EOF
 ---
-- name: Create job template for create-incident
+- name: Create job template and copy file to code-server
   hosts: localhost, code-server
-  connection: local
   gather_facts: false
   collections:
     - ansible.controller
@@ -28,20 +27,22 @@ tee /tmp/template-create.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
+    delegate_to: localhost
+    run_once: true
 
-  - name: Ensure /home/coder exists on code-server
+  - name: Ensure /home/coder exists
     ansible.builtin.file:
       path: /home/coder
       state: directory
       mode: '0755'
-    delegate_to: code-server
+    when: inventory_hostname == "code-server"
 
-  - name: Copy incident-create.yml to code-server safely
+  - name: Copy incident-create.yml to code-server
     ansible.builtin.copy:
       src: "/home/rhel/aap/controller/data/projects/_8__servicenow_admin/student_project/incident-create.yml"
       dest: "/home/coder/incident-create.yml"
       mode: '0644'
-    delegate_to: code-server
+    when: inventory_hostname == "code-server"
 EOF
 
 # chown above file
