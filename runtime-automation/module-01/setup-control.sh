@@ -4,7 +4,7 @@
 tee /tmp/template-create.yml << EOF
 ---
 - name: Create job template for create-incident
-  hosts: localhost
+  hosts: localhost, code-server
   connection: local
   gather_facts: false
   collections:
