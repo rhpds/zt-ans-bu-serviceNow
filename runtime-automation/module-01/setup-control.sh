@@ -28,16 +28,6 @@ tee /tmp/template-create.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
-
-  - name: Copy incident-create.yml to remote host
-    hosts: code-server
-    tasks:
-      - name: Copy the playbook file to remote host
-        ansible.builtin.copy:
-          src: "{{ playbook_dir }}/incident-create.yml"
-          dest: "/home/coder/incident-create.yml"
-
-
 EOF
 
 # chown above file
