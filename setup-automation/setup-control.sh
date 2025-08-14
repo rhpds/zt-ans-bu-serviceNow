@@ -145,6 +145,7 @@ tee /tmp/setup-controller.yml << EOF
     loop:
       - node01
       - node02
+      - code-server
 
   - name: Add group
     ansible.controller.group:
@@ -154,6 +155,7 @@ tee /tmp/setup-controller.yml << EOF
       hosts:
         - node01
         - node02
+        - code-server
       variables:
         ansible_user: rhel
       controller_host: "https://localhost"
