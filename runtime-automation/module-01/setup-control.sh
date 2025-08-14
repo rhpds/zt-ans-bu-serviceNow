@@ -28,6 +28,12 @@ tee /tmp/template-create.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
+  
+  - name: Copy incident-create.yml to code-server
+    ansible.builtin.copy:
+      src: "/home/rhel/aap/controller/data/projects/_8__servicenow_admin/student_project/incident-create.yml"
+      dest: "/home/coder/incident-create.yml"
+    delegate_to: code-server
 EOF
 
 # chown above file
