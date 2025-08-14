@@ -30,11 +30,11 @@ tee /tmp/template-create.yml << EOF
       validate_certs: false
 
   - name: Ensure /home/coder exists on code-server
-  ansible.builtin.file:
-    path: /home/coder
-    state: directory
-    mode: '0755'
-  delegate_to: code-server
+    ansible.builtin.file:
+      path: /home/coder
+      state: directory
+      mode: '0755'
+    delegate_to: code-server
 
   - name: Copy incident-create.yml to code-server safely
     ansible.builtin.copy:
