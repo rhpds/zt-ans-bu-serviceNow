@@ -28,20 +28,6 @@ tee /tmp/template-create.yml << EOF
       controller_username: admin
       controller_password: ansible123!
       validate_certs: false
-
-  - name: Ensure /home/coder exists on code-server
-    ansible.builtin.file:
-      path: /home/coder
-      state: directory
-      mode: '0755'
-    delegate_to: code-server
-
-  - name: Copy incident-create.yml to code-server safely
-    ansible.builtin.copy:
-      src: "/home/rhel/aap/controller/data/projects/_8__servicenow_admin/student_project/incident-create.yml"
-      dest: "/home/coder/incident-create.yml"
-      mode: '0644'
-    delegate_to: code-server
 EOF
 
 # chown above file

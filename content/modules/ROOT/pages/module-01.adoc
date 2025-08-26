@@ -42,8 +42,10 @@ Now you'll execute the playbook through Automation Controller to create a Servic
 
 .Procedure: Launch the job template
 ====
-1. Use the login credentials supplied in the lab environment to access the Automation Controller tab
-2. Navigate to *Resources* > *Templates*
+1. Use the following login credentials access the Automation Controller tab
+    - *Username:* admin
+    - *Password:* ansible123!
+2. Navigate to *Automation Execution* > *Templates*
 3. Locate the `1 - Create incident (incident-create.yml)` job template
 4. Click the rocket icon (🚀) to launch the job
 

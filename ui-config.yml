@@ -24,12 +24,10 @@ antora:
       solveButton: false
 
 tabs:
-  - name: aap
+  - name: AAP
     url: https://control-${guid}.${domain}/
     external: false
-  - name: ">_ control"
-    url: /wetty
-  - name: "code server"
+  - name: "VS Code"
     url: https://code-server-${guid}.${domain}/
     external: false
   - name: ServiceNow
