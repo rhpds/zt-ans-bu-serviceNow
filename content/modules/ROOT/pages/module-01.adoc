@@ -49,7 +49,6 @@ Now you'll execute the playbook through Automation Controller to create a Servic
 3. Locate the `1 - Create incident (incident-create.yml)` job template
 4. Click the rocket icon to launch the job
 
-image::launch-icon.png[Launch job icon,width=50]
 ====
 
 Monitor the job execution and note:
