@@ -38,6 +38,7 @@ A new playbook called `problem-attach.yml` has been added to your VS Code worksp
 ====
 
 Key aspects to notice:
+
 * The playbook first queries for existing incident numbers you created
 * It uses the returned incident data in the problem creation task
 * The problem is automatically linked to the incident
@@ -51,7 +52,7 @@ Execute the playbook to create a problem and associate it with your existing inc
 .Procedure: Launch the problem attachment job
 ====
 1. Navigate to the Automation Controller tab
-2. Go to *Resources* > *Templates*
+2. Go to *Automation Execution* > *Templates*
 3. Locate the `2 - Attach problem (problem-attach.yml)` job template
 4. Click the rocket icon (🚀) to execute the job
 ====
@@ -66,6 +67,7 @@ The playbook performs these operations:
 4. **Field Population**: Sets appropriate problem details and categorization
 
 Monitor the job output to see:
+
 * Which incident was found and selected
 * The problem number that was created
 * The relationship establishment between records
@@ -84,10 +86,11 @@ Verify that the problem was created and properly linked to your incident.
 3. Select the appropriate problems view
 4. Locate your newly created problem
 
-image::new-problem.png[New problem screenshot,width=600]
+image::new-problem.png[New problem screenshot,width=600,align=center]
 ====
 
 Look for:
+
 * A new problem number (e.g., PRB0012345)
 * Your username in the problem description or assignment
 * Proper categorization and priority settings
@@ -104,6 +107,7 @@ Look for:
 ====
 
 The incident should now show:
+
 * Updated status (if applicable)
 * Reference to the associated problem number
 * Modified timestamp reflecting the relationship update

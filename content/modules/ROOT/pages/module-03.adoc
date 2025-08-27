@@ -27,6 +27,7 @@ ServiceNow typically categorizes changes into several types:
 === Change-Problem Relationship
 
 Changes are often created to:
+
 * Resolve known problems permanently
 * Implement workarounds for ongoing issues
 * Address root causes identified during problem investigation
@@ -45,6 +46,7 @@ A new playbook called `change-attach.yml` has been created in your VS Code works
 ====
 
 Key elements to observe:
+
 * Change request categorization and priority
 * Required approval workflows
 * Risk assessment and impact analysis
@@ -58,7 +60,7 @@ Execute the playbook to create a change request that addresses your problem from
 .Procedure: Launch the change request job
 ====
 1. Navigate to the Automation Controller tab
-2. Go to *Resources* > *Job Templates*
+2. Go to *Automation Execution* > *Templates*
 3. Locate the `3 - Attach change request (change-attach.yml)` job template
 4. Click the rocket icon (🚀) to launch the job
 5. Monitor the job execution for completion
@@ -74,6 +76,7 @@ The playbook will create a change request with:
 * **Implementation Plan**: Steps to execute the change
 
 Monitor the job output for:
+
 * Change request number assignment
 * Status and state information
 * Any validation or error messages
@@ -110,6 +113,7 @@ Look for these key attributes in your change request:
 === Additional Field Validation
 
 Verify that other relevant fields have been populated:
+
 * **On Hold Reason**: May be set if approval is pending
 * **Assigned To**: Should reflect the appropriate change implementer
 * **Planned Start/End Dates**: Timeline for change implementation

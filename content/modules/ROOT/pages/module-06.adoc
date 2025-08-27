@@ -108,6 +108,7 @@ The synchronization process triggers multiple operations:
 ====
 
 The sync process may take a few minutes depending on:
+
 * Number of configuration items in the CMDB
 * Complexity of the inventory query
 * Network latency between systems
@@ -163,6 +164,7 @@ group_by:
 === Expected Groups
 
 The inventory configuration should create groups such as:
+
 * **By Operating System**: `os_linux_red_hat`, `os_windows_xp`
 * **By Manufacturer**: Groups based on hardware manufacturers
 * **Combined Criteria**: Intersection of OS and manufacturer attributes
@@ -170,6 +172,7 @@ The inventory configuration should create groups such as:
 === Host Variables
 
 Each host imported from ServiceNow includes variables derived from CMDB fields:
+
 * System specifications (CPU, memory, disk)
 * Network configuration (IP addresses, MAC addresses)
 * Software inventory (installed applications, patch levels)

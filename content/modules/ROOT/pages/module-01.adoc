@@ -47,7 +47,7 @@ Now you'll execute the playbook through Automation Controller to create a Servic
     - *Password:* ansible123!
 2. Navigate to *Automation Execution* > *Templates*
 3. Locate the `1 - Create incident (incident-create.yml)` job template
-4. Click the rocket icon (🚀) to launch the job
+4. Click the rocket icon to launch the job
 
 image::launch-icon.png[Launch job icon,width=50]
 ====
@@ -61,17 +61,15 @@ Monitor the job execution and note:
 == Inspect Results
 
 Verify that the incident was successfully created in ServiceNow.
+    - *Username:* aap-roadshow
+    - *Password:* Ans1ble123!
 
 .Procedure: Verify incident creation
 ====
 1. Use the ServiceNow credentials from your lab environment to access the ServiceNow tab
-2. In ServiceNow, click the star icon (⭐) to access pre-configured favorites
-3. Select *Self-service - Incidents*
-
-image::snow-star.png[ServiceNow favorites screenshot,width=400]
-
-4. Locate your newly created incident in the list
-5. Click on the incident to view its details
+2. In ServiceNow, select incidents
+3. Locate your newly created incident in the list
+4. Click on the incident to view its details
 ====
 
 === Verification Points

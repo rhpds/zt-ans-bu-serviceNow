@@ -77,7 +77,7 @@ Execute the cleanup automation to systematically close all records created durin
 .Procedure: Launch the cleanup job
 ====
 1. Navigate to the Automation Controller tab
-2. Go to *Resources* → *Templates*
+2. Go to *Automation Execution* → *Templates*
 3. Locate the `5 - Query and close records by user (close-records-by-user.yml)` job template
 4. Click the rocket icon (🚀) to launch the cleanup job
 5. Monitor the job output carefully during execution
@@ -175,6 +175,7 @@ After successful cleanup, you should observe:
 === Refresh Views
 
 Some ServiceNow views may cache data:
+
 * Refresh your browser or press F5
 * Navigate away from and back to list views
 * Use the "Refresh" button in ServiceNow if available
@@ -193,6 +194,7 @@ This module demonstrates several important concepts:
 === Production Applications
 
 Similar techniques can be used for:
+
 * **Scheduled Maintenance**: Regular cleanup of old or stale records
 * **Data Lifecycle Management**: Implementing retention policies
 * **Compliance Automation**: Meeting regulatory cleanup requirements
