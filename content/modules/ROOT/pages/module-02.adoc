@@ -21,6 +21,7 @@ The root cause of a problem may not be known at creation time and often requires
 === Understanding Problem-Incident Relationships
 
 Problems and incidents have a many-to-one relationship:
+
 * One problem can be associated with multiple incidents
 * Each incident can be linked to at most one problem
 * Problems help identify patterns and systemic issues

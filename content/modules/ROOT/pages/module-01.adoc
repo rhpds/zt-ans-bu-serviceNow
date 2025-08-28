@@ -31,6 +31,7 @@ A playbook has been created in the VS Code tab called `incident-create.yml`.
 ====
 
 Key elements to notice in the playbook:
+
 * How authentication is handled
 * Required and optional parameters for incident creation
 * How dynamic data is incorporated into the incident
@@ -52,6 +53,7 @@ Now you'll execute the playbook through Automation Controller to create a Servic
 ====
 
 Monitor the job execution and note:
+
 * The job status and any output messages
 * The incident number created (you'll need this for verification)
 * Any error messages or warnings
