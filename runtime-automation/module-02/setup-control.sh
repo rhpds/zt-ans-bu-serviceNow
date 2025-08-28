@@ -36,7 +36,7 @@ tee /tmp/problem-attach.yml << EOF
   - name: Assign a problem to a user for assessment
       servicenow.itsm.problem:
       number: "{{ problem.record.number }}"
-      state: "new"
+      state: new
       assigned_to: "{{ lookup('env', 'SN_USERNAME') }}"
 
   - name: Update incident status now that problem has been created

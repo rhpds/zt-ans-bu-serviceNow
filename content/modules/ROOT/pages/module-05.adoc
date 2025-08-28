@@ -63,6 +63,7 @@ The playbook demonstrates advanced Ansible techniques:
 === The 'other' Parameter
 
 For fields not directly implemented by ServiceNow modules, the `other` parameter allows specification of:
+
 * Custom fields specific to your ServiceNow instance
 * Additional standard fields not covered by module parameters
 * Complex field values requiring special formatting
