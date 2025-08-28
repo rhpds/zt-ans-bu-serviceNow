@@ -110,6 +110,7 @@ As the job runs, observe the following phases:
 === Expected Job Output
 
 The job output should display:
+
 * Number of records found for each type (incidents, problems, changes)
 * Specific record numbers being processed
 * Status updates for each closure operation

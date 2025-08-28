@@ -69,6 +69,7 @@ Execute the playbook to create a change request that addresses your problem from
 === Change Request Details
 
 The playbook will create a change request with:
+
 * **Title**: "Reboot the webserver" (example remediation action)
 * **Description**: Detailed explanation of the proposed change
 * **Justification**: Reference to the related problem or incident

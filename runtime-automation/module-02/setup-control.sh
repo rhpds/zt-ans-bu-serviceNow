@@ -36,7 +36,7 @@ tee /tmp/problem-attach.yml << EOF
   - name: Assign a problem to a user for assessment
       servicenow.itsm.problem:
       number: "{{ problem.record.number }}"
-      state: 1
+      state: "new"
       assigned_to: "{{ lookup('env', 'SN_USERNAME') }}"
 
   - name: Update incident status now that problem has been created
@@ -80,21 +80,6 @@ tee /tmp/template-create-problem.yml << EOF
         - "ServiceNow Credential"
       state: "present"
       ask_variables_on_launch: false
-      extra_vars:
-        mapping:
-          problem:
-            state:
-              1: "open"
-              2: "known_error"
-              3: "pending_change"
-              4: "closed_resolved"
-              5: "closed"
-            problem_state:
-              1: "open"
-              2: "known_error"
-              3: "pending_change"
-              4: "closed_resolved"
-              5: "closed"
       controller_host: "https://localhost"
       controller_username: admin
       controller_password: ansible123!

@@ -37,6 +37,7 @@ Using Ansible to automate CMDB operations provides:
 === Lab Environment Setup
 
 For this module, two Red Hat Enterprise Linux (RHEL) servers have been automatically provisioned:
+
 * **node1**: Primary test server
 * **node2**: Secondary test server
 
@@ -68,7 +69,6 @@ Before running the automation, examine the current state of Linux configuration 
 3. Navigate to *Configuration* → *Servers* → *Linux*
 4. Review the current list of Linux server configuration items
 
-image::navigator-filter.jpg[ServiceNow filter navigator,width=500,align=center]
 ====
 
 Note the current number of Linux servers and their details - you'll compare this after running the automation.
@@ -85,7 +85,7 @@ The CMDB automation has been implemented as a Workflow Job Template that combine
 .Procedure: Execute the CMDB workflow
 ====
 1. Navigate to the Automation Controller tab
-2. Go to *Resources* → *Templates*
+2. Go to *Automation Execution* → *Templates*
 3. Locate the `4.0 - Query node info and update CMDB (multiple job templates)` workflow
 4. Click the rocket icon (🚀) to launch the workflow
 ====

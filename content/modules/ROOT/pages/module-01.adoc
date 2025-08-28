@@ -62,8 +62,9 @@ Monitor the job execution and note:
 == Inspect Results
 
 Verify that the incident was successfully created in ServiceNow.
-    - *Username:* aap-roadshow
-    - *Password:* Ans1ble123!
+
+* *Username:* aap-roadshow
+* *Password:* Ans1ble123!
 
 .Procedure: Verify incident creation
 ====

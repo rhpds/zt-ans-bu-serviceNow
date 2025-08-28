@@ -83,11 +83,10 @@ Verify that the problem was created and properly linked to your incident.
 .Procedure: Check the new problem
 ====
 1. Access the ServiceNow tab using your lab credentials
-2. Navigate to your pre-configured favorites (star icon ⭐)
+2. Select the "Favorites" tab and select "Problem - assigned to me"
 3. Select the appropriate problems view
 4. Locate your newly created problem
 
-image::new-problem.png[New problem screenshot,width=600,align=center]
 ====
 
 Look for:

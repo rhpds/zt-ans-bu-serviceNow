@@ -31,7 +31,7 @@ tee /tmp/change-attach.yml << EOF
   - name: Assign problem for assessment
     servicenow.itsm.problem:
       number: "{{ item.number }}"
-      state: 3
+      state: "Pending Change"
       assigned_to: "{{ demo_username }}"
     loop: "{{ problem_list }}"
 
