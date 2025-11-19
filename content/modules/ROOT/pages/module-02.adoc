@@ -139,11 +139,4 @@ With your problem successfully created and linked, you're ready to proceed to Mo
 
 == Troubleshooting
 
-Common issues and solutions:
-
-* **No incidents found**: Ensure you completed Module 1 successfully
-* **Permission errors**: Verify your ServiceNow user has problem management permissions
-* **Relationship not visible**: Check if you're viewing the correct incident record
-* **Job execution fails**: Review the playbook syntax and authentication settings
-
-For additional assistance, consult your lab environment documentation.
+If you have encountered an issue or have noticed something not quite right, please link:https://github.com/ansible/workshops/issues/new?labels=ansibe-builder&title=Issue+with+Getting+started+with+ServiceNow-automation&assignees=abwalczyk[open an issue on GitHub].
