@@ -237,12 +237,4 @@ To continue your ServiceNow automation journey:
 
 == Troubleshooting
 
-Common inventory issues and solutions:
-
-* **No hosts imported**: Check ServiceNow connectivity and query filters
-* **Missing groups**: Verify group_by configuration and CMDB data
-* **Authentication errors**: Confirm ServiceNow credentials and permissions
-* **Sync job failures**: Review ServiceNow API limits and instance performance
-* **Outdated data**: Trigger manual sync or adjust cache settings
-
-For additional support, refer to the ServiceNow and Ansible documentation or contact your system administrators.
+If you have encountered an issue or have noticed something not quite right, please link:https://github.com/ansible/workshops/issues/new?labels=ansibe-builder&title=Issue+with+Getting+started+with+ServiceNow-automation&assignees=abwalczyk[open an issue on GitHub].
