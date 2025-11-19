@@ -99,10 +99,6 @@ Once you've successfully created and verified your incident, you're ready to mov
 
 == Troubleshooting
 
-If you encounter issues:
+If you have encountered an issue or have noticed something not quite right, please link:https://github.com/ansible/workshops/issues/new?labels=ansibe-builder&title=Issue+with+Getting+started+with+ServiceNow-automation&assignees=abwalczyk[open an issue on GitHub].
 
-. **Job fails to execute**: Check your Automation Controller credentials and network connectivity
-. **Incident not visible**: Verify you're logged into ServiceNow with the correct credentials
-. **Permission errors**: Ensure your ServiceNow user has appropriate ITSM permissions
 
-For additional support, refer to the lab environment documentation or contact your instructor.
