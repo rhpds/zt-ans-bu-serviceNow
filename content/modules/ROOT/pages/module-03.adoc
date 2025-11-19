@@ -145,11 +145,5 @@ With your change request successfully created, you're ready to proceed to Module
 
 == Troubleshooting
 
-Common issues and solutions:
+If you have encountered an issue or have noticed something not quite right, please link:https://github.com/ansible/workshops/issues/new?labels=ansibe-builder&title=Issue+with+Getting+started+with+ServiceNow-automation&assignees=abwalczyk[open an issue on GitHub].
 
-* **Change not created**: Verify ServiceNow user has change management permissions
-* **Missing related records**: Ensure previous modules completed successfully
-* **Approval workflow issues**: Check change management configuration settings
-* **Field validation errors**: Review required vs. optional field settings
-
-For additional support, refer to your lab environment documentation or contact your instructor.
