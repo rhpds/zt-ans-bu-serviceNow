@@ -39,10 +39,10 @@ tee /tmp/change-attach.yml << EOF
     servicenow.itsm.change_request:
       state: new
       type: standard
+      category: Software
       short_description: "Reboot the webserver"
-      description: "Just power off the entire rack to be sure"
-      on_hold: true
-      hold_reason: "Wait until after board meeting!"
+      description: "Implementation plan: reboot affected servers"
+      justification: "Reference to related problem or incident"
       other:
         parent: "{{ item.number }}"
     loop: "{{ problem_list }}"

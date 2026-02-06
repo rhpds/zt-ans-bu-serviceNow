@@ -68,40 +68,32 @@ tee /tmp/close-records-by-user.yml << EOF
     loop: "{{ configs.records }}"
     when: configs
   
+  # Close incidents
   - name: close incidents from list
     servicenow.itsm.incident:
-      state: closed
       number: "{{ item.number }}"
+      state: closed
       close_code: "Solved (Permanently)"
-      close_notes: "Closed with ansible servicenow.itsm"
-      other:
-        active: false
-    with_items: "{{ incident_list }}"
-    when: 
-      - incident_list is defined
+      close_notes: "Automated cleanup"
+    loop: "{{ incident_list }}"
 
+  # Close problems
   - name: close problems from list
     servicenow.itsm.problem:
-      state: absent
-      assigned_to: "{{ demo_username }}"
       number: "{{ item.number }}"
-      other:
-        active: false
-    with_items: "{{ problem_list }}"
-    when: 
-      - problem_list is defined
-    
+      state: closed
+      close_notes: "Workshop completion"
+      assigned_to: "{{ demo_username }}"
+    loop: "{{ problem_list }}"
+
+  # Close change requests
   - name: close change requests from list
     servicenow.itsm.change_request:
+      number: "{{ item.number }}"
       state: closed
       close_code: "successful"
-      close_notes: "Closed with ansible servicenow.itsm"
-      number: "{{ item.number }}"
-      other:
-        active: false
-    with_items: "{{ change_list }}"
-    when: 
-      - change_list is defined
+      implementation_plan: "Automated"
+    loop: "{{ change_list }}"
 
   - name: remove configuration items from list
     servicenow.itsm.configuration_item:

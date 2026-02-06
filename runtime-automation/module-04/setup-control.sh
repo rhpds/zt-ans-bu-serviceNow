@@ -5,16 +5,32 @@ tee /tmp/collect-node-info.yml << EOF
 ---
 - name: get node facts for SNOW
   hosts: nodes
-  vars:
-    node_info: []
+  gather_facts: true
 
   tasks:
+  - name: Build node info list
+    ansible.builtin.set_fact:
+      node_info: >-
+        {{
+          node_info | default([]) + [{
+            'hostname': ansible_facts['hostname'],
+            'default_ip': ansible_facts['default_ipv4']['address'],
+            'default_mac': ansible_facts['default_ipv4']['macaddress'],
+            'vendor': ansible_facts['product_name'],
+            'cpu': ansible_facts['processor_vcpus'],
+            'memory_mb': ansible_facts['memtotal_mb'],
+            'os': ansible_facts['distribution'],
+            'os_version': ansible_facts['distribution_version'],
+            'architecture': ansible_facts['architecture']
+          }]
+        }
 
-  - name: Collect inventory facts
-    ansible.builtin.set_stats:
-      data:
-        node_info: "{{ node_info + [{'hostname': ansible_facts['nodename'], 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
-
+  - name: Save node info to file
+    copy:
+      content: "{{ node_info | to_json }}"
+      dest: /tmp/node_info.json
+    delegate_to: localhost
+    run_once: true
 EOF
 
 # chown above file
@@ -28,8 +44,10 @@ tee /tmp/create-update-config-items.yml << EOF
   connection: local
   collections:
     - servicenow.itsm
+
   vars:
     demo_username: "{{ lookup('env', 'SN_USERNAME') }}"
+    node_info: "{{ lookup('file', '/tmp/node_info.json') | from_json }}"
 
   tasks:
   - name: Create/update configuration item
@@ -39,14 +57,24 @@ tee /tmp/create-update-config-items.yml << EOF
       ip_address: "{{ item.default_ip }}"
       mac_address: "{{ item.default_mac }}"
       environment: test
+
       other:
         sys_class_name: cmdb_ci_linux_server
+        cpu_core_count: "{{ item.cpu }}"
+        ram: "{{ item.memory_mb }}"
+        os: "{{ item.os }}"
+        os_version: "{{ item.os_version }}"
+        architecture: "{{ item.architecture }}"
+        short_description: >-
+          {{ item.cpu }} CPUs, {{ item.memory_mb }}MB RAM,
+          {{ item.os }} {{ item.os_version }} ({{ item.architecture }})
+
     loop: "{{ node_info }}"
     register: configuration_item
 
-  - name: debug
-    debug:
-      msg: "{{ configuration_item }}"
+  - debug:
+      msg: "Created/updated CI {{ item.record.name }}"
+    loop: "{{ configuration_item.results }}"
 
 EOF
 
