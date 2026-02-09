@@ -104,7 +104,7 @@ Look for these key attributes in your change request:
 |Field |Expected Value
 
 |Short Description |"Reboot the webserver" or similar remediation action
-|State |"New" or "Assess" depending on configuration
+|State |"Pending" (This is what the UI shows in a "new" state)
 |Priority |Appropriate based on related problem/incident
 |Category |Software or Hardware as applicable
 |Description |Detailed explanation of the change purpose

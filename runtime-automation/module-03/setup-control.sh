@@ -39,14 +39,21 @@ tee /tmp/change-attach.yml << EOF
     servicenow.itsm.change_request:
       state: new
       type: standard
-      short_description: "Reboot the webserver"
-      description: "Just power off the entire rack to be sure"
-      on_hold: true
-      hold_reason: "Wait until after board meeting!"
+      category: software
+      short_description: "Reboot the webserver test"
+
+      implementation_plan: "Reboot affected servers"
+      justification: "Reference to related problem or incident"
+      risk_impact_analysis: "Low risk change"
+      backout_plan: "Restart services if reboot fails"
+      test_plan: "Verify website is reachable"
+
       other:
         parent: "{{ item.number }}"
+
     loop: "{{ problem_list }}"
     register: change
+
 
   # - debug:
   #     msg: "A new change request has been created {{ change.record.number }}"
